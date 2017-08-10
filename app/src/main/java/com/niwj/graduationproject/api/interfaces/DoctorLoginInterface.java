@@ -13,6 +13,6 @@ import retrofit2.http.Query;
 
 public interface DoctorLoginInterface {
     @POST("/doctor/login")
-    Call<DoctorLogin> doctorLogin(@Query("dUserId") String dUserId,
+    Call<DoctorLogin> doctorLogin(@Query("dIdCard") String dIdCard,
                                   @Query("dPassword") String dPassword);
 }

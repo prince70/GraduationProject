@@ -4,10 +4,32 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.niwj.graduationproject.api.pojo.DoctorLogin;
+import com.niwj.graduationproject.api.utils.DoctorLoginUtils;
+import com.niwj.graduationproject.control.LoginUtils;
+import com.niwj.graduationproject.control.SharePreferenceUtil;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.niwj.graduationproject.RegisterActivity.KEY_IDCARD;
+import static com.niwj.graduationproject.RegisterActivity.KEY_PASSWORD;
+import static com.niwj.graduationproject.RegisterActivity.KEY_USERID;
 
 /**
  * 用户登陆页面
@@ -15,12 +37,13 @@ import android.widget.Toast;
  */
 public class LoginActivity extends ActionBarActivity {
 
- //   private static final String TAG = Reg
- private static final String TAG = "LoginActivity";
+    //   private static final String TAG = Reg
+    private static final String TAG = "LoginActivity";
     private Button loginButton;
     private Button linkToRegisterButton;
-    private EditText emailInput;
+    private EditText idCardInput;
     private EditText passwordInput;
+    private CheckBox cb_showPwd;
     private ProgressDialog progressDialog;
 
 
@@ -31,15 +54,28 @@ public class LoginActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //            有记录的话就读取记录
+        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(LoginActivity.this);
+        String idcard = sp.getString(KEY_IDCARD, "");
+        String pwd = sp.getString(KEY_PASSWORD, "");
+        Log.e(TAG, "onCreate: hhhhhhh" + idcard + "   " + pwd);
 
-        emailInput = (EditText) findViewById(R.id.emailInput);//email输入框
+        idCardInput = (EditText) findViewById(R.id.idCardInput);//身份证输入框
         passwordInput = (EditText) findViewById(R.id.passwordInput);//密码输入框
+
+        idCardInput.setText(idcard);
+        passwordInput.setText(pwd);
+
+        cb_showPwd = (CheckBox) findViewById(R.id.cb_showPwd);
         loginButton = (Button) findViewById(R.id.loginButton);//登陆按钮
+
         linkToRegisterButton = (Button) findViewById(R.id.linkToRegisterScreenButton);//跳转到注册页面按钮
+
         progressDialog = new ProgressDialog(this);//进度条
         progressDialog.setCancelable(false);
         loginButton.setOnClickListener(new loginOnClickListener());
         linkToRegisterButton.setOnClickListener(new linkToRegisterOnClickListener());
+
 
 
     }
@@ -49,15 +85,45 @@ public class LoginActivity extends ActionBarActivity {
 
         @Override
         public void onClick(View v) {
-            String email = emailInput.getText().toString();
-            String password = passwordInput.getText().toString();
-
+            String idCard = idCardInput.getText().toString().trim();
+            String password = passwordInput.getText().toString().trim();
+            boolean cancel = false;
+            View focusView = null;  //焦点
+            String errorMsg = null;
             //判断输入是否为空
-            if (email.trim().length() > 0 && password.trim().length() > 0) {
-                checkLogin(email, password);
-            }else {
-                Toast.makeText(getApplicationContext(), " 请输入邮箱或密码", Toast.LENGTH_LONG).show();
+            if (TextUtils.isEmpty(idCard)) {
+                if (TextUtils.isEmpty(idCard)) {
+                    focusView = idCardInput;
+                    cancel = true;
+                    errorMsg = getResources().getString(R.string.idCard_tip);
+                    idCardInput.setError(errorMsg);
+                } else if (!isIdcard(idCard)) {
+                    focusView = idCardInput;
+                    cancel = true;
+                    errorMsg = getResources().getString(R.string.idCard_error);
+                    idCardInput.setError(errorMsg);
+                }
             }
+            //判断密码是否为空
+            if (TextUtils.isEmpty(password)) {
+                focusView = passwordInput;
+                cancel = true;
+                errorMsg = getResources().getString(R.string.password_tip);
+                passwordInput.setError(errorMsg);
+            } else if (!isPasswordValid(password)) {
+                focusView = passwordInput;
+                cancel = true;
+                errorMsg = getResources().getString(R.string.password_error);
+                passwordInput.setError(errorMsg);
+            }
+            if (!cancel) {
+                checkLogin(idCard, password);
+            } else {
+                focusView.requestFocus();
+                cancel = false;
+                Toast.makeText(LoginActivity.this, R.string.idcard_pwd_input, Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 
@@ -74,12 +140,46 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     //用户登陆操作
-    private void checkLogin(final String email, final String password) {
+    private void checkLogin(final String idcard, final String password) {
         String tag_string_req = "req_login";
         progressDialog.setMessage("登陆中...");
         showDiaglog();
-    }
 
+        Call<DoctorLogin> call = DoctorLoginUtils.doctorLogin(idcard, password);
+        call.enqueue(new Callback<DoctorLogin>() {
+            @Override
+            public void onResponse(Call<DoctorLogin> call, Response<DoctorLogin> response) {
+                Request request = call.request();
+                Log.e(TAG, "onResponse: " + request);
+                DoctorLogin body = response.body();
+                int code = body.getCode();
+                if (code == 0) {
+                    String userId = LoginUtils.getUserId(LoginActivity.this);
+                    Log.e(TAG, "onResponse: userId   " + userId);
+                    Log.e(TAG, "onResponse: " + "登录成功");
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    hideDialog();
+                } else {
+                    Toast.makeText(LoginActivity.this, "账号不存在！", Toast.LENGTH_SHORT).show();
+                    hideDialog();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DoctorLogin> call, Throwable t) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LoginActivity.this, R.string.server_down, Toast.LENGTH_SHORT).show();
+                        hideDialog();
+                    }
+                });
+                Request request = call.request();
+                Log.e(TAG, "onResponse: " + R.string.login_fail + request.toString() + t.toString());
+            }
+        });
+    }
 
     //显示进度条
     private void showDiaglog() {
@@ -95,19 +195,25 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
-    private boolean isEmailValid(String email) {
-        if(!email.contains("@")) {
+    private boolean isPasswordValid(String password) {
+        if (password.length() < 6) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }
 
-    private boolean isPasswordValid(String password) {
-        if (password.length() < 6) {
-            return false;
-        }else {
-            return true;
+    private boolean isIdcard(String idcard) {
+        Pattern p = Pattern.compile("^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$");
+        Matcher m = p.matcher(idcard);
+        return m.matches();
+    }
+
+    public void IsShowPwd(View view) {
+        if (cb_showPwd.isChecked()) {
+            passwordInput.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        } else {
+            passwordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
         }
     }
 }

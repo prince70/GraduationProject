@@ -16,10 +16,10 @@ import retrofit2.Retrofit;
 
 public class DoctorLoginUtils {
 
-    public static Call<DoctorLogin> doctorLogin(String dUserId, String dPassword) {
+    public static Call<DoctorLogin> doctorLogin(String dIdCard, String dPassword) {
         Retrofit retrofit = BaseAPIUtils.getRetrofit();
         DoctorLoginInterface loginInterface = retrofit.create(DoctorLoginInterface.class);
-        return loginInterface.doctorLogin(dUserId, dPassword);
+        return loginInterface.doctorLogin(dIdCard, dPassword);
     }
 
 }

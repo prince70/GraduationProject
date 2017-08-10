@@ -1,4 +1,4 @@
-package com.niwj.graduationproject.api.utils;
+package com.niwj.graduationproject.control;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,6 +19,12 @@ public class SharePreferenceUtil {
         return new SharePreferenceUtil(sp);
     }
 
+    /**
+     * 本地保存
+     * @param context
+     * @param fileName 文件名
+     * @return
+     */
     public static SharePreferenceUtil getInstance(Context context, String fileName) {
         SharedPreferences sp = context.getSharedPreferences(fileName.trim(), context.MODE_PRIVATE);
         return new SharePreferenceUtil(sp);

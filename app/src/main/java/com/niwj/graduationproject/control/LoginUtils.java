@@ -1,4 +1,4 @@
-package com.niwj.graduationproject.api.utils;
+package com.niwj.graduationproject.control;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,9 +12,9 @@ import android.widget.Toast;
 
 import com.niwj.graduationproject.LoginActivity;
 import com.niwj.graduationproject.R;
-import com.niwj.graduationproject.api.pojo.DoctorLogin;
 import com.niwj.graduationproject.api.pojo.DoctorProfile;
 import com.niwj.graduationproject.api.pojo.LoginBean;
+import com.niwj.graduationproject.api.utils.GetProfileUtils;
 import com.niwj.graduationproject.entity.UserInfo;
 
 import org.litepal.crud.DataSupport;
@@ -26,138 +26,80 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.niwj.graduationproject.RegisterActivity.KEY_HEADIMG;
+import static com.niwj.graduationproject.RegisterActivity.KEY_IDCARD;
+import static com.niwj.graduationproject.RegisterActivity.KEY_NAME;
+import static com.niwj.graduationproject.RegisterActivity.KEY_NUMBER;
+import static com.niwj.graduationproject.RegisterActivity.KEY_PASSWORD;
+import static com.niwj.graduationproject.RegisterActivity.KEY_PHONE;
+import static com.niwj.graduationproject.RegisterActivity.KEY_USERID;
+import static com.niwj.graduationproject.RegisterActivity.USER_FILENAME;
+
 /**
- * 登录
+ * 登录Utils
  */
 public class LoginUtils {
 
     private static final String TAG = "LoginUtils";
 
-    //保存用户信息的sp文件名
-    private static final String USER_FILENAME = "userFile";
     //登录状态改变广播Action
     public static final String ACTION_LOGIN_STATUS_CHANGE = "ACTION_LOGIN_STATUS_CHANGE";
     private static final int STROKE_WIDTH = 4;
     public static final String REGISTER_RECEIVE = "register_receive";
 
-    //Key名
-    private static final String KEY_USERID = "user_id";
-    private static final String KEY_USERNAME = "username";
-    private static final String KEY_IDCARD = "idcard";
-    private static final String KEY_MOBILE = "mobile";
-    private static final String KEY_TOKEN = "token";
-    private static final String KEY_EXPIRE = "expire";
-    private static final String KEY_NAME = "name";
-    private static final String KEY_HEADIMG = "headimg";
-    private static final String KEY_EMAIL = "email";
-    private static final String KEY_LASTACCOUNT = "lastAccount";
-    private static final String KEY_LASTMOBILE = "lastMobile";
-    private static final String KEY_DOCTOR_ID = "doctorId";
 
     private static LoginFinishListener mLoginFinishListener;    //登录完成的回调
 
-    /**
-     * 设置最后手机号
-     */
-    public static void setLastMobile(Context context, String mobile) {
-        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-        sp.setString(KEY_LASTMOBILE, mobile);
-    }
 
     /**
-     * 获取最后手机号
+     * 获取当前用户id，没找到则返回空串
      */
-    public static String getLastMobile(Context context) {
+
+    public static String getUserId(Context context) {
         SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-        return sp.getString(KEY_LASTMOBILE, "");
+        String userid = sp.getString(KEY_USERID, "");
+        return userid;
     }
 
-    /**
-     * 设置最后账号
-     */
-    public static void setLastAccount(Context context, String account) {
-        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-        sp.setString(KEY_LASTACCOUNT, account);
-    }
-
-    /**
-     * 读取记住的最后一个账号
-     */
-    public static String getLastAccount(Context context) {
-        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-        return sp.getString(KEY_LASTACCOUNT, "");
-    }
-
-    /**
-     * 读取用户名
-     */
-    public static String getUsername(Context context) {
-        if (getToken(context) == null) return null;
-        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-        return sp.getString(KEY_USERNAME, "");
-    }
-
-    /**
-     * 读取token
-     */
-    public static String getToken(Context context) {
-        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-        String token = sp.getString(KEY_TOKEN, "");
-        return token;
-    }
-
-    /**
-     * 设置身份证号
-     */
-    public static void setIdCard(Context context, String idCard) {
-        if (isHasLogin(context)) {
-            SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-            sp.setString(KEY_IDCARD, idCard);
-        }
-    }
 
     /**
      * 读取身份证号
      */
     public static String getIdCard(Context context) {
+        if (getUserId(context) == null) return null;
         SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
         return sp.getString(KEY_IDCARD, "");
     }
 
-    /**
-     * 设置手机号
-     */
-    public static void setMobile(Context context, String mobile) {
-        if (isHasLogin(context)) {
-            SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-            sp.setString(KEY_MOBILE, mobile);
-        }
-    }
 
     /**
-     * 读取手机号
+     * 读取用户名
      */
-    public static String getMobile(Context context) {
-        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-        return sp.getString(KEY_MOBILE, "");
-    }
-
-    /**
-     * 设置名字
-     */
-    public static void setName(Context context, String name) {
-        if (isHasLogin(context)) {
-            SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-            sp.setString(KEY_NAME, name);
-        }
-    }
-
-    /**
-     * 读取名字
-     */
-    public static String getName(Context context) {
+    public static String getUsername(Context context) {
+        if (getUserId(context) == null) return null;
         SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
         return sp.getString(KEY_NAME, "");
+    }
+
+    /**
+     * 获取工号
+     *
+     * @param context
+     * @return
+     */
+    public static String getNumber(Context context) {
+        if (getUserId(context) == null) return null;
+        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
+        return sp.getString(KEY_NUMBER, "");
+    }
+
+    /**
+     * 获取手机号
+     */
+    public static String getLastMobile(Context context) {
+        if (getUserId(context) == null) return null;
+        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
+        return sp.getString(KEY_PHONE, "");
     }
 
     /**
@@ -178,50 +120,14 @@ public class LoginUtils {
         return sp.getString(KEY_HEADIMG, "");
     }
 
-    /**
-     * 设置邮箱地址
-     */
-    public static void setEmail(Context context, String email) {
-        if (isHasLogin(context)) {
-            SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-            sp.setString(KEY_EMAIL, email);
-        }
-    }
-
-    /**
-     * 读取邮箱地址
-     */
-    public static String getEmail(Context context) {
-        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-        return sp.getString(KEY_EMAIL, "");
-    }
-
-    /**
-     * 读取doctorId
-     */
-
-    public static String getDoctorId(Context context) {
-        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-        return sp.getString(KEY_DOCTOR_ID, "");
-    }
-
-    /**
-     * 获取当前用户id，没找到则返回空串
-     */
-    public static String getUserId(Context context) {
-        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-        return sp.getString(KEY_USERID, "");
-    }
 
     /**
      * 登录用户
      */
     public static boolean loginIn(Context context, LoginBean bean) {
         if (context == null) return false;
-
         //获取用户资料信息
         if (!getProfile(context, bean.getDuserid())) return false;
-
         List<UserInfo> list = DataSupport.where("username = ?", bean.getDname()).limit(1).find(UserInfo.class);
         if (list.isEmpty()) {
             UserInfo userInfo = new UserInfo();
@@ -231,61 +137,14 @@ public class LoginUtils {
                 return false;
             }
         }
-
         SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
         sp.setString(KEY_USERID, bean.getDuserid());
-        sp.setString(KEY_USERNAME, bean.getDname());
+        sp.setString(KEY_NAME, bean.getDname());
         sp.setString(KEY_IDCARD, bean.getDidcard());
         bean.getDnumber();
         bean.getDphone();
 
         return true;
-    }
-
-    /**
-     * 登录操作，发送用户名和密码到服务器
-     */
-    public static void login(final Context context, String username, String password, final LoginListener listener) {
-        if (listener == null) return;
-
-        setLastAccount(context, username);
-
-        Call<DoctorLogin> call = DoctorLoginUtils.doctorLogin(username, password);
-        call.enqueue(new Callback<DoctorLogin>() {
-            @Override
-            public void onResponse(Call<DoctorLogin> call, final Response<DoctorLogin> response) {
-                if (response.isSuccessful()) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (loginIn(context, new LoginBean())) {
-                                sendBroadCase(context, true);
-                                listener.onResponse(0);
-                            } else {
-                                listener.onResponse(-1);
-                            }
-                        }
-                    }).start();
-                } else {
-                    Toast.makeText(context, "账号不存在", Toast.LENGTH_SHORT).show();
-                    listener.onResponse(-1);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<DoctorLogin> call, Throwable t) {
-                listener.onResponse(-1);
-                int resId;
-                if (t.getMessage() != null && t.getMessage().contains("Expected BEGIN_OBJECT")) {
-                    //密码不正确
-                    resId = R.string.password_error;
-                } else {
-                    resId = R.string.server_down;
-                }
-                Toast.makeText(context, context.getString(resId), Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "login fail:" + t.getMessage());
-            }
-        });
     }
 
 
@@ -295,21 +154,12 @@ public class LoginUtils {
     public static void loginOut(Context context) {
         SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
         sp.remove(KEY_USERID);
-        sp.remove(KEY_USERNAME);
-        sp.remove(KEY_IDCARD);
-        sp.remove(KEY_MOBILE);
-        sp.remove(KEY_TOKEN);
-        sp.remove(KEY_EXPIRE);
         sp.remove(KEY_NAME);
+        sp.remove(KEY_IDCARD);
+        sp.remove(KEY_PHONE);
         sp.remove(KEY_HEADIMG);
-        sp.remove(KEY_EMAIL);
+        sp.remove(KEY_NUMBER);
         sendBroadCase(context, false);
-
-        //清空消息
-//        if (MsgFragment.data_msg != null) {
-//            MsgFragment.data_msg.clear();
-//            MsgFragment.data_msg = null;
-//        }
     }
 
     /**
@@ -317,7 +167,7 @@ public class LoginUtils {
      */
     public static boolean isHasLogin(Context context) {
         SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
-        return sp.hasKey(KEY_TOKEN) && !sp.getString(KEY_TOKEN, "").isEmpty();
+        return sp.hasKey(KEY_USERID) && !sp.getString(KEY_USERID, "").isEmpty();
     }
 
 
@@ -366,13 +216,12 @@ public class LoginUtils {
                     if (data != null) {
                         //保存到配置文件
                         SharePreferenceUtil sp = SharePreferenceUtil.getInstance(context, USER_FILENAME);
+                        sp.setString(KEY_IDCARD, data.get(0).getDidcard());
                         sp.setString(KEY_NAME, data.get(0).getDname());
-                        data.get(0).getDnumber();
-                        data.get(0).getDphone();
-                        data.get(0).getDidcard();
-                        data.get(0).getDuserid();
+                        sp.setString(KEY_NUMBER, data.get(0).getDnumber());
+                        sp.setString(KEY_PHONE, data.get(0).getDphone());
+                        sp.setString(KEY_PASSWORD, data.get(0).getDpassword());
                     }
-
                     return true;
                 }
             }
