@@ -1,44 +1,50 @@
 package com.niwj.graduationproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.RadioButton;
 
-import com.niwj.graduationproject.api.pojo.DoctorRegister;
-import com.niwj.graduationproject.api.utils.DoctorRegisterUtils;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
-    private Button testBtn;
+
+    private RadioButton btnHome;
+    private RadioButton btnManage;
+    private RadioButton btnUser;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        testBtn = (Button) findViewById(R.id.testBtn);
-        testBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Call<DoctorRegister> call = DoctorRegisterUtils.doctorRegister(
-                        "440903199407101234", "梁医生", "D098765", "18312552520", "qq19950712");
-                call.enqueue(new Callback<DoctorRegister>() {
-                    @Override
-                    public void onResponse(Call<DoctorRegister> call, retrofit2.Response<DoctorRegister> response) {
-                        Log.e(TAG, "onResponse: " + "成功");
-                    }
+        btnHome = (RadioButton) findViewById(R.id.home_main);
+        btnManage = (RadioButton) findViewById(R.id.manage_main);
+        btnUser = (RadioButton) findViewById(R.id.user_main);
 
-                    @Override
-                    public void onFailure(Call<DoctorRegister> call, Throwable t) {
-                        Log.e(TAG, "onResponse: " + "失败");
-                    }
-                });
-            }
-        });
+        btnHome.setOnClickListener(this);
+        btnManage.setOnClickListener(this);
+        btnUser.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.home_main:
+                break;
+            case R.id.manage_main:
+                Intent intent = new Intent(this, ManageActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade, R.anim.hold);//淡入淡出
+                break;
+            case R.id.user_main:
+                Intent intent1 = new Intent(this, UserActivity.class);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.slide_up_in, R.anim.slide_down_out);//上下交错
+                break;
+            default:
+                break;
+        }
     }
 }

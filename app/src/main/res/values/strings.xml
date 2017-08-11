@@ -44,4 +44,8 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="server_down">服务器开小差啦,马上回来</string>
     <string name="enter_after_login">登录后才能进入</string>
+
+    <string name="home">首页</string>
+    <string name="manage">管理</string>
+    <string name="user">我的</string>
 </resources>
