@@ -7,6 +7,8 @@
     <color name="bg_register">#3b5998</color>
     <color name="bg_main">#428bca</color>
     <color name="white">#ffffff</color>
+    <color name="gray">#f7f6f6</color>
+    <color name="black">#000000</color>
     <color name="input_login">#222222</color>
     <color name="input_login_hint">#999999</color>
     <color name="input_register">#222222</color>
@@ -19,4 +21,8 @@
 
     <color name="radiobutton_checked">#6b5547</color>
     <color name="radiobutton_normal">#a1a1a1</color>
+    <color name="background_color">#4483cf</color>
+    <color name="setting_background_color">#ecedee</color>
+    <color name="nav_blue2">#5EA7E4</color>
+    <color name="black_grey">#313131</color>
 </resources>

@@ -48,4 +48,16 @@
     <string name="home">首页</string>
     <string name="manage">管理</string>
     <string name="user">我的</string>
+
+    <string name="setting_title">设置中心</string>
+
+    <string name="resident_name">名字:</string>
+    <string name="resident_idcard">身份证号:</string>
+    <string name="resident_phone">手机号:</string>
+    <string name="resident_address">家庭住址:</string>
+    
+    <string name="systolicPressure">收缩压:(mmHg)</string>
+    <string name="diastolicPressure">舒张压:(mmHg)</string>
+    <string name="meanPressure">平均压:(mmHg)</string>
+    <string name="cuffPressure">袖带压:(mmHg)</string>
 </resources>

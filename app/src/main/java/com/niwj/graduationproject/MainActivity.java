@@ -41,7 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.user_main:
                 Intent intent1 = new Intent(this, UserActivity.class);
                 startActivity(intent1);
-                overridePendingTransition(R.anim.slide_up_in, R.anim.slide_down_out);//上下交错
+//                overridePendingTransition(R.anim.slide_up_in, R.anim.slide_down_out);//上下交错
+                overridePendingTransition(R.anim.fade, R.anim.hold);
                 break;
             default:
                 break;

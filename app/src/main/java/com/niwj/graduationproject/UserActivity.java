@@ -38,10 +38,14 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.home_user:
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+//                overridePendingTransition(R.anim.scale_translate,R.anim.my_alpha_action);
+                overridePendingTransition(R.anim.fade, R.anim.hold);
                 break;
             case R.id.manage_user:
                 Intent intent1 = new Intent(this, ManageActivity.class);
                 startActivity(intent1);
+//                overridePendingTransition(R.anim.scale_translate_rotate,R.anim.my_alpha_action);
+                overridePendingTransition(R.anim.fade, R.anim.hold);
                 break;
             case R.id.user_user:
                 break;
