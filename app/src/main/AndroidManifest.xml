@@ -31,6 +31,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ManageActivity"/>
         <activity android:name=".UserActivity"/>
+        <activity android:name=".activity.PhyExaDetailActivity"/>
     </application>
 
 </manifest>
