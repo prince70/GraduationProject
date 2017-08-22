@@ -19,25 +19,26 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/ll_new_build"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <com.niwj.graduationproject.view.CircleImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_margin="10dp"
                     android:src="@mipmap/new_build" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="50dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="新建用户"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <View
@@ -201,6 +202,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/ll_alert_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -220,6 +222,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_one_key"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

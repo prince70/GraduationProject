@@ -82,7 +82,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                  */
 
                 // DO SOMETHING
-                Toast.makeText(ManageActivity.this, "abcd",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ManageActivity.this, "abcd",Toast.LENGTH_SHORT).show();
 
                 return false;
             }

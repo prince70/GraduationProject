@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
@@ -24,7 +24,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:text="@string/resident_name"
@@ -33,10 +33,9 @@
 
         <EditText
             android:id="@+id/et_name"
-            android:layout_width="match_parent"
+            android:layout_width="500dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:cursorVisible="false"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
@@ -55,7 +54,7 @@
         android:layout_marginTop="5dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:text="@string/resident_idcard"
@@ -64,10 +63,9 @@
 
         <EditText
             android:id="@+id/et_idcard"
-            android:layout_width="match_parent"
+            android:layout_width="500dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:cursorVisible="false"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
@@ -85,7 +83,7 @@
         android:layout_marginBottom="5dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:text="@string/resident_phone"
@@ -94,10 +92,9 @@
 
         <EditText
             android:id="@+id/et_phone"
-            android:layout_width="match_parent"
+            android:layout_width="500dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:cursorVisible="false"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
@@ -115,7 +112,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:text="@string/resident_address"
@@ -124,10 +121,9 @@
 
         <EditText
             android:id="@+id/et_address"
-            android:layout_width="match_parent"
+            android:layout_width="500dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:cursorVisible="false"
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"

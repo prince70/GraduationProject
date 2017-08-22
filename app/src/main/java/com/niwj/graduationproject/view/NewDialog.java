@@ -6,8 +6,12 @@ import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.niwj.graduationproject.R;
+
+import static com.niwj.graduationproject.control.Regualr.isIdcard;
+import static com.niwj.graduationproject.control.Regualr.isMobile;
 
 /**
  * Created by prince70 on 2017/8/13.
@@ -69,19 +73,47 @@ public class NewDialog extends MyDialog {
         return et_name.getText().toString();
     }
 
+    public EditText getEtNamebox() {
+        EditText et_name = getView(R.id.et_name);
+        return et_name;
+    }
+
     public String getEtIdcard() {
         EditText et_idcard = getView(R.id.et_idcard);
-        return et_idcard.getText().toString();
+        if (isIdcard(et_idcard.getText().toString())) {
+            return et_idcard.getText().toString();
+        } else {
+            return null;
+        }
+    }
+
+    public EditText getEtIdcardbox() {
+        EditText et_idcard = getView(R.id.et_idcard);
+        return et_idcard;
     }
 
     public String getEtPhone() {
         EditText et_phone = getView(R.id.et_phone);
-        return et_phone.getText().toString();
+        if (isMobile(et_phone.getText().toString())) {
+            return et_phone.getText().toString();
+        } else {
+            return null;
+        }
+    }
+
+    public EditText getEtPhonebox() {
+        EditText et_phone = getView(R.id.et_phone);
+        return et_phone;
     }
 
     public String getEtAddress() {
         EditText et_address = getView(R.id.et_address);
         return et_address.getText().toString();
+    }
+
+    public EditText getEtAddressbox() {
+        EditText et_address = getView(R.id.et_address);
+        return et_address;
     }
 
     /**
