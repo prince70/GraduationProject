@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Created by prince70 on 2017/8/22.
- * 照片选择器
+ * 照片选择器的使用
  */
 
 public class ImageSelectUtil {
@@ -42,7 +42,7 @@ public class ImageSelectUtil {
     }
 
     /**
-     * 打开图片选择器，返回路径的集合
+     * 打开图片选择器，返回路径的集合  图片可多选
      * @param activity
      * @param maxImageNum
      */

@@ -221,6 +221,7 @@ public class LoginUtils {
                         sp.setString(KEY_NUMBER, data.get(0).getDnumber());
                         sp.setString(KEY_PHONE, data.get(0).getDphone());
                         sp.setString(KEY_PASSWORD, data.get(0).getDpassword());
+                        sp.setString(KEY_HEADIMG, data.get(0).getHeading());
                     }
                     return true;
                 }

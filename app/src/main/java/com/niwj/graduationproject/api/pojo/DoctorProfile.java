@@ -59,6 +59,15 @@ public class DoctorProfile {
         private String didcard;
         private String dname;
         private String duserid;
+        private String heading;
+
+        public String getHeading() {
+            return heading;
+        }
+
+        public void setHeading(String heading) {
+            this.heading = heading;
+        }
 
         public String getDpassword() {
             return dpassword;

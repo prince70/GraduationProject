@@ -3,8 +3,8 @@ package com.niwj.graduationproject.imageselector;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.wisdom.healthplan.droid.R;
-import com.wisdom.healthplan.droid.utils.StorageUtil;
+import com.niwj.graduationproject.R;
+import com.niwj.graduationproject.control.StorageUtil;
 
 
 /**

@@ -74,4 +74,6 @@
     <string name="shoot">拍摄照片</string>
     <string name="picture">图片</string>
     <string name="finish">完成</string>
+    <string name="open_camera_fail">相册初始化失败!</string>
+    <string name="empty_sdcard">没有SD卡</string>
 </resources>
