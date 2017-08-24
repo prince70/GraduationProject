@@ -20,6 +20,13 @@ android {
     }
 }
 
+//aar包用
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -37,4 +44,7 @@ dependencies {
     compile 'com.yalantis:ucrop:2.2.0-native'
     compile files('libs/date4j.jar')
     compile files('libs/commons-io-2.5.jar')
+    compile files('libs/MobCommons-2017.0607.1736.jar')
+    compile name:'SMSSDK-3.0.0',ext:'aar'
+    compile name:'SMSSDKGUI-3.0.0',ext:'aar'
 }

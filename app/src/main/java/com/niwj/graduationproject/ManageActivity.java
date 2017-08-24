@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.niwj.graduationproject.activity.NotificationActivity;
 import com.niwj.graduationproject.adapter.CustomELVAdapter;
 
 
@@ -25,6 +27,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private RadioButton btnUser;
 
     private ExpandableListView elv;
+
+    private LinearLayout ll_notification;
 
     /**
      * 这些数据可以从数据库或Web中获取，使用Web API和加载到适配器。
@@ -57,14 +61,19 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
+        initData();
+    }
+
+    private void initData() {
         btnHome = (RadioButton) findViewById(R.id.home_manage);
         btnManage = (RadioButton) findViewById(R.id.manage_manage);
         btnUser = (RadioButton) findViewById(R.id.user_manage);
-
+        ll_notification= (LinearLayout) findViewById(R.id.ll_notification);
 
         btnHome.setOnClickListener(this);
         btnManage.setOnClickListener(this);
         btnUser.setOnClickListener(this);
+        ll_notification.setOnClickListener(this);
 
         elv = (ExpandableListView) findViewById(R.id.lvExp1);
         elv.setFocusable(false);
@@ -93,6 +102,10 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_notification://通知用户
+                startActivity(new Intent(this, NotificationActivity.class));
+                break;
+
             case R.id.home_manage:
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);

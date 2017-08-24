@@ -22,6 +22,8 @@ import com.niwj.graduationproject.control.SharePreferenceUtil;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
 import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,7 +48,7 @@ public class LoginActivity extends ActionBarActivity {
     private CheckBox cb_showPwd;
     private ProgressDialog progressDialog;
 
-
+    private EventHandler eventHandler;
     public static final int REQUEST_CODE = 5663;
     public static final int RESULT_CODE_LOGIN_SUCCESS = 5361;
 
@@ -54,6 +56,31 @@ public class LoginActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        /**
+         * mob
+         */
+        // 如果希望在读取通信录的时候提示用户，可以添加下面的代码，并且必须在其他代码调用之前，否则不起作用；如果没这个需求，可以不加这行代码
+//        SMSSDK.setAskPermisionOnReadContact(boolShowInDialog);
+
+        // 创建EventHandler对象
+       eventHandler = new EventHandler() {
+            public void afterEvent(int event, int result, Object data) {
+                if (data instanceof Throwable) {
+                    Throwable throwable = (Throwable)data;
+                    String msg = throwable.getMessage();
+                    Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                } else {
+                    if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
+                        // 处理你自己的逻辑
+                    }
+                }
+            }
+        };
+
+        // 注册监听器
+        SMSSDK.registerEventHandler(eventHandler);
+
+
         //            有记录的话就读取记录
         SharePreferenceUtil sp = SharePreferenceUtil.getInstance(LoginActivity.this);
         String idcard = sp.getString(KEY_IDCARD, "");
@@ -215,5 +242,11 @@ public class LoginActivity extends ActionBarActivity {
         } else {
             passwordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SMSSDK.unregisterEventHandler(eventHandler);
     }
 }
