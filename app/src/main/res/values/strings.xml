@@ -76,4 +76,6 @@
     <string name="finish">完成</string>
     <string name="open_camera_fail">相册初始化失败!</string>
     <string name="empty_sdcard">没有SD卡</string>
+
+    <string name="notify_title">一次只能勾选一个，多选以最后一次勾选的为准</string>
 </resources>

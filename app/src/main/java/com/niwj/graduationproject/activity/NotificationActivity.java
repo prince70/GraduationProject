@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.mob.tools.SSDKHandlerThread;
 import com.niwj.graduationproject.R;
 import com.niwj.graduationproject.adapter.NotifyAdapter;
 import com.niwj.graduationproject.entity.ResidentMsg;
@@ -17,19 +18,25 @@ import com.niwj.graduationproject.entity.ResidentMsg;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.smssdk.OnSendMessageHandler;
+import cn.smssdk.SMSSDK;
+
 /**
  * Created by prince70 on 2017/8/23.
  * 通知用户activity
  */
 
-public class NotificationActivity extends AppCompatActivity implements View.OnClickListener,NotifyAdapter.OnCheckedChangedListener {
+public class NotificationActivity extends AppCompatActivity implements View.OnClickListener, NotifyAdapter.OnCheckedChangedListener {
     private static final String TAG = "NotificationActivity";
     private ListView mListView;
     private Button btn_confirm;
     private List<ResidentMsg> msgs = new ArrayList<>();
     private NotifyAdapter adapter;
 
-    private String notifyMsg;
+    private String notifyName;
+    private String notifyPhone;
+    private String notifySystolicPressure;
+    private String notifyDiastolicPressure;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +50,7 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
         btn_confirm = (Button) findViewById(R.id.btn_confirm);
         btn_confirm.setOnClickListener(this);
         ResidentMsg residentMsg1 = new ResidentMsg("1", "aaa", "!!!", "%%%", "444", "123");
-        ResidentMsg residentMsg2 = new ResidentMsg("2", "bbb", "@@@", "^^^", "555", "456");
+        ResidentMsg residentMsg2 = new ResidentMsg("倪斯玲", "440923199409233181", "13437578156", "广东省广州市番禺区XXX", "90", "100");
         ResidentMsg residentMsg3 = new ResidentMsg("3", "ccc", "###", "&&&", "666", "789");
         msgs.add(residentMsg1);
         msgs.add(residentMsg2);
@@ -71,15 +78,32 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_confirm://发送通知
-                Log.e(TAG, "onClick: 通知"+notifyMsg );
+                Log.e(TAG, "onClick: 通知" + notifyName + "  " + notifyPhone + "  " + notifySystolicPressure + "  " + notifyDiastolicPressure);
+                SMSSDK.getVerificationCode("+86", "13414901394", new OnSendMessageHandler() {
+                    @Override
+                    public boolean onSendMessage(String s, String s1) {
+                        Log.e(TAG, "onSendMessage: " + s + s1);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(NotificationActivity.this, "发送通知成功", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        return false;
+                    }
+                });
                 break;
             default:
                 break;
         }
     }
 
+
     @Override
-    public void getItemMsg(String notify_msg) {
-        notifyMsg=notify_msg;
+    public void getItemMsg(String notify_name, String notify_phone, String notify_systolicPressure, String notify_diastolicPressure) {
+        notifyName = notify_name;
+        notifyPhone = notify_phone;
+        notifySystolicPressure = notify_systolicPressure;
+        notifyDiastolicPressure = notify_diastolicPressure;
     }
 }

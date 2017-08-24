@@ -52,7 +52,12 @@ public class NotifyAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.notification_item, null);
-            holder.textView = (TextView) convertView.findViewById(R.id.tv_notify_msg);
+            holder.notify_name = (TextView) convertView.findViewById(R.id.tv_notify_name);
+            holder.notify_idcard = (TextView) convertView.findViewById(R.id.tv_notify_idcard);
+            holder.notify_phone = (TextView) convertView.findViewById(R.id.tv_notify_phone);
+            holder.notify_address = (TextView) convertView.findViewById(R.id.tv_notify_address);
+            holder.notify_systolicPressure = (TextView) convertView.findViewById(R.id.tv_notify_systolicPressure);
+            holder.notify_diastolicPressure = (TextView) convertView.findViewById(R.id.tv_notify_diastolicPressure);
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.cb_notify);
 
             convertView.setTag(holder);
@@ -60,8 +65,14 @@ public class NotifyAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 //        在这里显示
+//TODO 使用多个textView 到时候在接口提取数据较方便
+        holder.notify_name.setText(msgDatas.get(position).getName());
+        holder.notify_idcard.setText(msgDatas.get(position).getIdcard());
+        holder.notify_phone.setText(msgDatas.get(position).getPhonenumber());
+        holder.notify_address.setText(msgDatas.get(position).getAddress());
+        holder.notify_systolicPressure.setText(msgDatas.get(position).getSystolicPressure());
+        holder.notify_diastolicPressure.setText(msgDatas.get(position).getDiastolicPressure());
 
-        holder.textView.setText(msgDatas.get(position).toString());
         holder.checkBox.setChecked(false);
 
         final ViewHolder finalHolder = holder;
@@ -69,9 +80,13 @@ public class NotifyAdapter extends BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 //                Toast.makeText(mContext, isChecked + ""+finalHolder.textView.getText(), Toast.LENGTH_SHORT).show();
-                if (isChecked){
-                    if (mContext instanceof OnCheckedChangedListener){
-                        ((OnCheckedChangedListener) mContext).getItemMsg(finalHolder.textView.getText().toString());
+                if (isChecked) {
+                    if (mContext instanceof OnCheckedChangedListener) {
+                        ((OnCheckedChangedListener) mContext).getItemMsg(
+                                finalHolder.notify_name.getText().toString(),
+                                finalHolder.notify_phone.getText().toString(),
+                                finalHolder.notify_systolicPressure.getText().toString(),
+                                finalHolder.notify_diastolicPressure.getText().toString());
 //                        Toast.makeText(mContext, finalHolder.textView.getText()+ "", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -82,12 +97,17 @@ public class NotifyAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        TextView textView;
+        TextView notify_name;
+        TextView notify_idcard;
+        TextView notify_phone;
+        TextView notify_address;
+        TextView notify_systolicPressure;//收缩压
+        TextView notify_diastolicPressure;//舒张压
         CheckBox checkBox;
     }
 
     public interface OnCheckedChangedListener {
-        void getItemMsg(String notify_msg);
+        void getItemMsg(String notify_name, String notify_phone, String notify_systolicPressure, String notify_diastolicPressure);
     }
 
 

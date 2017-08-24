@@ -7,14 +7,49 @@
         android:layout_margin="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">a
+        android:orientation="horizontal">
         <TextView
-            android:id="@+id/tv_notify_msg"
+            android:id="@+id/tv_notify_name"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="马化腾，血压值为90,90，正常，推荐套餐一体检方案"/>
+            android:text="倪伟金"/>
+        <TextView
+            android:id="@+id/tv_notify_idcard"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="440923199502133177"/>
+        <TextView
+            android:id="@+id/tv_notify_phone"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="13414901394"/>
+        <TextView
+            android:id="@+id/tv_notify_address"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="广东省湛江市赤坎区寸金街道岭南师范学院"/>
+        <TextView
+            android:id="@+id/tv_notify_systolicPressure"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="80"/>
+        <TextView
+            android:id="@+id/tv_notify_diastolicPressure"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="90"/>
         <CheckBox
             android:id="@+id/cb_notify"
             android:layout_width="50dp"

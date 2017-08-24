@@ -56,6 +56,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initData() {
+//        TODO 进来后更新头像  不然APP退出后就不见了
         btnHome = (RadioButton) findViewById(R.id.home_user);
         btnManage = (RadioButton) findViewById(R.id.manage_user);
         btnUser = (RadioButton) findViewById(R.id.user_user);
