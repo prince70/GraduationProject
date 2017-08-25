@@ -11,8 +11,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.niwj.graduationproject.view.NewDialog;
+import com.niwj.graduationproject.view.NumberAnimTextView;
+import com.wang.avi.AVLoadingIndicatorView;
 
-import org.w3c.dom.Text;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -29,13 +30,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tv_residentIdcard;
     private TextView tv_residentPhone;
     private TextView tv_residentAddress;
+
+    private NumberAnimTextView tv_systolicPressure;
+
+    private AVLoadingIndicatorView avi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
     }
-
+//TODO  数字改变效果 https://github.com/Bakumon/NumberAnimTextView  DONE
+//
+//    TODO Pin 解锁https://github.com/OrangeGangsters/LolliPin
     private void initView() {
         btnHome = (RadioButton) findViewById(R.id.home_main);
         btnManage = (RadioButton) findViewById(R.id.manage_main);
@@ -45,11 +52,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ll_alert_message= (LinearLayout) findViewById(R.id.ll_alert_message);
         ll_one_key= (LinearLayout) findViewById(R.id.ll_one_key);
 
+        avi= (AVLoadingIndicatorView) findViewById(R.id.avi_dialog);
         tv_residentName= (TextView) findViewById(R.id.tv_residentName);
         tv_residentIdcard= (TextView) findViewById(R.id.tv_residentIdcard);
         tv_residentPhone= (TextView) findViewById(R.id.tv_residentPhone);
         tv_residentAddress= (TextView) findViewById(R.id.tv_residentAddress);
 
+        tv_systolicPressure= (NumberAnimTextView) findViewById(R.id.tv_systolicPressure);
 
         ll_new_build.setOnClickListener(this);
         ll_alert_message.setOnClickListener(this);
@@ -64,6 +73,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.ll_one_key://一键检测
 
+                tv_systolicPressure.setNumberString("90");
+                int visibility = avi.getVisibility();
+                if (visibility==8){
+                    avi.setVisibility(View.VISIBLE);
+
+                }else {
+                    avi.setVisibility(View.GONE);
+
+                }
                 break;
             case R.id.ll_alert_message://修改
                 final NewDialog dialog =  new NewDialog(this, "修改居民信息");

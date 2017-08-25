@@ -50,6 +50,7 @@
     <string name="user">我的</string>
 
     <string name="setting_title">设置中心</string>
+    <string name="lock_title">锁屏密码</string>
 
     <string name="resident_name">名字:</string>
     <string name="resident_idcard">身份证号:</string>

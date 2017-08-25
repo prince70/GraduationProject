@@ -47,4 +47,8 @@ dependencies {
     compile files('libs/MobCommons-2017.0607.1736.jar')
     compile name:'SMSSDK-3.0.0',ext:'aar'
     compile name:'SMSSDKGUI-3.0.0',ext:'aar'
+
+//    加载中动画
+    compile'com.wang.avi:library:1.0.0'
+    compile'com.nineoldandroids:library:2.4.0'
 }
