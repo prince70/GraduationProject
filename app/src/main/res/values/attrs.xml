@@ -9,6 +9,19 @@
         <attr name="civ_fill_color" format="color" />
     </declare-styleable>
 
+    <!--SwitchButton-->
+
+    <declare-styleable name="customSwith">
+        <attr name="lineCheckedColor" format="color"></attr><!-- 中间线条颜色 -->
+        <attr name="lineUnCheckedColor" format="color"></attr><!-- 没有选中时中间线条颜色 -->
+        <attr name="lineHeight" format="dimension"></attr><!-- 中间线条高度 -->
+        <attr name="innerCheckedBroderColor" format="color" /><!-- 里面按钮边框选中颜色 -->
+        <attr name="innerUnCheckedBroderColor" format="color" /><!-- 里面按钮边框未选中状态 -->
+        <attr name="innerBroderWidth" format="dimension" /><!-- 里面按钮边框宽度 -->
+        <attr name="btnCheckedColor" format="color" /><!-- 按钮选中颜色 -->
+        <attr name="btnUnCheckedColor" format="color" /><!-- 按钮没有选中颜色 -->
+        <attr name="innerPadding" format="dimension" /><!-- 按钮没有选中颜色 -->
+    </declare-styleable>
 
 
 

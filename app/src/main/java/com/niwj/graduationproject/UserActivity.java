@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
@@ -18,6 +19,7 @@ import com.niwj.graduationproject.control.LoginUtils;
 import com.niwj.graduationproject.control.PathUtil;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
 import com.niwj.graduationproject.view.CircleImageView;
+import com.niwj.graduationproject.view.CustomSwitch;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -36,7 +38,9 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     private static Handler mHandler;
     public static ImageSelectUtil imageSelectUtil;
 
+
     private LinearLayout ll_lock;
+    private CustomSwitch mCustomSwitch;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,13 +73,24 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         btnUser = (RadioButton) findViewById(R.id.user_user);
         userIcon = (CircleImageView) findViewById(R.id.userIcon);
 
-        ll_lock= (LinearLayout) findViewById(R.id.ll_lock);
+        ll_lock = (LinearLayout) findViewById(R.id.ll_lock);
+        mCustomSwitch = (CustomSwitch) findViewById(R.id.switchButton);
 
         btnHome.setOnClickListener(this);
         btnManage.setOnClickListener(this);
         btnUser.setOnClickListener(this);
         userIcon.setOnClickListener(this);
         ll_lock.setOnClickListener(this);
+        mCustomSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+
+                } else {
+
+                }
+            }
+        });
     }
 
 
@@ -83,7 +98,11 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_lock://锁屏密码
+                if (!mCustomSwitch.isChecked()) {
 
+                } else {
+
+                }
                 break;
 
             case R.id.userIcon://设置头像

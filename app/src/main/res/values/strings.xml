@@ -56,7 +56,7 @@
     <string name="resident_idcard">身份证号:</string>
     <string name="resident_phone">手机号:</string>
     <string name="resident_address">家庭住址:</string>
-    
+
     <string name="systolicPressure">收缩压:(mmHg)</string>
     <string name="diastolicPressure">舒张压:(mmHg)</string>
     <string name="meanPressure">平均压:(mmHg)</string>
@@ -79,4 +79,52 @@
     <string name="empty_sdcard">没有SD卡</string>
 
     <string name="notify_title">一次只能勾选一个，多选以最后一次勾选的为准</string>
+
+
+    <!--体检套餐管理-->
+    <string name="Check_One">体检套餐一(年龄)</string>
+    <string name="Check_Two">体检套餐二(特殊情况)</string>
+    <string name="Check_Three">体检套餐三(其他)</string>
+
+    <string name="Student_package">学生套餐</string>
+    <string name="Student_package_money">标准价：￥284 会员价：￥120</string>
+    <string name="Student_package_msg">套餐意义：针对于学生体检较全面套餐，可监控基本健康指标</string>
+    <string name="Youth_package">青年套餐</string>
+    <string name="Youth_package_money">标准价：￥1607  会员价：￥728</string>
+    <string name="Youth_package_msg">适用于20~30岁的青年男性，生活、工作压力较大一族</string>
+    <string name="Middleage_package">中年套餐</string>
+    <string name="Middleage_package_money">标准价：￥1907 会员价：￥768</string>
+    <string name="Middleage_package_msg">科学判断身体健康状况，对中年常见疾病可进行全面筛查，同时对疾病风险进行预测</string>
+    <string name="Elderly_package">老年套餐</string>
+    <string name="Elderly_package_money">标准价：￥2837 会员价：￥1328</string>
+    <string name="Elderly_package_msg">父母专享，对老年疾病进行全面筛查，同时对疾病风险进行预测</string>
+
+    <string name="Cardio_cerebrovascular_package">心脑血管套餐</string>
+    <string name="Cardio_cerebrovascular_package_money">标准价：￥4265 会员价：￥2688</string>
+    <string name="Cardio_cerebrovascular_package_msg">此套餐可全面了解心脑血管健康状况以及相关疾病</string>
+    <string name="Hypertension_package">高血压套餐</string>
+    <string name="Hypertension_package_money">标准价：￥1547 会员价：￥899</string>
+    <string name="Hypertension_package_msg">主要检查血压增高对身体各器官有无损伤，对血压情况进行定期监控</string>
+    <string name="Health_care_package">健康护心套餐</string>
+    <string name="Health_care_package_money">标准价：￥1234 会员价：￥668</string>
+    <string name="Health_care_package_msg">此套餐主要用于评估心脑功能是否良好</string>
+    <string name="Health_care_brain_package">健康护脑套餐</string>
+    <string name="Health_care_brain_package_money">标准价：￥1009 会员价：￥580</string>
+    <string name="Health_care_brain_package_msg">此套餐主要用于评估心脑功能是否良好</string>
+    <string name="Immune_function_test_package">免疫功能检测套餐</string>
+    <string name="Immune_function_test_package_money">标准价：￥3068 会员价：￥1728</string>
+    <string name="Immune_function_test_package_msg">综合排查了解身体抵抗能力、免疫能力差的原因，通过后续健康管理提升受检者健康状况</string>
+
+    <string name="Gynecological_routine_package">妇科常规套餐</string>
+    <string name="Gynecological_routine_package_money">标准价：￥1434 会员价：￥798</string>
+    <string name="Gynecological_routine_package_msg">此套餐为全面的妇科检查套餐，女性朋友可通过此套餐全面了解自己身体妇科方面的情况</string>
+    <string name="Premarital_medical_package">婚前男、女套餐</string>
+    <string name="Premarital_medical_package_money">标准价：￥627 会员价：￥320</string>
+    <string name="Premarital_medical_package_msg">较全面了解婚前身体情况，筛查身体疾病从而保证婚后的健康生活</string>
+    <string name="Pre_pregnancy_medical_package">孕前男、女套餐</string>
+    <string name="Pre_pregnancy_medical_package_money">标准价：￥1672 会员价：￥708</string>
+    <string name="Pre_pregnancy_medical_package_msg">此套餐是一个较基础的孕前体检套餐，以确保胎儿更加健康地发育</string>
+    <string name="Entrance_examination_package">入职基本套餐</string>
+    <string name="Entrance_examination_package_money">标准价：￥324 会员价：￥200</string>
+    <string name="Entrance_examination_package_msg">针对各企事业单位对员工入职的健康要求所指定的体检套餐</string>
 </resources>

@@ -142,6 +142,8 @@ public class CustomELVAdapter extends BaseExpandableListAdapter implements Expan
                     }
                 }
             });
+
+            holder.ListHead.setText(data[groupPosition][childPosition]);
             /**
              * 二级子按钮onclick方法
              *
@@ -165,7 +167,7 @@ public class CustomELVAdapter extends BaseExpandableListAdapter implements Expan
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
                     //DO SOMETHING
-                    Toast.makeText(context, holder.details.getText().toString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, holder.details.getText().toString(), Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(context, PhyExaDetailActivity.class);
                     Bundle bundle = new Bundle();

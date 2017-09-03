@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.ExpandableListView;
@@ -35,25 +36,16 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
      *
      * @param savedInstanceState
      */
-    private static final String[] groupname = {"套餐一", "套餐二", "套餐三"};
+
+    private String[] groupname;
 
 
-    private static final String[][] details =
-                    {{"一1", "二2", "三3"},
-                    {"四4", "五5", "六6"},
-                    {"七7", "八8"}};
+    private String[][] details;
 
 
-    private static final String[][] data =
-            {{"一", "二", "三"},
-                    {"四", "五", "六"},
-                    {"七", "八"}};
+    private String[][] data;
 
-    private static final String[][] listinfo =
-            {{"床前明月光", "疑是地上霜", "举头望明月"},
-                    {"一岁一枯荣", "野火烧不尽", "春风吹又生"},
-                    {"天王霸地虎", "小鸡炖蘑菇"}};
-
+    private String[][] listinfo;
 
     private static final int[] ImgBckgrnd = {R.mipmap.bangalore, R.mipmap.mysore, R.mipmap.coorg};
 
@@ -61,14 +53,76 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage);
+        initTitles();//这个必须在initData()之前
         initData();
+
+    }
+
+    /**
+     * 初始化标题栏
+     */
+    private void initTitles() {
+        /**
+         * 这些数据可以从数据库或Web中获取，使用Web API和加载到适配器。
+         *
+         * @param savedInstanceState
+         */
+//        组名
+        groupname = new String[]{getResources().getString(R.string.Check_One),
+                getResources().getString(R.string.Check_Two),
+                getResources().getString(R.string.Check_Three)};
+//        二级标题
+        data = new String[][]{
+                {getResources().getString(R.string.Student_package),
+                        getResources().getString(R.string.Youth_package),
+                        getResources().getString(R.string.Middleage_package),
+                        getResources().getString(R.string.Elderly_package)},
+                {getResources().getString(R.string.Cardio_cerebrovascular_package),
+                        getResources().getString(R.string.Hypertension_package),
+                        getResources().getString(R.string.Health_care_package),
+                        getResources().getString(R.string.Health_care_brain_package),
+                        getResources().getString(R.string.Immune_function_test_package)},
+                {getResources().getString(R.string.Gynecological_routine_package),
+                        getResources().getString(R.string.Premarital_medical_package),
+                        getResources().getString(R.string.Pre_pregnancy_medical_package),
+                        getResources().getString(R.string.Entrance_examination_package)}};
+//        二级详情
+        listinfo = new String[][]{
+                {getResources().getString(R.string.Student_package_money),
+                        getResources().getString(R.string.Youth_package_money),
+                        getResources().getString(R.string.Middleage_package_money),
+                        getResources().getString(R.string.Elderly_package_money)},
+                {getResources().getString(R.string.Cardio_cerebrovascular_package_money),
+                        getResources().getString(R.string.Hypertension_package_money),
+                        getResources().getString(R.string.Health_care_package_money),
+                        getResources().getString(R.string.Health_care_brain_package_money),
+                        getResources().getString(R.string.Immune_function_test_package_money)},
+                {getResources().getString(R.string.Gynecological_routine_package_money),
+                        getResources().getString(R.string.Premarital_medical_package_money),
+                        getResources().getString(R.string.Pre_pregnancy_medical_package_money),
+                        getResources().getString(R.string.Entrance_examination_package_money)}};
+//        三级详情
+        details = new String[][]{
+                {getResources().getString(R.string.Student_package_msg),
+                        getResources().getString(R.string.Youth_package_msg),
+                        getResources().getString(R.string.Middleage_package_msg),
+                        getResources().getString(R.string.Elderly_package_msg)},
+                {getResources().getString(R.string.Cardio_cerebrovascular_package_msg),
+                        getResources().getString(R.string.Hypertension_package_msg),
+                        getResources().getString(R.string.Health_care_package_msg),
+                        getResources().getString(R.string.Health_care_brain_package_msg),
+                        getResources().getString(R.string.Immune_function_test_package_msg)},
+                {getResources().getString(R.string.Gynecological_routine_package_msg),
+                        getResources().getString(R.string.Premarital_medical_package_msg),
+                        getResources().getString(R.string.Pre_pregnancy_medical_package_msg),
+                        getResources().getString(R.string.Entrance_examination_package_msg)}};
     }
 
     private void initData() {
         btnHome = (RadioButton) findViewById(R.id.home_manage);
         btnManage = (RadioButton) findViewById(R.id.manage_manage);
         btnUser = (RadioButton) findViewById(R.id.user_manage);
-        ll_notification= (LinearLayout) findViewById(R.id.ll_notification);
+        ll_notification = (LinearLayout) findViewById(R.id.ll_notification);
 
         btnHome.setOnClickListener(this);
         btnManage.setOnClickListener(this);
@@ -80,7 +134,7 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         /**
          * 这可以用于activity或fragment中。
          */
-        elv.setAdapter(new CustomELVAdapter(this, ManageActivity.this, groupname, ImgBckgrnd, listinfo, data,details));
+        elv.setAdapter(new CustomELVAdapter(this, ManageActivity.this, groupname, ImgBckgrnd, listinfo, data, details));
         elv.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 
             @Override

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:switch="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -76,17 +77,43 @@
             android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_user_settings" />
+                android:orientation="horizontal"
+                android:layout_weight="1">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_user_settings" />
 
-            <TextView
-                style="@style/me_menu_text"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:text="@string/lock_title" />
+                <TextView
+                    style="@style/me_menu_text"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/lock_title" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+                <com.niwj.graduationproject.view.CustomSwitch
+                    android:id="@+id/switchButton"
+                    switch:btnCheckedColor="#81ccff"
+                    switch:btnUnCheckedColor="#cccccc"
+                    switch:innerPadding="1px"
+                    switch:lineCheckedColor="#3497da"
+                    switch:lineUnCheckedColor="#dddddd"
+                    switch:lineHeight="5dp"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/switch_back" />
+
+            </LinearLayout>
 
         </LinearLayout>
         <View
