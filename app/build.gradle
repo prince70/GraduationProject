@@ -11,6 +11,12 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+
+        ndk {
+            moduleName "serial_port"
+//            设置支持的SO库架构
+            abiFilters 'armeabi', 'x86'
+        }
     }
     buildTypes {
         release {
@@ -18,6 +24,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets.main.jniLibs.srcDirs = ['libs']
+    sourceSets.main {
+        jni.srcDirs = []
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets'] } }
 }
 
 //aar包用
@@ -45,10 +60,10 @@ dependencies {
     compile files('libs/date4j.jar')
     compile files('libs/commons-io-2.5.jar')
     compile files('libs/MobCommons-2017.0607.1736.jar')
-    compile name:'SMSSDK-3.0.0',ext:'aar'
-    compile name:'SMSSDKGUI-3.0.0',ext:'aar'
+    compile name: 'SMSSDK-3.0.0', ext: 'aar'
+    compile name: 'SMSSDKGUI-3.0.0', ext: 'aar'
 
 //    加载中动画
-    compile'com.wang.avi:library:1.0.0'
-    compile'com.nineoldandroids:library:2.4.0'
+    compile 'com.wang.avi:library:1.0.0'
+    compile 'com.nineoldandroids:library:2.4.0'
 }
