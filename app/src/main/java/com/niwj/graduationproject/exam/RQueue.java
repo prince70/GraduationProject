@@ -5,7 +5,7 @@ package com.niwj.graduationproject.exam;
  * 
  */
 public class RQueue {
-	  //寰幆闃熷垪
+	  //
 		private int _In;
 	    private int _Out;
 	    private int[] _ReciBuffer;

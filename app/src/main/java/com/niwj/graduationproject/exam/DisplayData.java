@@ -7,7 +7,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.gdhktech.wisdomdoc.exam.MyApplication;
+
+import com.niwj.graduationproject.MyApplication;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -18,19 +19,19 @@ import android_serialport_api.SerialPort;
 
 public class DisplayData {
     private int i_thread_work = 1;
-    private int n_start = 0; // ����ǰ�ж������Ƿ�׼����
+    private int n_start = 0; //
     private int n_start2 = 0;
-    private int i_start = 0; // �������
+    private int i_start = 0; //
     private int i_start2 = 0;
-    float YY_zoom = 0; // Y����
+    float YY_zoom = 0; //
     float XX_zoom = 0;
-    float Y_zoom = 0; // Y����
+    float Y_zoom = 0; //
     float X_zoom = 0;
     private int i_stop = 0;
     private int temp_osld = 0;
 
     int value7_10[] = new int[] { 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1 };
-    int[] _Buffer = new int[20]; // ��������
+    int[] _Buffer = new int[20]; //
     int _Task = 0;
     int _Length = 0;
     int _Out = 0;
@@ -44,7 +45,7 @@ public class DisplayData {
     private int i_pr_high = 100;
     private int i_pr_low = 60;
 
-    private static int _PackageLengthMin = 4; // ID_ECGWAVE~ID_ARR�İ��е���С����Ϊ4
+    private static int _PackageLengthMin = 4; //
     private static int ePackIdCmdEnd = 0x65;
     private static int ID_ECGWAVE = 0x05;
 
@@ -53,17 +54,17 @@ public class DisplayData {
     RQueue _queue_point2 = new RQueue(100000);
     RQueue _queue_point_PM = new RQueue(100000);
 
-    // Ѫѹ
+    //
     int i_press = 0;
 
-    // �ĵ�
-    int ecg_count = 22; // ��ͼ��
-    int[] i_point = new int[ecg_count]; // ������10������
-    int[] i_point_PM = new int[ecg_count]; // ���ź�
+    //
+    int ecg_count = 22; //
+    int[] i_point = new int[ecg_count]; //
+    int[] i_point_PM = new int[ecg_count]; //
 
-    // Ѫ��
+    //
     int n_Total_count = 30;
-    int[] i_point2 = new int[n_Total_count + 1]; // ������10������
+    int[] i_point2 = new int[n_Total_count + 1]; //
 
     int glob_heartrate = 0;
     int glob_st1 = 1;
@@ -267,7 +268,7 @@ public class DisplayData {
         }
     };
 
-    // ������д�����߳�
+    //
     public void ioPortData() {
         new ReadThread().start();
     }
@@ -387,7 +388,7 @@ public class DisplayData {
 
     }
 
-    // �Զ�����������
+    //
     public void auto_reset() {
         byte[] by_data = new byte[2];
         by_data[0] = (byte) 0x56;
@@ -397,7 +398,7 @@ public class DisplayData {
         }
     }
 
-    // �������ݵ��߳�
+
     class SendData implements Runnable {
 
         int n_count = 1;
@@ -423,7 +424,7 @@ public class DisplayData {
         new Thread(new myTimer1()).start();
     }
 
-    // ��ʱ����Ѫ������
+
     class myTimer1 implements Runnable {
 
         @Override
@@ -431,7 +432,6 @@ public class DisplayData {
             // TODO Auto-generated method stub
             while (!Thread.currentThread().isInterrupted() && i_thread_work == 1) {
 
-                // �����𲫼�⿪��
                 SetupCmd(0x4b, 0x01);
 
                 if (i_serial_data != i_stop) {
@@ -440,14 +440,12 @@ public class DisplayData {
                 }
 
                 if (mOutputStream != null) {
-                    // �ĵ�Ѫ���л�
                     SetupCmd(0x67, 0);
                     int var_zhenyi = 13;
 
                     int var_jianhu = 22;
                     int var_xianbo = 32;
                     int var_daolian = 42;
-                    // ����
                     switch (var_zhenyi) {
                         case 13:
                             SetupCmd(0x48, 2);
@@ -456,25 +454,22 @@ public class DisplayData {
                         default:
                             break;
                     }
-                    // �໤
                     switch (var_jianhu) {
                         case 22:
-                            SetupCmd(0x47, 1); // 0:��ϣ�1���໤��2������
+                            SetupCmd(0x47, 1);
                             break;
 
                     }
-                    // �ݲ�
                     switch (var_xianbo) {
                         case 32:
-                            SetupCmd(0x4A, 1); // �ݲ���
+                            SetupCmd(0x4A, 1);
                             break;
                     }
-                    // ����
                     switch (var_daolian) {
 
                         case 42:
-                            SetupCmd(0x45, 0x00); // �л�
-                            SetupCmd(0x46, 0x03); // ����2
+                            SetupCmd(0x45, 0x00); //
+                            SetupCmd(0x46, 0x03); //
                             break;
                     }
                 } else {
@@ -503,7 +498,7 @@ public class DisplayData {
             while (!Thread.currentThread().isInterrupted() && i_thread_work == 1) {
                 while (fun_DealData()) {
                     switch (_Buffer[0]) {
-                        case 0x05: // �ĵ�
+                        case 0x05: //
                             int a = 0;
                             a = ((_Buffer[1] & 0xff) * 256) + (_Buffer[2] & 0xff);
                             _queue_point.Push(a);
@@ -511,11 +506,10 @@ public class DisplayData {
                                 _queue_point.Push(0xffff);
                             }
                             break;
-                        case 0x07: // ����
+                        case 0x07: //
                             int heart_rate = ((_Buffer[1] & 0xff) * 256) + (_Buffer[2] & 0xff);
 
                             if (heart_rate > 0 && heart_rate < 300) {
-                                // �������޷�Χ�ڲ�����
                                 if (heart_rate > 0) {
                                     i_value[glob_heartrate] = heart_rate;
                                 } else {
@@ -533,33 +527,30 @@ public class DisplayData {
 
                         case 0x16:
                             int b = 0;
-                            b = (_Buffer[1] & 0xff); // Ѫ������
+                            b = (_Buffer[1] & 0xff); //
                             _queue_point2.Push(b);
 
                             break;
-                        case 0x17: // �����Ͷ���Ϣ�����ʣ������Ͷ�����
-                            int value2 = ((_Buffer[2] & 0xff) * 256) + (_Buffer[3] & 0xff); // ����
-                            int value3 = (_Buffer[4] & 0xff); // �����Ͷ�
+                        case 0x17: //
+                            int value2 = ((_Buffer[2] & 0xff) * 256) + (_Buffer[3] & 0xff); //
+                            int value3 = (_Buffer[4] & 0xff); //
 
                             if (value3 < 200 && value2 < 300) {
-                                // ��������
-                                if ((value2 > 0) && (value2 > i_pr_high)) // ��������
+                                if ((value2 > 0) && (value2 > i_pr_high)) //
                                 {
                                     i_value[glob_pulserate] = glob_INVALUE;
 
                                 }
-                                if ((value2 > 0) && (value2 < i_pr_low) )// ��������
+                                if ((value2 > 0) && (value2 < i_pr_low) )//
                                 {
                                     i_value[glob_pulserate] = glob_INVALUE;
                                 }
-                                i_value[glob_pulserate] = value2; // ����
-                                // ���浽���ݿ�
+                                i_value[glob_pulserate] = value2; //
 
-                                if ((value3 > 0) && (value3 > i_spo2_high) ) { // �����Ͷ�����
+                                if ((value3 > 0) && (value3 > i_spo2_high) ) { //
                                     i_value[glob_osld] = glob_INVALUE;
                                 }
-                                // Ѫ������
-                                if ((value3 > 0) && (value3 < i_spo2_low)) // Ѫ������
+                                if ((value3 > 0) && (value3 < i_spo2_low)) //
                                 {
                                     i_value[glob_osld] = glob_INVALUE;
                                 }
@@ -570,7 +561,7 @@ public class DisplayData {
                                 i_value[glob_pulserate] = glob_INVALUE;
                             }
                             break;
-                        case 0x20: // ���ѹ��
+                        case 0x20: //
                             int xiu_dai = (_Buffer[1] & 0xff) * 256 + (_Buffer[2] & 0xff);
                             if (xiu_dai > 0 && xiu_dai < 300) {
                                 i_value[glob_xiudai] = xiu_dai;
@@ -583,7 +574,7 @@ public class DisplayData {
                             SetupCmd(0x5b);
                             SetupCmd(0x5b);
                             break;
-                        case 0x22: // ����ѹ������ѹ��ƽ��ѹ
+                        case 0x22: //
 
                             int BP_value1 = (_Buffer[1] & 0xff) * 256 + (_Buffer[2] & 0xff);
                             int BP_value2 = ((_Buffer[3] & 0xff) * 256) + (_Buffer[4] & 0xff);
@@ -615,8 +606,7 @@ public class DisplayData {
                             break;
                         case 0x24:
                             int over_pree = _Buffer[3];
-                            // ��ѹ����
-                            if (over_pree == 7) // ��ѹ����
+                            if (over_pree == 7) //
                             {
                                 Message message_0x24 = new Message();
                                 Bundle bundle_0x24 = new Bundle();
@@ -645,23 +635,19 @@ public class DisplayData {
 
         boolean bLoop = true;
 
-        while (bLoop) // ���ڲ������ⲿ����֮ǰ�İ��Ѿ��������
+        while (bLoop)
         {
-            // ��ʱѪ��
             // Send_SPOH2();
 
             switch (_Task) {
                 case 0:
                     if (_queue.Count() >= _PackageLengthMin) {
-                        // ��������Ч�ԣ���һ���ض���BIT7=0������ض�BIT7=1
                         int x = _queue.ReadByte(0);
                         if ((x < (int) ID_ECGWAVE) || (x >= (int) ePackIdCmdEnd)) {
-                            // ����
                             _queue.PopByte();
                             break;
                         }
 
-                        // ���յ�ָ������
                         x = _Buffer[0] = _queue.PopByte();
                         _Length = cPackLengthTable[x];
                         _Task++;
@@ -672,21 +658,18 @@ public class DisplayData {
 
                 case 1:
                     if (_queue.Count() >= _Length) {
-                        // ���㹻���ݣ������������У�����Ч��
                         int x;
                         for (int i = 0; i < _Length - 1; i++) {
                             x = _queue.ReadByte(i);
 
                             x = x & 0x80;
                             if (x == 0) {
-                                // ����
                                 _queue.PopByte();
                                 _Task = 0;
                                 break;
                             }
                         }
 
-                        // ���У���
                         byte chksum = (byte) _Buffer[0];
                         for (int i = 0; i < _Length - 2; i++) {
                             chksum += _queue.ReadByte(i);
@@ -694,13 +677,11 @@ public class DisplayData {
                         chksum |= 0x80;
                         x = _queue.ReadByte(_Length - 2);
                         if ((byte) x != chksum) {
-                            // ����
                             _queue.PopByte();
                             _Task = 0;
                             break;
                         }
 
-                        // ����ͷ�ֽڻ�ԭ��������
                         int Logic = 0x1;
                         int DataHead = _queue.PopByte();
                         for (int i = 2; i < _Length; i++) {
@@ -716,7 +697,7 @@ public class DisplayData {
                         _Out = _Length;
                         _Task = 0;
 
-                        return true; // ���а�������
+                        return true; //
                     } else {
                         bLoop = false;
                     }
@@ -761,7 +742,6 @@ public class DisplayData {
         XX_zoom = xx_zoom;
     }
 
-    // ��ֵ
     int[] _InsertBuffer = new int[20];
     int _LashInsertData;
 
@@ -771,7 +751,6 @@ public class DisplayData {
         _LashInsertData = Value;
     }
 
-    // Ѫ��
 //    public void get_data2() {
 //        if (_queue_point2.Count() > n_Total_count) {
 //            for (int i = 1; i < n_Total_count;) {
@@ -805,7 +784,6 @@ public class DisplayData {
     }
 
 
-    // ��������
 
     public void fun_start() {
         byte[] by_data = new byte[2];
@@ -821,7 +799,6 @@ public class DisplayData {
 
     }
 
-    // ֹͣ����
     public void fun_stop() {
         byte[] by_data = new byte[2];
         by_data[0] = 0x56;
@@ -832,7 +809,6 @@ public class DisplayData {
         i_press = 0;
     }
 
-    // ֹͣ����
     public void stop_nibp() {
         byte[] by_data = new byte[2];
         by_data[0] = 0x56;
