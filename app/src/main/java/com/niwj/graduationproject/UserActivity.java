@@ -13,6 +13,8 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
+import com.niwj.graduationproject.activity.ClosePrivateActivity;
+import com.niwj.graduationproject.activity.PrivateActivity;
 import com.niwj.graduationproject.control.ImageSelectUtil;
 import com.niwj.graduationproject.control.ImageUtil;
 import com.niwj.graduationproject.control.LoginUtils;
@@ -40,7 +42,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private LinearLayout ll_lock;
-    private CustomSwitch mCustomSwitch;
+    public static CustomSwitch mCustomSwitch;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_user);
         initData();
         updateUserIcon();
+        updateSwicthchBtn();
         imageSelectUtil = new ImageSelectUtil(this, PathUtil.getTempPicFilename(), 100);
         imageSelectUtil.setSelectFinishListener(new ImageSelectUtil.SelectedFinishListener() {
             @Override
@@ -59,15 +62,28 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 sp.setString("imgPath", realPath);
                 String path = getFilesDir().getParentFile().getPath();
                 Log.e(TAG, "onSelectedFinish: " + path);
-//                Picasso.with(UserActivity.this).load("http://pic.qiantucdn.com/58pic/17/19/70/458PIC958PICS6K_1024.jpg!/fw/780/watermark/url/L3dhdGVybWFyay12MS4zLnBuZw==/align/center").into(userIcon);
                 Picasso.with(UserActivity.this).load(realPath).into(userIcon);
 
             }
         });
     }
 
+    //    每次进来更新switchBtn的状态
+    private void updateSwicthchBtn() {
+        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this);
+        boolean openTag = sp.getBoolean("Checked", false);  //默认值
+        boolean closeTag = sp.getBoolean("UnChecked", true);
+        Log.e(TAG, openTag + "打开的TAG");
+        Log.e(TAG, closeTag + "关闭的TAG");
+        if (openTag) {
+            mCustomSwitch.setChecked(true);
+        } else {
+            mCustomSwitch.setChecked(false);
+        }
+    }
+
     private void initData() {
-//        TODO 进来后更新头像  不然APP退出后就不见了
+//         进来后更新头像  不然APP退出后就不见了
         btnHome = (RadioButton) findViewById(R.id.home_user);
         btnManage = (RadioButton) findViewById(R.id.manage_user);
         btnUser = (RadioButton) findViewById(R.id.user_user);
@@ -81,13 +97,14 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         btnUser.setOnClickListener(this);
         userIcon.setOnClickListener(this);
         ll_lock.setOnClickListener(this);
+//        switch按钮的监听事件
         mCustomSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
+                    startActivity(new Intent(UserActivity.this, PrivateActivity.class));
                 } else {
-
+                    startActivity(new Intent(UserActivity.this, ClosePrivateActivity.class));
                 }
             }
         });
@@ -99,9 +116,9 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.ll_lock://锁屏密码
                 if (!mCustomSwitch.isChecked()) {
-
+                    startActivity(new Intent(this, PrivateActivity.class));
                 } else {
-
+                    startActivity(new Intent(this, ClosePrivateActivity.class));
                 }
                 break;
 

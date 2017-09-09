@@ -13,27 +13,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <!--<style name="Theme" parent="android:Theme">-->
-    <!--<item name="android:windowAnimationStyle">@style/noAnimation</item>-->
-    <!--<item name="android:windowNoTitle">true</item>-->
-    <!--</style>-->
-
-    <!--<style name="noAnimation">-->
-    <!--<item name="android:activityOpenEnterAnimation">@null</item>-->
-    <!--<item name="android:activityOpenExitAnimation">@null</item>-->
-    <!--<item name="android:activityCloseEnterAnimation">@null</item>-->
-    <!--<item name="android:activityCloseExitAnimation">@null</item>-->
-    <!--<item name="android:taskOpenEnterAnimation">@null</item>-->
-    <!--<item name="android:taskOpenExitAnimation">@null</item>-->
-    <!--<item name="android:taskCloseEnterAnimation">@null</item>-->
-    <!--<item name="android:taskCloseExitAnimation">@null</item>-->
-    <!--<item name="android:taskToFrontEnterAnimation">@null</item>-->
-    <!--<item name="android:taskToFrontExitAnimation">@null</item>-->
-    <!--<item name="android:taskToBackEnterAnimation">@null</item>-->
-    <!--<item name="android:taskToBackExitAnimation">@null</item>-->
-
-    <!--</style>-->
-
     <style name="me_menu_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -41,5 +20,16 @@
         <item name="android:layout_centerVertical">true</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <!--设置中心-->
+    <style name="settings_item_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textColor">@color/text_black</item>
+        <item name="android:textSize">25dp</item>
+        <item name="android:lineSpacingExtra">6dp</item>
     </style>
 </resources>

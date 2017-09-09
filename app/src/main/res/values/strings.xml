@@ -79,7 +79,9 @@
     <string name="empty_sdcard">没有SD卡</string>
 
     <string name="notify_title">一次只能勾选一个，多选以最后一次勾选的为准</string>
-
+    <string name="password_no_same">两次密码输入不一致</string>
+    <string name="password_explain">4位密码和登录密码无关，用于解锁公卫体检(血压)系统</string>
+    <string name="password_wrong">密码输入错误</string>
 
     <!--体检套餐管理-->
     <string name="Check_One">体检套餐一(年龄)</string>

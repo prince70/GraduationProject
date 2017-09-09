@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * 串行端口
+ */
 public class SerialPort {
 
 	private static final String TAG = "SerialPort";

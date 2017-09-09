@@ -26,6 +26,7 @@
     <color name="radiobutton_normal">#a1a1a1</color>
     <color name="background_color">#4483cf</color>
     <color name="setting_background_color">#ecedee</color>
+    <color name="user_exit_background_color">#4483cf</color>
     <color name="nav_blue2">#5EA7E4</color>
     <color name="black_grey">#313131</color>
     <color name="background">#181819</color>
@@ -33,4 +34,6 @@
     <color name="dark_gray">#FF343535</color>
     <color name="themeColor">#4182CF</color>
     <color name="transparent">#00000000</color>
+    <color name="toast_color">#4a4b4b</color>
+    <color name="nav_blue1">#0e63ab</color>
 </resources>

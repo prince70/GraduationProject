@@ -13,7 +13,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.niwj.graduationproject.activity.OpenActivity;
 import com.niwj.graduationproject.control.Constants;
+import com.niwj.graduationproject.control.SharePreferenceUtil;
 import com.niwj.graduationproject.exam.DisplayData;
 import com.niwj.graduationproject.view.NewDialog;
 import com.niwj.graduationproject.view.NumberAnimTextView;
@@ -78,9 +80,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            JSONObject data = (JSONObject) msg.obj;
+//            JSONObject data = (JSONObject) msg.obj;
             switch (msg.what) {
-                case Constants.MESSAGE_UPDATE_XUEYADATA:
+                case Constants.MESSAGE_UPDATE_XUEYADATA: //Constants常数类  更新血压数据
                     dispData();
 //                    RefreshXueYa();
             }
@@ -91,10 +93,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Judge();
         initView();
         initXueYa();
 
 
+    }
+
+    /**
+     * 判断是否设置了隐私密码
+     */
+    private void Judge() {
+        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this);
+        boolean privateTag = sp.getBoolean("Checked", false);
+        Log.e(TAG, "Judge: 是否设置了隐私密码" + privateTag);
+        if (privateTag) {
+            startActivity(new Intent(this, OpenActivity.class));
+        }
     }
 
     private void initXueYa() {

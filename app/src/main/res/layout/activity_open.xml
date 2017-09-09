@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/openlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/lockscreen"
+    android:orientation="vertical">
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- 提示信息 -->
+        <TextView
+            android:id="@+id/tv_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="请输入密码"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+        <!-- 密码显示框 -->
+        <LinearLayout
+            android:id="@+id/number"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_pwd1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@mipmap/circle"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:longClickable="false"
+                android:maxLength="1"
+                android:textColor="#4082cf"
+                android:textSize="12sp"
+
+                />
+
+            <EditText
+                android:id="@+id/et_pwd2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="30dp"
+                android:background="@mipmap/circle"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:longClickable="false"
+                android:maxLength="1"
+                android:textColor="#4082cf"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/et_pwd3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="30dp"
+                android:background="@mipmap/circle"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:longClickable="false"
+                android:maxLength="1"
+                android:textColor="#4082cf"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/et_pwd4"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="30dp"
+                android:background="@mipmap/circle"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:gravity="center"
+                android:inputType="numberPassword"
+                android:longClickable="false"
+                android:maxLength="1"
+                android:textColor="#4082cf"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <!-- 数字键盘 -->
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <!-- 1 -->
+            <Button
+                android:id="@+id/btn_one"
+                android:background="@drawable/number_button_selector_one"
+                android:gravity="center"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginRight="35dp"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/btn_two"
+                android:layout_toStartOf="@+id/btn_two" />
+            <!-- 2 -->
+            <Button
+                android:id="@+id/btn_two"
+                android:background="@drawable/number_button_selector_two"
+                android:textSize="45sp"
+                android:gravity="center"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginRight="35dp"
+                android:layout_centerHorizontal="true"
+                />
+            <!-- 3 -->
+            <Button
+                android:id="@+id/btn_three"
+                android:background="@drawable/number_button_selector_three"
+                android:textSize="45dp"
+                android:gravity="center"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/btn_two"
+                android:layout_toRightOf="@+id/btn_two"
+                />
+
+
+
+        </RelativeLayout>
+        <!-- 第2排 4-6数字布局 -->
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+            <!-- 4 -->
+            <Button
+                android:id="@+id/btn_four"
+                android:background="@drawable/number_button_selector_four"
+                android:textSize="45dp"
+                android:gravity="center"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="35dp"
+                android:layout_toLeftOf="@+id/btn_five"
+                android:layout_toStartOf="@+id/btn_five"
+                />
+            <!-- 5 -->
+            <Button
+                android:id="@+id/btn_five"
+                android:background="@drawable/number_button_selector_five"
+                android:textSize="45sp"
+                android:gravity="center"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginRight="35dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                />
+            <!-- 6 -->
+            <Button
+                android:id="@+id/btn_six"
+                android:background="@drawable/number_button_selector_six"
+                android:textSize="45dp"
+                android:gravity="center"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/btn_five"
+                android:layout_toRightOf="@+id/btn_five"
+                />
+        </RelativeLayout>
+        <!-- 第3排 7-9数字布局 -->
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+            <!-- 7 -->
+            <Button
+                android:id="@+id/btn_seven"
+                android:background="@drawable/number_button_selector_seven"
+                android:textSize="45dp"
+                android:gravity="center"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="35dp"
+                android:layout_toLeftOf="@+id/btn_eight"
+                android:layout_toStartOf="@+id/btn_eight"
+                />
+            <!-- 8 -->
+            <!-- 9 -->
+
+            <Button
+                android:id="@+id/btn_eight"
+                android:background="@drawable/number_button_selector_eight"
+                android:textSize="45dp"
+                android:gravity="center"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginRight="35dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:id="@+id/btn_nine"
+                android:background="@drawable/number_button_selector_nine"
+                android:textSize="45dp"
+                android:gravity="center"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/btn_eight"
+                android:layout_toEndOf="@+id/btn_eight" />
+        </RelativeLayout>
+        <!-- 第4排 0数字布局 -->
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+            <!-- 0 -->
+            <Button
+                android:id="@+id/btn_zero"
+                android:background="@drawable/number_button_selector_zero"
+                android:textSize="45sp"
+                android:gravity="center"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                />
+        </RelativeLayout>
+        <!-- 底部布局 -->
+        <RelativeLayout
+            android:id="@+id/bottom_msg"
+            android:layout_marginTop="30dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+            <!-- 重输按钮 -->
+            <TextView
+                android:id="@+id/btn_again"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:clickable="true"
+                android:onClick="forget"
+                android:text="忘记密码"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
+            <!-- 删除按钮 -->
+            <TextView
+                android:id="@+id/btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:clickable="true"
+                android:onClick="deleteText"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/white"
+                android:textSize="25dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
