@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.niwj.graduationproject.activity.NotificationActivity;
+import com.niwj.graduationproject.activity.PhysicalrecordActivity;
 import com.niwj.graduationproject.adapter.CustomELVAdapter;
 
 
@@ -30,6 +31,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private ExpandableListView elv;
 
     private LinearLayout ll_notification;
+    private LinearLayout ll_record;
+    private LinearLayout ll_sync;
 
     /**
      * 这些数据可以从数据库或Web中获取，使用Web API和加载到适配器。
@@ -38,15 +41,9 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
      */
 
     private String[] groupname;
-
-
     private String[][] details;
-
-
     private String[][] data;
-
     private String[][] listinfo;
-
     private static final int[] ImgBckgrnd = {R.mipmap.bangalore, R.mipmap.mysore, R.mipmap.coorg};
 
     @Override
@@ -123,11 +120,15 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         btnManage = (RadioButton) findViewById(R.id.manage_manage);
         btnUser = (RadioButton) findViewById(R.id.user_manage);
         ll_notification = (LinearLayout) findViewById(R.id.ll_notification);
+        ll_record= (LinearLayout) findViewById(R.id.ll_record);
+        ll_sync= (LinearLayout) findViewById(R.id.ll_sync);
 
         btnHome.setOnClickListener(this);
         btnManage.setOnClickListener(this);
         btnUser.setOnClickListener(this);
         ll_notification.setOnClickListener(this);
+        ll_record.setOnClickListener(this);
+        ll_sync.setOnClickListener(this);
 
         elv = (ExpandableListView) findViewById(R.id.lvExp1);
         elv.setFocusable(false);
@@ -156,6 +157,14 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_sync://一键同步
+//TODO 从服务器中加载
+                break;
+
+            case R.id.ll_record://体检记录
+                startActivity(new Intent(this, PhysicalrecordActivity.class));
+                break;
+
             case R.id.ll_notification://通知用户
                 startActivity(new Intent(this, NotificationActivity.class));
                 break;

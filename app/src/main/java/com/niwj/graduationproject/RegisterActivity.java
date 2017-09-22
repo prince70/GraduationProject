@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.niwj.graduationproject.api.pojo.DoctorRegister;
 import com.niwj.graduationproject.api.utils.DoctorRegisterUtils;
+import com.niwj.graduationproject.control.LoginUtils;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
 
 import java.util.Timer;
@@ -191,13 +192,13 @@ public class RegisterActivity extends ActionBarActivity {
                     String dphone = body.getData().get(0).getDphone();
                     String dpassword = body.getData().get(0).getDpassword();
                     Log.e(TAG, "onResponse: 注册成功后"+duserid+dname+didcard+dnumber+dphone+dpassword );
-                    SharePreferenceUtil sp = SharePreferenceUtil.getInstance(RegisterActivity.this,USER_FILENAME);
-                    sp.setString(KEY_USERID,duserid);
-                    sp.setString(KEY_NAME,dname);
-                    sp.setString(KEY_IDCARD,didcard);
-                    sp.setString(KEY_NUMBER,dnumber);
-                    sp.setString(KEY_PHONE,dphone);
-                    sp.setString(KEY_PASSWORD,dpassword);
+//                    SharePreferenceUtil sp = SharePreferenceUtil.getInstance(RegisterActivity.this,USER_FILENAME);
+//                    sp.setString(KEY_USERID,duserid);
+//                    sp.setString(KEY_NAME,dname);
+//                    sp.setString(KEY_IDCARD,didcard);
+//                    sp.setString(KEY_NUMBER,dnumber);
+//                    sp.setString(KEY_PHONE,dphone);
+//                    sp.setString(KEY_PASSWORD,dpassword);
                     Log.e(TAG, "onResponse: " + R.string.regiester_success);
                     runOnUiThread(new Runnable() {
                         @Override

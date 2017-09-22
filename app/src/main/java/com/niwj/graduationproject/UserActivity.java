@@ -12,9 +12,11 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.niwj.graduationproject.activity.ClosePrivateActivity;
 import com.niwj.graduationproject.activity.PrivateActivity;
+import com.niwj.graduationproject.activity.SettingActivity;
 import com.niwj.graduationproject.control.ImageSelectUtil;
 import com.niwj.graduationproject.control.ImageUtil;
 import com.niwj.graduationproject.control.LoginUtils;
@@ -40,8 +42,10 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     private static Handler mHandler;
     public static ImageSelectUtil imageSelectUtil;
 
-
+    private TextView tv_username;
+    private TextView tv_usernumber;
     private LinearLayout ll_lock;
+    private LinearLayout ll_settings;
     public static CustomSwitch mCustomSwitch;
 
     @Override
@@ -88,8 +92,14 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         btnManage = (RadioButton) findViewById(R.id.manage_user);
         btnUser = (RadioButton) findViewById(R.id.user_user);
         userIcon = (CircleImageView) findViewById(R.id.userIcon);
+        tv_username= (TextView) findViewById(R.id.tv_username);
+        tv_usernumber= (TextView) findViewById(R.id.tv_usernumber);
+
+        tv_username.setText(LoginUtils.getUsername(this));
+        tv_usernumber.setText(LoginUtils.getNumber(this));
 
         ll_lock = (LinearLayout) findViewById(R.id.ll_lock);
+        ll_settings= (LinearLayout) findViewById(R.id.ll_settings);
         mCustomSwitch = (CustomSwitch) findViewById(R.id.switchButton);
 
         btnHome.setOnClickListener(this);
@@ -97,6 +107,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         btnUser.setOnClickListener(this);
         userIcon.setOnClickListener(this);
         ll_lock.setOnClickListener(this);
+        ll_settings.setOnClickListener(this);
 //        switch按钮的监听事件
         mCustomSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -114,6 +125,10 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.ll_settings://设置中心
+                startActivity(new Intent(this, SettingActivity.class));
+
+                break;
             case R.id.ll_lock://锁屏密码
                 if (!mCustomSwitch.isChecked()) {
                     startActivity(new Intent(this, PrivateActivity.class));

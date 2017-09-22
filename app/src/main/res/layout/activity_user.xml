@@ -26,14 +26,48 @@
                 app:civ_border_color="@color/background_color"
                 app:civ_border_width="1dp" />
 
-            <TextView
-                android:id="@+id/tv_username"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="倪伟金"
-                android:textColor="@color/black"
-                android:textSize="20dp" />
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:text="姓名："/>
+                <TextView
+                    android:id="@+id/tv_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="倪伟金"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:text="工号："/>
+                <TextView
+                    android:id="@+id/tv_usernumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="D02133177"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

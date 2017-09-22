@@ -54,6 +54,7 @@
         <activity android:name=".activity.PhyExaDetailActivity" />
         <activity android:name=".imageselector.ImageSelectorActivity" />
         <activity android:name=".activity.BaseActivity" />
+        <activity android:name=".activity.PhysicalrecordActivity"/>
 
         <!-- 裁剪图片的库 -->
         <activity
@@ -81,7 +82,10 @@
         <activity android:name=".activity.ConfirmPrivateActivity" />
         <activity android:name=".activity.OpenActivity" />
         <activity android:name=".activity.ClosePrivateActivity" />
-
+        <!--设置中心-->
+        <activity android:name=".activity.SettingActivity"/>
+        <activity android:name=".activity.AboutActivity"/>
+        <activity android:name=".activity.TermServiceActivity"/>
 
     </application>
 

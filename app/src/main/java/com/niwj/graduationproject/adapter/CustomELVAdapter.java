@@ -24,6 +24,7 @@ import com.niwj.graduationproject.activity.PhyExaDetailActivity;
 
 /**
  * Created by prince70 on 2017/8/14.
+ * 三级菜单适配器
  */
 
 public class CustomELVAdapter extends BaseExpandableListAdapter implements ExpandableListAdapter {

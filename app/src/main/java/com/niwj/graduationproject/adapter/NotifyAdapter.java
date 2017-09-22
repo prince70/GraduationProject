@@ -58,6 +58,7 @@ public class NotifyAdapter extends BaseAdapter {
             holder.notify_address = (TextView) convertView.findViewById(R.id.tv_notify_address);
             holder.notify_systolicPressure = (TextView) convertView.findViewById(R.id.tv_notify_systolicPressure);
             holder.notify_diastolicPressure = (TextView) convertView.findViewById(R.id.tv_notify_diastolicPressure);
+            holder.notify_meanPressure = (TextView) convertView.findViewById(R.id.tv_notify_meanPressure);
             holder.checkBox = (CheckBox) convertView.findViewById(R.id.cb_notify);
 
             convertView.setTag(holder);
@@ -72,6 +73,7 @@ public class NotifyAdapter extends BaseAdapter {
         holder.notify_address.setText(msgDatas.get(position).getAddress());
         holder.notify_systolicPressure.setText(msgDatas.get(position).getSystolicPressure());
         holder.notify_diastolicPressure.setText(msgDatas.get(position).getDiastolicPressure());
+        holder.notify_meanPressure.setText(msgDatas.get(position).getMeanPressure());
 
         holder.checkBox.setChecked(false);
 
@@ -86,7 +88,8 @@ public class NotifyAdapter extends BaseAdapter {
                                 finalHolder.notify_name.getText().toString(),
                                 finalHolder.notify_phone.getText().toString(),
                                 finalHolder.notify_systolicPressure.getText().toString(),
-                                finalHolder.notify_diastolicPressure.getText().toString());
+                                finalHolder.notify_diastolicPressure.getText().toString(),
+                                finalHolder.notify_meanPressure.getText().toString());
 //                        Toast.makeText(mContext, finalHolder.textView.getText()+ "", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -103,11 +106,12 @@ public class NotifyAdapter extends BaseAdapter {
         TextView notify_address;
         TextView notify_systolicPressure;//收缩压
         TextView notify_diastolicPressure;//舒张压
+        TextView notify_meanPressure;//平均压
         CheckBox checkBox;
     }
 
     public interface OnCheckedChangedListener {
-        void getItemMsg(String notify_name, String notify_phone, String notify_systolicPressure, String notify_diastolicPressure);
+        void getItemMsg(String notify_name, String notify_phone, String notify_systolicPressure, String notify_diastolicPressure, String notify_meanPressure);
     }
 
 

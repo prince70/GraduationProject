@@ -12,6 +12,14 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="notify_tv">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="me_menu_text">
         <item name="android:layout_width">wrap_content</item>
@@ -29,7 +37,7 @@
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:textColor">@color/text_black</item>
-        <item name="android:textSize">25dp</item>
+        <item name="android:textSize">25sp</item>
         <item name="android:lineSpacingExtra">6dp</item>
     </style>
 </resources>

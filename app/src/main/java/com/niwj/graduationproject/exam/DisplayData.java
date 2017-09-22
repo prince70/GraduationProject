@@ -77,6 +77,7 @@ public class DisplayData {
     int glob_xiudai = 8;
     int glob_INVALUE = -10000;
 
+//    初始值都为-10000
     private int[] i_value = new int[] { glob_INVALUE, glob_INVALUE, glob_INVALUE, glob_INVALUE, glob_INVALUE,
             glob_INVALUE, glob_INVALUE, glob_INVALUE, glob_INVALUE };
 
@@ -238,7 +239,7 @@ public class DisplayData {
                 _queue.Empty();
             }
 
-            mSerialPort = mApplication.getSerialPort();
+            mSerialPort = mApplication.getSerialPort();//获取到串口
             mOutputStream = mSerialPort.getOutputStream();
             mInputStream = mSerialPort.getInputStream();
 
@@ -273,7 +274,6 @@ public class DisplayData {
         new ReadThread().start();
     }
 
-    // �����߳�
     class ReadThread extends Thread {
         byte[] buffer = new byte[30000];
 
@@ -301,7 +301,6 @@ public class DisplayData {
     }
 
 
-    // �������ݻ�ָ��
     public void SendData(byte[] by_data, int length) {
         if (mOutputStream != null) {
             by_data[1] = (byte) ((byte) (by_data[0]) | (byte) 0x80);
@@ -489,7 +488,7 @@ public class DisplayData {
         new Thread(new DealData()).start();
     }
 
-    // �������ݵ��߳�
+
     class DealData implements Runnable {
 
         @Override
@@ -595,7 +594,7 @@ public class DisplayData {
                                     i_value[glob_systolic] = glob_INVALUE;
                                     i_value[glob_diastolic] = glob_INVALUE;
                                     i_value[glob_avg] = glob_INVALUE;
-                                    // �����Чֵ
+
                                 }
 
                                 Message message_0x22 = new Message();
@@ -713,29 +712,6 @@ public class DisplayData {
         X_zoom = x_zoom;
     }
 
-//    /***************** 2015-12-04 ͣ�����ı䲨�� ***********************/
-//    // �ĵ�
-//    public void get_data() {
-//        if (_queue_point.Count() > 48) {
-//            for (int j = 1; j < ecg_count; j++) {
-//                _queue_point.PopByte();
-//
-//                if (_queue_point.ReadByte(0) != 0xffff)
-//                // if (_i_asy == 0)
-//                {
-//                    i_point[j] = (_queue_point.PopByte() - 2048) * 12 / 10;
-//                    i_point_PM[j] = 0;
-//                } else {
-//                    i_point_PM[j] = 1;
-//
-//                }
-//
-//            }
-//            n_start = 1;
-//        } else {
-//            n_start = 0;
-//        }
-//    }
 
     public void fun_zoom2(float xx_zoom, float yy_zoom) {
         YY_zoom = yy_zoom;
@@ -751,20 +727,6 @@ public class DisplayData {
         _LashInsertData = Value;
     }
 
-//    public void get_data2() {
-//        if (_queue_point2.Count() > n_Total_count) {
-//            for (int i = 1; i < n_Total_count;) {
-//                InsertMath(_queue_point2.PopByte());
-//                i_point2[i++] = _InsertBuffer[0];
-//                i_point2[i++] = _InsertBuffer[1];
-//            }
-//            n_start2 = 1;
-//        } else {
-//            n_start2 = 0;
-//
-//        }
-//
-//    }
 
     public void onDataReceived(byte[] buffer, int size) {
         // TODO Auto-generated method stub

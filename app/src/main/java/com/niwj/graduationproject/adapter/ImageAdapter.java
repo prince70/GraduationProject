@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * Created by prince70 on 2017/8/22.
+ * 图片适配器
  */
 
 public class ImageAdapter extends BaseAdapter {

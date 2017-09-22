@@ -30,8 +30,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.niwj.graduationproject.RegisterActivity.KEY_IDCARD;
+import static com.niwj.graduationproject.RegisterActivity.KEY_NAME;
+import static com.niwj.graduationproject.RegisterActivity.KEY_NUMBER;
 import static com.niwj.graduationproject.RegisterActivity.KEY_PASSWORD;
+import static com.niwj.graduationproject.RegisterActivity.KEY_PHONE;
 import static com.niwj.graduationproject.RegisterActivity.KEY_USERID;
+import static com.niwj.graduationproject.RegisterActivity.USER_FILENAME;
 
 /**
  * 用户登陆页面
@@ -63,10 +67,10 @@ public class LoginActivity extends ActionBarActivity {
 //        SMSSDK.setAskPermisionOnReadContact(boolShowInDialog);
 
         // 创建EventHandler对象
-       eventHandler = new EventHandler() {
+        eventHandler = new EventHandler() {
             public void afterEvent(int event, int result, Object data) {
                 if (data instanceof Throwable) {
-                    Throwable throwable = (Throwable)data;
+                    Throwable throwable = (Throwable) data;
                     String msg = throwable.getMessage();
                     Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
                 } else {
@@ -84,13 +88,16 @@ public class LoginActivity extends ActionBarActivity {
         //            有记录的话就读取记录
         SharePreferenceUtil sp = SharePreferenceUtil.getInstance(LoginActivity.this);
         String idcard = sp.getString(KEY_IDCARD, "");
+        String idcard1 = sp.getString("idcard", "");
         String pwd = sp.getString(KEY_PASSWORD, "");
         Log.e(TAG, "onCreate: hhhhhhh" + idcard + "   " + pwd);
 
+
         idCardInput = (EditText) findViewById(R.id.idCardInput);//身份证输入框
+
         passwordInput = (EditText) findViewById(R.id.passwordInput);//密码输入框
 
-        idCardInput.setText(idcard);
+        idCardInput.setText(idcard1);
         passwordInput.setText(pwd);
 
         cb_showPwd = (CheckBox) findViewById(R.id.cb_showPwd);
@@ -102,7 +109,6 @@ public class LoginActivity extends ActionBarActivity {
         progressDialog.setCancelable(false);
         loginButton.setOnClickListener(new loginOnClickListener());
         linkToRegisterButton.setOnClickListener(new linkToRegisterOnClickListener());
-
 
 
     }
@@ -144,6 +150,8 @@ public class LoginActivity extends ActionBarActivity {
                 passwordInput.setError(errorMsg);
             }
             if (!cancel) {
+                SharePreferenceUtil sp = SharePreferenceUtil.getInstance(LoginActivity.this);
+                sp.setString("idcard",idCard);
                 checkLogin(idCard, password);
             } else {
                 focusView.requestFocus();
@@ -169,7 +177,7 @@ public class LoginActivity extends ActionBarActivity {
     //用户登陆操作
     private void checkLogin(final String idcard, final String password) {
         String tag_string_req = "req_login";
-        progressDialog.setMessage("登陆中...");
+        progressDialog.setMessage("登录中...");
         showDiaglog();
 
         Call<DoctorLogin> call = DoctorLoginUtils.doctorLogin(idcard, password);
@@ -177,24 +185,36 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             public void onResponse(Call<DoctorLogin> call, Response<DoctorLogin> response) {
                 Request request = call.request();
-                Log.e(TAG, "onResponse: " + request);
+                Log.e(TAG, "onResponse: " + request.toString());
                 DoctorLogin body = response.body();
-                int code = body.getCode();
-                if (code == 0) {
-                    String userId = LoginUtils.getUserId(LoginActivity.this);
-                    Log.e(TAG, "onResponse: userId   " + userId);
-                    Log.e(TAG, "onResponse: " + "登录成功");
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    hideDialog();
-                } else {
-                    Toast.makeText(LoginActivity.this, "账号不存在！", Toast.LENGTH_SHORT).show();
-                    hideDialog();
+                if (body != null) {
+                    int code = body.getCode();
+                    if (code == 0) {
+                        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(LoginActivity.this,USER_FILENAME);
+                        sp.setString(KEY_USERID, body.getData().get(0).getDuserid());
+                        sp.setString(KEY_NAME, body.getData().get(0).getDname());
+                        sp.setString(KEY_IDCARD, body.getData().get(0).getDidcard());
+                        sp.setString(KEY_NUMBER, body.getData().get(0).getDnumber());
+                        sp.setString(KEY_PHONE, body.getData().get(0).getDphone());
+                        String userId = LoginUtils.getUserId(LoginActivity.this);
+                        String number = LoginUtils.getNumber(LoginActivity.this);
+                        String username = LoginUtils.getUsername(LoginActivity.this);
+                        Log.e(TAG, "onResponse: userId   " + userId + "  number" + number + "  username" + username);
+                        Log.e(TAG, "onResponse: " + "登录成功");
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        hideDialog();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "账号不存在！", Toast.LENGTH_SHORT).show();
+                        hideDialog();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<DoctorLogin> call, Throwable t) {
+                Request request = call.request();
+                Log.e(TAG, "onFailure: " + getResources().getString(R.string.login_fail) + request.toString() + t.toString());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -202,8 +222,6 @@ public class LoginActivity extends ActionBarActivity {
                         hideDialog();
                     }
                 });
-                Request request = call.request();
-                Log.e(TAG, "onResponse: " + R.string.login_fail + request.toString() + t.toString());
             }
         });
     }

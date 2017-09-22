@@ -10,6 +10,7 @@ import com.niwj.graduationproject.R;
 
 /**
  * Created by prince70 on 2017/8/14.
+ * 三级菜单ViewHolder
  */
 
 public class ViewHolder {

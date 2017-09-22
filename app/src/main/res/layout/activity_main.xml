@@ -19,7 +19,10 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:background="@color/setting_background_color" />
             <LinearLayout
                 android:id="@+id/ll_new_build"
                 android:layout_width="match_parent"
@@ -27,19 +30,20 @@
                 android:orientation="horizontal">
 
                 <com.niwj.graduationproject.view.CircleImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
                     android:layout_margin="10dp"
                     android:src="@mipmap/new_build" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="55dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="新建用户"
+                    android:textStyle="bold"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -54,14 +58,14 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_margin="10dp"
                     android:src="@mipmap/resident_name" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="35dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
@@ -72,16 +76,17 @@
                 <TextView
                     android:id="@+id/tv_residentName"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="35dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:text="倪妮"/>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="3dp"
                 android:background="@color/setting_background_color" />
             <!--身份证号-->
             <LinearLayout
@@ -90,14 +95,14 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_margin="10dp"
                     android:src="@mipmap/resident_idcard" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="35dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
@@ -108,16 +113,17 @@
                 <TextView
                     android:id="@+id/tv_residentIdcard"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="35dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:text="440923199502132580"/>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="3dp"
                 android:background="@color/setting_background_color" />
             <!--手机号-->
             <LinearLayout
@@ -126,14 +132,14 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_margin="10dp"
                     android:src="@mipmap/resident_phone" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="35dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
@@ -144,16 +150,17 @@
                 <TextView
                     android:id="@+id/tv_residentPhone"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="35dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:text="13414901234"/>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="3dp"
                 android:background="@color/setting_background_color" />
             <!--家庭地址-->
             <LinearLayout
@@ -162,14 +169,14 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_margin="10dp"
                     android:src="@mipmap/resident_address" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="35dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
@@ -180,13 +187,17 @@
                 <TextView
                     android:id="@+id/tv_residentAddress"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="35dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:text="广东省湛江市赤坎区"/>
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/setting_background_color" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -209,8 +220,8 @@
 
                     <com.niwj.graduationproject.view.CircleImageView
                         android:id="@+id/alertMsg"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
                         android:src="@mipmap/alert_msg" />
 
                     <TextView
@@ -229,8 +240,8 @@
 
                     <com.niwj.graduationproject.view.CircleImageView
                         android:id="@+id/One_key_detection"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
                         android:layout_weight="1"
                         android:src="@mipmap/one_key" />
 
@@ -238,6 +249,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="一键检测" />
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
 
@@ -249,17 +264,35 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
 
-            <com.wang.avi.AVLoadingIndicatorView
-                android:id="@+id/avi_dialog"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                android:visibility="gone"
-                app:indicator="BallClipRotatePulse"
-                app:indicator_color="#000080" />
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/avi_dialog"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    app:indicator="LineScalePulseOut"
+                    android:visibility="gone"
+                    app:indicator_color="#000080" />
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/avi_dialog2"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:visibility="gone"
+                    android:layout_gravity="center_horizontal"
+                    app:indicator="LineScalePulseOutRapid"
+                    app:indicator_color="#000080" />
+            </LinearLayout>
+
+
+
 
 
 

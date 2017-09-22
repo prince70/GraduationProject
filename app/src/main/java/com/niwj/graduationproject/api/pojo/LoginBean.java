@@ -22,6 +22,7 @@ public class LoginBean {
     private String dname;
     private String duserid;
 
+
     public String getDpassword() {
         return dpassword;
     }

@@ -12,17 +12,28 @@ public class ResidentMsg {
     private String address;
     private String systolicPressure;//收缩压
     private String diastolicPressure;//舒张压
+    private String meanPressure;//平均压
 
     public ResidentMsg() {
     }
 
-    public ResidentMsg(String name, String idcard, String phonenumber, String address, String systolicPressure, String diastolicPressure) {
+    public ResidentMsg(String name, String idcard, String phonenumber, String address, String systolicPressure, String diastolicPressure, String meanPressure) {
         this.name = name;
         this.idcard = idcard;
         this.phonenumber = phonenumber;
         this.address = address;
         this.systolicPressure = systolicPressure;
         this.diastolicPressure = diastolicPressure;
+        this.meanPressure = meanPressure;
+
+    }
+
+    public String getMeanPressure() {
+        return meanPressure;
+    }
+
+    public void setMeanPressure(String meanPressure) {
+        this.meanPressure = meanPressure;
     }
 
     public String getName() {
@@ -82,6 +93,7 @@ public class ResidentMsg {
                 ", address='" + address + '\'' +
                 ", systolicPressure='" + systolicPressure + '\'' +
                 ", diastolicPressure='" + diastolicPressure + '\'' +
+                ", meanPressure='" + meanPressure + '\'' +
                 '}';
     }
 }

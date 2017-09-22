@@ -11,6 +11,35 @@
         android:textSize="20sp"
         android:gravity="center"
         android:text="@string/notify_title"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/notify_tv"
+            android:text="@string/notify_name"/>
+        <TextView
+            style="@style/notify_tv"
+            android:text="@string/notify_idcard"/>
+        <TextView
+            style="@style/notify_tv"
+            android:text="@string/notify_phone"/>
+        <TextView
+            style="@style/notify_tv"
+            android:text="@string/notify_address"/>
+        <TextView
+            style="@style/notify_tv"
+            android:text="@string/notify_systolicPressure"/>
+        <TextView
+            style="@style/notify_tv"
+            android:text="@string/notify_diastolicPressure"/>
+        <TextView
+            style="@style/notify_tv"
+            android:text="@string/notify_meanPressure"/>
+        <TextView
+            style="@style/notify_tv"
+            android:text="@string/notify_null"/>
+    </LinearLayout>
     <ListView
         android:id="@+id/lv_notify"
         android:layout_weight="1"

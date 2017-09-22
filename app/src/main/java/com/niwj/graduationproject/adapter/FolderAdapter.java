@@ -16,6 +16,7 @@ import java.util.List;
 
 /**
  * Created by prince70 on 2017/8/22.
+ * 文件夹适配器
  */
 
 public class FolderAdapter extends BaseAdapter {

@@ -13,7 +13,10 @@ import android.widget.Toast;
 import com.mob.tools.SSDKHandlerThread;
 import com.niwj.graduationproject.R;
 import com.niwj.graduationproject.adapter.NotifyAdapter;
+import com.niwj.graduationproject.entity.Physicalrecord;
 import com.niwj.graduationproject.entity.ResidentMsg;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,7 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
     private String notifyPhone;
     private String notifySystolicPressure;
     private String notifyDiastolicPressure;
+    private String notifyMeanPressure;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,12 +53,21 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
         mListView = (ListView) findViewById(R.id.lv_notify);
         btn_confirm = (Button) findViewById(R.id.btn_confirm);
         btn_confirm.setOnClickListener(this);
-        ResidentMsg residentMsg1 = new ResidentMsg("1", "aaa", "!!!", "%%%", "444", "123");
-        ResidentMsg residentMsg2 = new ResidentMsg("倪斯玲", "440923199409233181", "13437578156", "广东省广州市番禺区XXX", "90", "100");
-        ResidentMsg residentMsg3 = new ResidentMsg("3", "ccc", "###", "&&&", "666", "789");
-        msgs.add(residentMsg1);
-        msgs.add(residentMsg2);
-        msgs.add(residentMsg3);
+//        ResidentMsg residentMsg1 = new ResidentMsg("倪伟金", "440923199502133177", "15119698041", "广东省湛江市赤坎区XXX", "90", "90", "90");
+//        ResidentMsg residentMsg2 = new ResidentMsg("倪斯玲", "440923199409233181", "13437578156", "广东省广州市番禺区XXX", "90", "100", "90");
+//        ResidentMsg residentMsg3 = new ResidentMsg("倪伟金", "440923199502133177", "15119698041", "广东省湛江市赤坎区XXX", "90", "90", "90");
+//
+//        msgs.add(residentMsg1);
+//        msgs.add(residentMsg2);
+//        msgs.add(residentMsg3);
+
+        List<Physicalrecord> all = DataSupport.findAll(Physicalrecord.class);
+        for (Physicalrecord physicalrecord :
+                all) {
+            msgs.add(new ResidentMsg(physicalrecord.getName(), physicalrecord.getIdcard(), physicalrecord.getPhonenumber(),
+                    physicalrecord.getAddress(), physicalrecord.getSystolicPressure(), physicalrecord.getDiastolicPressure(),
+                    physicalrecord.getMeanPressure()));
+        }
         adapter = new NotifyAdapter(this, msgs);
         mListView.setAdapter(adapter);
 
@@ -62,6 +75,8 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
          * 如果listitem里面包括button或者checkbox等控件，默认情况下listitem会失去焦点，
          * 导致无法响应item的事件，最常用的解决办法
          * 是在listitem的布局文件中设置descendantFocusability属性。
+         *
+         * 无效的点击事件
          */
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -78,7 +93,7 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_confirm://发送通知
-                Log.e(TAG, "onClick: 通知" + notifyName + "  " + notifyPhone + "  " + notifySystolicPressure + "  " + notifyDiastolicPressure);
+                Log.e(TAG, "onClick: 通知" + notifyName + "  " + notifyPhone + "  " + notifySystolicPressure + "  " + notifyDiastolicPressure + "   " + notifyMeanPressure);
                 SMSSDK.getVerificationCode("+86", "13414901394", new OnSendMessageHandler() {
                     @Override
                     public boolean onSendMessage(String s, String s1) {
@@ -100,10 +115,11 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
 
 
     @Override
-    public void getItemMsg(String notify_name, String notify_phone, String notify_systolicPressure, String notify_diastolicPressure) {
+    public void getItemMsg(String notify_name, String notify_phone, String notify_systolicPressure, String notify_diastolicPressure, String notify_meanPressure) {
         notifyName = notify_name;
         notifyPhone = notify_phone;
         notifySystolicPressure = notify_systolicPressure;
         notifyDiastolicPressure = notify_diastolicPressure;
+        notifyMeanPressure = notify_meanPressure;
     }
 }

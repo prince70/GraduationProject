@@ -141,8 +141,8 @@ public class LoginUtils {
         sp.setString(KEY_USERID, bean.getDuserid());
         sp.setString(KEY_NAME, bean.getDname());
         sp.setString(KEY_IDCARD, bean.getDidcard());
-        bean.getDnumber();
-        bean.getDphone();
+        sp.setString(KEY_NUMBER, bean.getDnumber());
+        sp.setString(KEY_PHONE, bean.getDphone());
 
         return true;
     }

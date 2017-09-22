@@ -10,6 +10,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:background="@color/setting_background_color" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -17,11 +21,11 @@
             android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+            <com.niwj.graduationproject.view.CircleImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_user_settings" />
+                android:src="@mipmap/tijiantaocan" />
 
             <TextView
                 style="@style/me_menu_text"
@@ -32,7 +36,7 @@
         </LinearLayout>
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="6dp"
             android:background="@color/setting_background_color" />
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,11 +68,11 @@
             android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+            <com.niwj.graduationproject.view.CircleImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_user_settings" />
+                android:src="@mipmap/jiancejilu" />
 
             <TextView
                 style="@style/me_menu_text"
@@ -91,11 +95,11 @@
             android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+            <com.niwj.graduationproject.view.CircleImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_user_settings" />
+                android:src="@mipmap/tongzhi" />
 
             <TextView
                 style="@style/me_menu_text"
@@ -111,17 +115,18 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_sync"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+            <com.niwj.graduationproject.view.CircleImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/ic_user_settings" />
+                android:src="@mipmap/onekey" />
 
             <TextView
                 style="@style/me_menu_text"

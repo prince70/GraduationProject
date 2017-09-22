@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -15,21 +18,31 @@ import android.widget.Toast;
 
 import com.niwj.graduationproject.activity.OpenActivity;
 import com.niwj.graduationproject.control.Constants;
+import com.niwj.graduationproject.control.ImageToast;
+import com.niwj.graduationproject.control.LoginUtils;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
+import com.niwj.graduationproject.entity.Physicalrecord;
 import com.niwj.graduationproject.exam.DisplayData;
 import com.niwj.graduationproject.view.NewDialog;
 import com.niwj.graduationproject.view.NumberAnimTextView;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private Physicalrecord mPhysicalrecord;//检测记录
+
+    //  判断是否退出
+    private boolean mIsExit;
 
     // 定时检测是否有蓝牙设备数据过来
     private Timer refreshUITimer = null;
@@ -63,13 +76,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NumberAnimTextView tv_cuffPressure;
 
     private AVLoadingIndicatorView avi;
+    private AVLoadingIndicatorView avi2;
 
     private Handler show_handle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 4000:
-                    dispData();
+                    dispData();//检测
                     break;
 
             }
@@ -83,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            JSONObject data = (JSONObject) msg.obj;
             switch (msg.what) {
                 case Constants.MESSAGE_UPDATE_XUEYADATA: //Constants常数类  更新血压数据
-                    dispData();
+//                    dispData();
 //                    RefreshXueYa();
             }
         }
@@ -93,11 +107,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String username = LoginUtils.getUsername(this);
+        String headimg = LoginUtils.getHeadimg(this);
+        String number = LoginUtils.getNumber(this);
+        Log.e(TAG, "onCreate:   用户名" + username + "     头像" + headimg + "    工号" + number);
         Judge();
+//        LoginUtils.loginCheck(this, new LoginUtils.LoginFinishListener() {
+//            @Override
+//            public void loginFinish() {
+//
+//            }
+//        });
         initView();
         initXueYa();
-
-
+        TextView tv_time = (TextView) findViewById(R.id.tv_time);
+        String s = currentTime();
+        tv_time.setText(s);
+//TODO 检测是否已经登录，才能进入主页面
     }
 
     /**
@@ -129,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     msg4.what = 4000;
                     show_handle.sendMessage(msg4);
                 }
-                //xueya
+                //血压
                 if (i_value[glob_diastolic] != value_diastolic) {
                     i_value[glob_diastolic] = value_diastolic;
                     Message msg1 = new Message();
@@ -159,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ll_one_key = (LinearLayout) findViewById(R.id.ll_one_key);
 
         avi = (AVLoadingIndicatorView) findViewById(R.id.avi_dialog);
+        avi2 = (AVLoadingIndicatorView) findViewById(R.id.avi_dialog2);
         tv_residentName = (TextView) findViewById(R.id.tv_residentName);
         tv_residentIdcard = (TextView) findViewById(R.id.tv_residentIdcard);
         tv_residentPhone = (TextView) findViewById(R.id.tv_residentPhone);
@@ -177,6 +204,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnUser.setOnClickListener(this);
     }
 
+    /**
+     * 显示数据
+     */
     private void dispData() {
         Map<String, Object> map = dispData.getTvData();
         i_value[glob_diastolic] = (int) map.get("diastolic");//舒张压
@@ -193,21 +223,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.e(TAG, "dispData:舒张压 " + String.valueOf(i_value[glob_diastolic]));
         Log.e(TAG, "dispData: 平均压" + String.valueOf(i_value[glob_avg]));
         Log.e(TAG, "dispData: 袖带压" + String.valueOf(i_value[glob_xiudai]));
+//        TODO 保存数据
         if (tv_systolicPressure.getText().equals("-10000")) {
             tv_systolicPressure.setText("-");
-            avi.setVisibility(View.GONE);
         }
         if (tv_diastolicPressure.getText().equals("-10000")) {
             tv_diastolicPressure.setText("-");
-            avi.setVisibility(View.GONE);
         }
         if (meanPressure.getText().equals("-10000")) {
             meanPressure.setText("-");
-            avi.setVisibility(View.GONE);
         }
+//        代表结束了
         if (tv_cuffPressure.getText().equals("-10000")) {
             tv_cuffPressure.setText("-");
             avi.setVisibility(View.GONE);
+            avi2.setVisibility(View.GONE);
+            String string = tv_residentName.getText().toString();
+            String string1 = tv_residentIdcard.getText().toString();
+            String string2 = tv_residentPhone.getText().toString();
+            String string3 = tv_residentAddress.getText().toString();
+            String string4 = tv_systolicPressure.getText().toString();
+            String string5 = tv_diastolicPressure.getText().toString();
+            String string6 = meanPressure.getText().toString();
+            String username = LoginUtils.getUsername(this);
+            String number = LoginUtils.getNumber(this);
+            String s = currentTime();
+            Log.e(TAG, "dispData: " + string + "\n" + string1 + "\n" + string2 + "\n" + string3 + "\n" + string4 + "\n" + string5 + "\n" + string6 + "\n" + username + "\n" + number + "\n" + s);
+            mPhysicalrecord = new Physicalrecord();
+            mPhysicalrecord.setName(tv_residentName.getText().toString());
+            mPhysicalrecord.setIdcard(tv_residentIdcard.getText().toString());
+            mPhysicalrecord.setPhonenumber(tv_residentPhone.getText().toString());
+            mPhysicalrecord.setAddress(tv_residentAddress.getText().toString());
+            mPhysicalrecord.setSystolicPressure(tv_systolicPressure.getText().toString());
+            mPhysicalrecord.setDiastolicPressure(tv_diastolicPressure.getText().toString());
+            mPhysicalrecord.setMeanPressure(meanPressure.getText().toString());
+            mPhysicalrecord.setDocName(LoginUtils.getUsername(this));
+            mPhysicalrecord.setDocNumber(LoginUtils.getNumber(this));
+            mPhysicalrecord.setTime(currentTime());
+            mPhysicalrecord.save();
+            List<Physicalrecord> all = DataSupport.findAll(Physicalrecord.class);
+            for (Physicalrecord physicalrecord : all) {
+                Log.e(TAG, "dispData: " + physicalrecord.toString());
+            }
+
+//            TODO 上传服务器
         }
 
     }
@@ -216,17 +275,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_one_key://一键检测
-
-
-                int visibility = avi.getVisibility();
-                if (visibility == 8) {
-                    avi.setVisibility(View.VISIBLE);
+                boolean residentMsg = getResidentMsg();
+                Log.e(TAG, "onClick: " + residentMsg);
+                if (residentMsg) {
+                    int visibility = avi.getVisibility();
+                    Log.e(TAG, "onClick:是否可见值 " + visibility);
+                    if (visibility == 8) {
 //                    开始检测
-                    dispData.fun_start();
-                } else {
-                    avi.setVisibility(View.GONE);
+                        dispData.fun_start();
+                        avi.setVisibility(View.VISIBLE);
+                        avi2.setVisibility(View.VISIBLE);
+                        Log.e(TAG, "onClick:可见 " + avi.getVisibility());//0
+                    } else {
 //                    结束检测
-                    dispData.fun_stop();
+                        dispData.fun_stop();
+                        avi.setVisibility(View.GONE);
+                        avi2.setVisibility(View.GONE);
+                        Log.e(TAG, "onClick:不可见 " + avi.getVisibility());//8
+                    }
+                } else {
+                    ImageToast.ImageToast(this, R.mipmap.ic_help, "居民信息还没录入", Toast.LENGTH_SHORT);
                 }
                 break;
             case R.id.ll_alert_message://修改
@@ -252,10 +320,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         String etIdcard = dialog.getEtIdcard();
                         String etPhone = dialog.getEtPhone();
                         String etAddress = dialog.getEtAddress();
-
+                        if (etIdcard == null) {
+                            ImageToast.ImageToast(MainActivity.this, R.mipmap.ic_help, "身份证输入错误", Toast.LENGTH_SHORT);
+                        } else {
+                            tv_residentIdcard.setText(etIdcard);
+                        }
+                        if (etPhone == null) {
+                            ImageToast.ImageToast(MainActivity.this, R.mipmap.ic_help, "手机号码输入错误", Toast.LENGTH_SHORT);
+                        } else {
+                            tv_residentPhone.setText(etPhone);
+                        }
                         tv_residentName.setText(etName);
-                        tv_residentIdcard.setText(etIdcard);
-                        tv_residentPhone.setText(etPhone);
                         tv_residentAddress.setText(etAddress);
                     }
                 }).show();
@@ -276,10 +351,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         String etIdcard = dialog2.getEtIdcard();
                         String etPhone = dialog2.getEtPhone();
                         String etAddress = dialog2.getEtAddress();
-
+                        if (etIdcard == null) {
+                            ImageToast.ImageToast(MainActivity.this, R.mipmap.ic_help, "身份证输入错误", Toast.LENGTH_SHORT);
+                        } else {
+                            tv_residentIdcard.setText(etIdcard);
+                        }
+                        if (etPhone == null) {
+                            ImageToast.ImageToast(MainActivity.this, R.mipmap.ic_help, "手机号码输入错误", Toast.LENGTH_SHORT);
+                        } else {
+                            tv_residentPhone.setText(etPhone);
+                        }
                         tv_residentName.setText(etName);
-                        tv_residentIdcard.setText(etIdcard);
-                        tv_residentPhone.setText(etPhone);
                         tv_residentAddress.setText(etAddress);
                     }
                 }).show();
@@ -296,12 +378,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.user_main:
                 Intent intent1 = new Intent(this, UserActivity.class);
                 startActivity(intent1);
-//                overridePendingTransition(R.anim.slide_up_in, R.anim.slide_down_out);//上下交错
                 overridePendingTransition(R.anim.fade, R.anim.hold);
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 判断居民信息是否已经录入
+     *
+     * @return
+     */
+    private boolean getResidentMsg() {
+        boolean isEmpty;
+        String residentName = tv_residentName.getText().toString();
+        String residentIdcard = tv_residentIdcard.getText().toString();
+        String residentPhone = tv_residentPhone.getText().toString();
+        String residentAddress = tv_residentAddress.getText().toString();
+        if (residentName.equals("") || residentIdcard.equals("") || residentPhone.equals("") || residentAddress.equals("")) {
+            isEmpty = false;
+        } else {
+            isEmpty = true;
+        }
+        return isEmpty;
     }
 
     /**
@@ -342,4 +442,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        }
 //    }
 
+    /**
+     * 点击2次结束应用
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mIsExit) {
+                this.finish();
+            } else {
+                ImageToast.ImageToast(this, R.mipmap.ic_help, "再按一次退出", Toast.LENGTH_SHORT);
+                mIsExit = true;
+//                2秒后mIsExit重新置为false
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mIsExit = false;
+                    }
+                }, 2000);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
+
+    /**
+     * 获取当前系统时间
+     *
+     * @return
+     */
+    private String currentTime() {
+        String currentTime;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        currentTime = format.format(date);
+        return currentTime;
+    }
+
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        LoginUtils.loginCheck(this, new LoginUtils.LoginFinishListener() {
+//            @Override
+//            public void loginFinish() {
+//
+//            }
+//        });
+//    }
 }

@@ -6,6 +6,9 @@ import com.niwj.graduationproject.api.interfaces.DoctorRegisterInterface;
 import com.niwj.graduationproject.api.pojo.DoctorLogin;
 import com.niwj.graduationproject.api.pojo.DoctorRegister;
 
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 
@@ -15,6 +18,12 @@ import retrofit2.Retrofit;
  */
 
 public class DoctorLoginUtils {
+
+    OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(20000, TimeUnit.SECONDS)
+            .writeTimeout(20000, TimeUnit.SECONDS)
+            .readTimeout(20000, TimeUnit.SECONDS)
+            .build();
 
     public static Call<DoctorLogin> doctorLogin(String dIdCard, String dPassword) {
         Retrofit retrofit = BaseAPIUtils.getRetrofit();

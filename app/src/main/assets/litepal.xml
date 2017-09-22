@@ -3,11 +3,11 @@
 
     <dbname value="graduation_db" />
 
-    <version value="2" />
+    <version value="12" />
 
     <list>
-        <mapping name="com.niwj.graduationproject.entity.UserInfo"></mapping>
-
+        <mapping class="com.niwj.graduationproject.entity.UserInfo" />
+        <mapping class="com.niwj.graduationproject.entity.Physicalrecord"/>
     </list>
 
     <!--
