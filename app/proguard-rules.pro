@@ -29,3 +29,8 @@
 
 -dontwarn cn.smssdk.**
 -keep class cn.smssdk.**{*;}
+
+#bugly混淆
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+-keep class android.support.**{*;}
