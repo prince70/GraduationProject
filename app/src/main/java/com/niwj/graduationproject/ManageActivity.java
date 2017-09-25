@@ -15,6 +15,19 @@ import android.widget.Toast;
 import com.niwj.graduationproject.activity.NotificationActivity;
 import com.niwj.graduationproject.activity.PhysicalrecordActivity;
 import com.niwj.graduationproject.adapter.CustomELVAdapter;
+import com.niwj.graduationproject.api.pojo.GetRecords;
+import com.niwj.graduationproject.api.utils.GetRecordsUtils;
+import com.niwj.graduationproject.control.LoginUtils;
+import com.niwj.graduationproject.entity.Physicalrecord;
+import com.niwj.graduationproject.view.LoadingDialog;
+
+import org.litepal.crud.DataSupport;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -29,6 +42,9 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     private RadioButton btnUser;
 
     private ExpandableListView elv;
+
+    private LoadingDialog loadingDialog;
+    private Physicalrecord physicalrecord;
 
     private LinearLayout ll_notification;
     private LinearLayout ll_record;
@@ -120,8 +136,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
         btnManage = (RadioButton) findViewById(R.id.manage_manage);
         btnUser = (RadioButton) findViewById(R.id.user_manage);
         ll_notification = (LinearLayout) findViewById(R.id.ll_notification);
-        ll_record= (LinearLayout) findViewById(R.id.ll_record);
-        ll_sync= (LinearLayout) findViewById(R.id.ll_sync);
+        ll_record = (LinearLayout) findViewById(R.id.ll_record);
+        ll_sync = (LinearLayout) findViewById(R.id.ll_sync);
 
         btnHome.setOnClickListener(this);
         btnManage.setOnClickListener(this);
@@ -158,7 +174,43 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_sync://一键同步
-//TODO 从服务器中加载
+                loadingDialog = new LoadingDialog(this);
+                loadingDialog.show();
+
+                Call<GetRecords> call = GetRecordsUtils.getRecordsCall(LoginUtils.getNumber(this));
+                call.enqueue(new Callback<GetRecords>() {
+                    @Override
+                    public void onResponse(Call<GetRecords> call, Response<GetRecords> response) {
+                        if (response.code() == 200) {
+                            List<Physicalrecord> physicalrecords = DataSupport.findAll(Physicalrecord.class);
+                            List<GetRecords.DataBean> data = response.body().getData();
+                            int localsize = physicalrecords.size();
+                            int netsize = data.size();
+                            if (localsize != netsize) {
+                                for (int i = 0; i < netsize; i++) {
+                                    physicalrecord = new Physicalrecord(data.get(i).getRname(), data.get(i).getRidcard(),
+                                            data.get(i).getRphone(), data.get(i).getRaddress(),
+                                            String.valueOf(data.get(i).getSystolicpressure()),
+                                            String.valueOf(data.get(i).getDiastolicpressure()),
+                                            String.valueOf(data.get(i).getMeanpressure()), data.get(i).getDname(),
+                                            data.get(i).getDnumber(), data.get(i).getCtime());
+
+                                    physicalrecord.save();
+                                }
+                            }
+                            loadingDialog.dismiss();
+                            Toast.makeText(ManageActivity.this, "数据同步成功",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GetRecords> call, Throwable t) {
+                        loadingDialog.dismiss();
+                        Toast.makeText(ManageActivity.this, "数据同步失败",Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onFailure: " + call.request().toString());
+                    }
+                });
+
                 break;
 
             case R.id.ll_record://体检记录

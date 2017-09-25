@@ -162,4 +162,6 @@
                                         本应用保留相应的法律权利。\n
                                     3、公卫体检(血压)系统的声明及修改、更新、最终解释权归广东伟金科技有限公司所有\n
                                     </string>
+
+    <string name="loading">加载中</string>
 </resources>

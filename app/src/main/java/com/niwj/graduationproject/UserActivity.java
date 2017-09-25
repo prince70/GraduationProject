@@ -17,6 +17,11 @@ import android.widget.TextView;
 import com.niwj.graduationproject.activity.ClosePrivateActivity;
 import com.niwj.graduationproject.activity.PrivateActivity;
 import com.niwj.graduationproject.activity.SettingActivity;
+import com.niwj.graduationproject.api.pojo.AlertAvatar;
+import com.niwj.graduationproject.api.pojo.DoctorProfile;
+import com.niwj.graduationproject.api.utils.AlertAvatartUtils;
+import com.niwj.graduationproject.api.utils.GetProfileUtils;
+import com.niwj.graduationproject.control.FileRequestBody;
 import com.niwj.graduationproject.control.ImageSelectUtil;
 import com.niwj.graduationproject.control.ImageUtil;
 import com.niwj.graduationproject.control.LoginUtils;
@@ -24,9 +29,19 @@ import com.niwj.graduationproject.control.PathUtil;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
 import com.niwj.graduationproject.view.CircleImageView;
 import com.niwj.graduationproject.view.CustomSwitch;
+import com.niwj.graduationproject.view.LoadingDialog;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by prince70 on 2017/8/10.
@@ -48,6 +63,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout ll_settings;
     public static CustomSwitch mCustomSwitch;
 
+    private LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,11 +79,14 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 String imgPath = paths.get(0);
                 Log.e(TAG, "onSelectedFinish: " + imgPath);
                 String realPath = "file://" + imgPath;
-                SharePreferenceUtil sp = SharePreferenceUtil.getInstance(UserActivity.this);
-                sp.setString("imgPath", realPath);
-                String path = getFilesDir().getParentFile().getPath();
-                Log.e(TAG, "onSelectedFinish: " + path);
-                Picasso.with(UserActivity.this).load(realPath).into(userIcon);
+
+                postImage(imgPath);
+
+//                SharePreferenceUtil sp = SharePreferenceUtil.getInstance(UserActivity.this);
+//                sp.setString("imgPath", realPath);
+//                String path = getFilesDir().getParentFile().getPath();
+//                Log.e(TAG, "onSelectedFinish: " + path);
+//                Picasso.with(UserActivity.this).load(realPath).into(userIcon);
 
             }
         });
@@ -92,14 +112,14 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         btnManage = (RadioButton) findViewById(R.id.manage_user);
         btnUser = (RadioButton) findViewById(R.id.user_user);
         userIcon = (CircleImageView) findViewById(R.id.userIcon);
-        tv_username= (TextView) findViewById(R.id.tv_username);
-        tv_usernumber= (TextView) findViewById(R.id.tv_usernumber);
+        tv_username = (TextView) findViewById(R.id.tv_username);
+        tv_usernumber = (TextView) findViewById(R.id.tv_usernumber);
 
         tv_username.setText(LoginUtils.getUsername(this));
         tv_usernumber.setText(LoginUtils.getNumber(this));
 
         ll_lock = (LinearLayout) findViewById(R.id.ll_lock);
-        ll_settings= (LinearLayout) findViewById(R.id.ll_settings);
+        ll_settings = (LinearLayout) findViewById(R.id.ll_settings);
         mCustomSwitch = (CustomSwitch) findViewById(R.id.switchButton);
 
         btnHome.setOnClickListener(this);
@@ -193,11 +213,71 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updateUserIcon() {
-        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this);
-        String imgPath = sp.getString("imgPath", "");
-        if (!imgPath.equals("")) {
-            Picasso.with(this).load(imgPath).into(userIcon);
-        }
+
+//        TODO  改为从网络中加载
+        Call<DoctorProfile> call = GetProfileUtils.getProfile(LoginUtils.getUserId(this));
+        call.enqueue(new Callback<DoctorProfile>() {
+            @Override
+            public void onResponse(Call<DoctorProfile> call, Response<DoctorProfile> response) {
+                if (response.code() == 200) {
+                    String heading = response.body().getData().get(0).getHeading();
+                    Log.e(TAG, "onResponse: 获取到网络图片地址" + heading);
+                    Picasso.with(UserActivity.this).load(heading).into(userIcon);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DoctorProfile> call, Throwable t) {
+                Request request = call.request();
+                Log.e(TAG, "onFailure: " + request.toString());
+                Picasso.with(UserActivity.this).load(R.mipmap.ic_launcher).into(userIcon);
+            }
+        });
+
+//        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this);
+//        String imgPath = sp.getString("imgPath", "");
+//        if (!imgPath.equals("")) {
+//            Picasso.with(this).load(imgPath).into(userIcon);
+//        }
 
     }
+
+    /**
+     * 上传图片到服务器
+     *
+     * @param localPath
+     */
+    private void postImage(String localPath) {
+        loadingDialog = new LoadingDialog(this);
+        loadingDialog.show();
+
+        File file = new File(localPath);
+        Log.e(TAG, "postImage: 图片路径" + file.getPath());
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        FileRequestBody body = new FileRequestBody(requestBody, null);
+        Call<AlertAvatar> call = AlertAvatartUtils.alertAvatarCall(LoginUtils.getUserId(this), MultipartBody.Part.createFormData("file", file.getName(), body));
+        call.enqueue(new Callback<AlertAvatar>() {
+            @Override
+            public void onResponse(Call<AlertAvatar> call, Response<AlertAvatar> response) {
+                if (response.code() == 200) {
+                    String heading = response.body().getData().get(0).getHeading();
+                    Log.e(TAG, "onResponse:得到的网络地址 " + heading);
+//                    TODO 设置图片到本地
+                    Picasso.with(UserActivity.this).load(heading).into(userIcon);
+                }
+                loadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<AlertAvatar> call, Throwable t) {
+                Request request = call.request();
+                Log.e(TAG, "onFailure: " + request.toString());
+                loadingDialog.dismiss();
+            }
+        });
+
+    }
+
+
 }

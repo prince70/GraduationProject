@@ -42,8 +42,7 @@
         android:roundIcon="@mipmap/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:launchMode="singleTask">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,7 +54,8 @@
         <!--android:launchMode="singleTask"-->
         <!--android:screenOrientation="landscape" />-->
 
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".MainActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ManageActivity" />
         <activity android:name=".UserActivity" />

@@ -16,17 +16,22 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.niwj.graduationproject.activity.OpenActivity;
+import com.niwj.graduationproject.api.pojo.PostRecord;
+import com.niwj.graduationproject.api.utils.PostRecordUtils;
 import com.niwj.graduationproject.control.Constants;
 import com.niwj.graduationproject.control.ImageToast;
 import com.niwj.graduationproject.control.LoginUtils;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
 import com.niwj.graduationproject.entity.Physicalrecord;
 import com.niwj.graduationproject.exam.DisplayData;
+import com.niwj.graduationproject.view.LoadingDialog;
 import com.niwj.graduationproject.view.NewDialog;
 import com.niwj.graduationproject.view.NumberAnimTextView;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
@@ -37,10 +42,18 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Physicalrecord mPhysicalrecord;//检测记录
 
+    private LoadingDialog loadingDialog;
     //  判断是否退出
     private boolean mIsExit;
 
@@ -72,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private NumberAnimTextView tv_systolicPressure;
     private NumberAnimTextView tv_diastolicPressure;
-    private NumberAnimTextView meanPressure;
+    private NumberAnimTextView tv_meanPressure;
     private NumberAnimTextView tv_cuffPressure;
 
     private AVLoadingIndicatorView avi;
@@ -110,7 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String username = LoginUtils.getUsername(this);
         String headimg = LoginUtils.getHeadimg(this);
         String number = LoginUtils.getNumber(this);
-        Log.e(TAG, "onCreate:   用户名" + username + "     头像" + headimg + "    工号" + number);
+        String userId = LoginUtils.getUserId(this);
+        Log.e(TAG, "onCreate:   用户名" + username + "     头像" + headimg + "    工号" + number + "    userid" + userId);
         Judge();
 //        LoginUtils.loginCheck(this, new LoginUtils.LoginFinishListener() {
 //            @Override
@@ -193,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tv_systolicPressure = (NumberAnimTextView) findViewById(R.id.tv_systolicPressure);
         tv_diastolicPressure = (NumberAnimTextView) findViewById(R.id.tv_diastolicPressure);
-        meanPressure = (NumberAnimTextView) findViewById(R.id.meanPressure);
+        tv_meanPressure = (NumberAnimTextView) findViewById(R.id.meanPressure);
         tv_cuffPressure = (NumberAnimTextView) findViewById(R.id.tv_cuffPressure);
 
         ll_new_build.setOnClickListener(this);
@@ -216,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tv_systolicPressure.setText(String.valueOf(i_value[glob_systolic]));
         tv_diastolicPressure.setText(String.valueOf(i_value[glob_diastolic]));
-        meanPressure.setText(String.valueOf(i_value[glob_avg]));
+        tv_meanPressure.setText(String.valueOf(i_value[glob_avg]));
         tv_cuffPressure.setText(String.valueOf(i_value[glob_xiudai]));
 
         Log.e(TAG, "dispData:收缩压 " + String.valueOf(i_value[glob_systolic]));
@@ -230,25 +244,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (tv_diastolicPressure.getText().equals("-10000")) {
             tv_diastolicPressure.setText("-");
         }
-        if (meanPressure.getText().equals("-10000")) {
-            meanPressure.setText("-");
+        if (tv_meanPressure.getText().equals("-10000")) {
+            tv_meanPressure.setText("-");
         }
 //        代表结束了
         if (tv_cuffPressure.getText().equals("-10000")) {
             tv_cuffPressure.setText("-");
             avi.setVisibility(View.GONE);
             avi2.setVisibility(View.GONE);
-            String string = tv_residentName.getText().toString();
-            String string1 = tv_residentIdcard.getText().toString();
-            String string2 = tv_residentPhone.getText().toString();
-            String string3 = tv_residentAddress.getText().toString();
-            String string4 = tv_systolicPressure.getText().toString();
-            String string5 = tv_diastolicPressure.getText().toString();
-            String string6 = meanPressure.getText().toString();
+
+            loadingDialog = new LoadingDialog(MainActivity.this);
+            loadingDialog.show();
+
+
+            String residentName = tv_residentName.getText().toString();
+            String residentIdcard = tv_residentIdcard.getText().toString();
+            String residentPhone = tv_residentPhone.getText().toString();
+            String residentAddress = tv_residentAddress.getText().toString();
+            String systolicPressure = tv_systolicPressure.getText().toString();
+            String diastolicPressure = tv_diastolicPressure.getText().toString();
+            String meanPressure = tv_meanPressure.getText().toString();
             String username = LoginUtils.getUsername(this);
             String number = LoginUtils.getNumber(this);
             String s = currentTime();
-            Log.e(TAG, "dispData: " + string + "\n" + string1 + "\n" + string2 + "\n" + string3 + "\n" + string4 + "\n" + string5 + "\n" + string6 + "\n" + username + "\n" + number + "\n" + s);
+            Log.e(TAG, "dispData: " + residentName + "\n" + residentIdcard + "\n" + residentPhone + "\n" + residentAddress + "\n" + systolicPressure + "\n" + diastolicPressure + "\n" + meanPressure + "\n" + username + "\n" + number + "\n" + s);
             mPhysicalrecord = new Physicalrecord();
             mPhysicalrecord.setName(tv_residentName.getText().toString());
             mPhysicalrecord.setIdcard(tv_residentIdcard.getText().toString());
@@ -256,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mPhysicalrecord.setAddress(tv_residentAddress.getText().toString());
             mPhysicalrecord.setSystolicPressure(tv_systolicPressure.getText().toString());
             mPhysicalrecord.setDiastolicPressure(tv_diastolicPressure.getText().toString());
-            mPhysicalrecord.setMeanPressure(meanPressure.getText().toString());
+            mPhysicalrecord.setMeanPressure(tv_meanPressure.getText().toString());
             mPhysicalrecord.setDocName(LoginUtils.getUsername(this));
             mPhysicalrecord.setDocNumber(LoginUtils.getNumber(this));
             mPhysicalrecord.setTime(currentTime());
@@ -267,6 +286,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
 //            TODO 上传服务器
+
+            PostRecord.DataBean dataBean = new PostRecord.DataBean();
+            dataBean.setCtime(s);
+            dataBean.setDiastolicpressure(Integer.parseInt(diastolicPressure));
+            dataBean.setDname(username);
+            dataBean.setMeanpressure(Integer.parseInt(meanPressure));
+            dataBean.setRaddress(residentAddress);
+            dataBean.setRidcard(residentIdcard);
+            dataBean.setRname(residentName);
+            dataBean.setRphone(residentPhone);
+            dataBean.setSystolicpressure(Integer.parseInt(systolicPressure));
+
+            Gson gson = new Gson();
+            String contentJSON = gson.toJson(dataBean);
+            try {
+                JSONObject jsonObject = new JSONObject(contentJSON);
+                contentJSON = null;
+                contentJSON = jsonObject.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.e(TAG, "dispData: 上传的json  " + contentJSON);
+
+
+            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), contentJSON);
+
+            Call<PostRecord> call = PostRecordUtils.postRecordCall(number, body);
+            call.enqueue(new Callback<PostRecord>() {
+                @Override
+                public void onResponse(Call<PostRecord> call, Response<PostRecord> response) {
+                    Log.e(TAG, "onResponse: code " + response.code()+call.request().toString());
+                    PostRecord body1 = response.body();
+                    if (body1!=null){
+                        String ctime = body1.getData().get(body1.getData().size()-1).getCtime();
+                        Log.e(TAG, "onResponse: "+ctime );
+                    }
+                    if (response.code() == 200) {
+                        loadingDialog.dismiss();
+                        Toast.makeText(MainActivity.this, "数据上传成功", Toast.LENGTH_SHORT).show();
+                    }else {
+                        loadingDialog.dismiss();
+                        Toast.makeText(MainActivity.this, "数据上传失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<PostRecord> call, Throwable t) {
+                    loadingDialog.dismiss();
+                    Request request = call.request();
+                    Log.e(TAG, "onFailure: " + request.toString());
+                }
+            });
+
+
         }
 
     }
