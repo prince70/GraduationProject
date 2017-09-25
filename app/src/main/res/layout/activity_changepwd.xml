@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/setting_background_color"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <TextView
+            android:text="旧密码:"
+            android:textColor="@color/themeColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"/>
+        <include layout="@layout/line_1_dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
+            <EditText
+                android:id="@+id/old_pwd"
+                style="@style/settings_item_text"
+                android:inputType="textPassword"
+                android:hint="@string/changepwd_hint"
+                android:background="@null" >
+            </EditText>
+            <ImageButton
+                android:id="@+id/clear_oldPwd"
+                android:onClick="clear_oldPwd"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="#00000000"
+                />
+        </LinearLayout>
+
+        <include layout="@layout/line_1_dp" />
+        <TextView
+            android:id="@+id/error_old"
+            android:textColor="@color/red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/themeColor"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="新密码:"/>
+        <include layout="@layout/line_1_dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+            <EditText
+                android:id="@+id/new_pwd"
+                android:inputType="textPassword"
+                style="@style/settings_item_text"
+                android:hint="@string/changepwd_hint"
+                android:background="@null" />
+            <ImageButton
+                android:id="@+id/clear_newPwd"
+                android:onClick="clear_newPwd"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="#00000000"
+                />
+        </LinearLayout>
+        <include layout="@layout/line_1_dp" />
+        <TextView
+            android:id="@+id/error_first_new"
+            android:textColor="@color/red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingTop="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/themeColor"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="确认新密码:"/>
+        <include layout="@layout/line_1_dp" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+            <EditText
+                android:id="@+id/check_new_pwd"
+                android:inputType="textPassword"
+                style="@style/settings_item_text"
+                android:hint="@string/changepwd_hint"
+                android:background="@null" />
+
+            <ImageButton
+                android:id="@+id/clear_checkNewPwd"
+                android:onClick="clear_checkNewPwd"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="#00000000"
+                />
+        </LinearLayout>
+        <include layout="@layout/line_1_dp" />
+        <TextView
+            android:id="@+id/error_new"
+            android:textColor="@color/red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingTop="5dp"/>
+
+
+        <RelativeLayout
+            android:id="@+id/confirmLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_corners_nav_blue2"
+            android:clickable="true"
+            android:onClick="confirm_pwd">
+
+            <TextView
+                android:id="@+id/exit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+        <CheckBox
+            android:id="@+id/show_pwd"
+            android:text="显示密码"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="IsShowPwd"/>
+
+    </LinearLayout>
+</LinearLayout>

@@ -36,6 +36,7 @@ import static com.niwj.graduationproject.RegisterActivity.KEY_PASSWORD;
 import static com.niwj.graduationproject.RegisterActivity.KEY_PHONE;
 import static com.niwj.graduationproject.RegisterActivity.KEY_USERID;
 import static com.niwj.graduationproject.RegisterActivity.USER_FILENAME;
+import static com.niwj.graduationproject.control.LoginUtils.isHasLogin;
 
 /**
  * 用户登陆页面
@@ -60,6 +61,11 @@ public class LoginActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        boolean hasLogin = isHasLogin(this);
+        if (hasLogin) {
+            startActivity(new Intent(this, MainActivity.class));
+        }
         /**
          * mob
          */
@@ -151,7 +157,7 @@ public class LoginActivity extends ActionBarActivity {
             }
             if (!cancel) {
                 SharePreferenceUtil sp = SharePreferenceUtil.getInstance(LoginActivity.this);
-                sp.setString("idcard",idCard);
+                sp.setString("idcard", idCard);
                 checkLogin(idCard, password);
             } else {
                 focusView.requestFocus();
@@ -190,7 +196,7 @@ public class LoginActivity extends ActionBarActivity {
                 if (body != null) {
                     int code = body.getCode();
                     if (code == 0) {
-                        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(LoginActivity.this,USER_FILENAME);
+                        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(LoginActivity.this, USER_FILENAME);
                         sp.setString(KEY_USERID, body.getData().get(0).getDuserid());
                         sp.setString(KEY_NAME, body.getData().get(0).getDname());
                         sp.setString(KEY_IDCARD, body.getData().get(0).getDidcard());

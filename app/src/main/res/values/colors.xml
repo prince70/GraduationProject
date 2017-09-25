@@ -36,4 +36,7 @@
     <color name="transparent">#00000000</color>
     <color name="toast_color">#4a4b4b</color>
     <color name="nav_blue1">#0e63ab</color>
+
+    <color name="red">#dc4d4d</color>
+    <color name="user_line_color">#77797979</color>
 </resources>

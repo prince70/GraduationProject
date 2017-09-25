@@ -164,4 +164,11 @@
                                     </string>
 
     <string name="loading">加载中</string>
+    <string name="changepwd_hint">6-16个字符，区分大小写</string>
+    <string name="oldpwd_not_input">您还未输入旧密码</string>
+    <string name="oldpwd_error">旧密码输入错误</string>
+    <string name="newpwd_not_input">您还未输入新密码</string>
+    <string name="pwd_less_six">密码长度不能小于6个字符</string>
+    <string name="pwd_inconformity">两次密码输入不一致</string>
+    <string name="pwd_empty">请输入相应参数</string>
 </resources>

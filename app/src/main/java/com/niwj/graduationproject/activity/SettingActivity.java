@@ -74,7 +74,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_alertPwd://密码修改
-
+                startActivity(new Intent(this, ChangePwdActivity.class));
                 break;
             case R.id.rl_check_for_update://检查更新
                 Beta.checkUpgrade();
