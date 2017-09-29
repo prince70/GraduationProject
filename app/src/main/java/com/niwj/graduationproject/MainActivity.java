@@ -1,11 +1,13 @@
 package com.niwj.graduationproject;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,10 +22,12 @@ import com.google.gson.Gson;
 import com.niwj.graduationproject.activity.OpenActivity;
 import com.niwj.graduationproject.api.pojo.PostRecord;
 import com.niwj.graduationproject.api.utils.PostRecordUtils;
+import com.niwj.graduationproject.control.AppManager;
 import com.niwj.graduationproject.control.Constants;
 import com.niwj.graduationproject.control.ImageToast;
 import com.niwj.graduationproject.control.LoginUtils;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
+import com.niwj.graduationproject.control.Utils;
 import com.niwj.graduationproject.entity.Physicalrecord;
 import com.niwj.graduationproject.exam.DisplayData;
 import com.niwj.graduationproject.view.LoadingDialog;
@@ -49,8 +53,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.niwj.graduationproject.RegisterActivity.KEY_USERID;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     private Physicalrecord mPhysicalrecord;//检测记录
 
     private LoadingDialog loadingDialog;
@@ -119,7 +125,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        initLayout(R.layout.activity_main);
+        Log.e(TAG, "onCreate: " + "MainActivity");
+//        init();
         String username = LoginUtils.getUsername(this);
         String headimg = LoginUtils.getHeadimg(this);
         String number = LoginUtils.getNumber(this);
@@ -140,16 +148,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //TODO 检测是否已经登录，才能进入主页面
     }
 
+    private void init() {
+        //利用Intent判断是否有自定义消息
+        String message = getIntent().getStringExtra("MessageContent");
+        if (message != null && !message.equals("")) {
+            new AlertDialog.Builder(MainActivity.this).setTitle("系统提示").setMessage(message).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //在这里可清除本地的用户信息
+                }
+            }).setNegativeButton("重新登录", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //再次执行登录操作
+                }
+            }).show();
+        }
+    }
+
     /**
      * 判断是否设置了隐私密码
      */
     private void Judge() {
+        SharePreferenceUtil sharePreferenceUtil = SharePreferenceUtil.getInstance(this);
+        String string = sharePreferenceUtil.getString(KEY_USERID, "");
+        if (string.equals("")) {
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+
+
         SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this);
         boolean privateTag = sp.getBoolean("Checked", false);
         Log.e(TAG, "Judge: 是否设置了隐私密码" + privateTag);
         if (privateTag) {
             startActivity(new Intent(this, OpenActivity.class));
         }
+
+
     }
 
     private void initXueYa() {
@@ -316,16 +351,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             call.enqueue(new Callback<PostRecord>() {
                 @Override
                 public void onResponse(Call<PostRecord> call, Response<PostRecord> response) {
-                    Log.e(TAG, "onResponse: code " + response.code()+call.request().toString());
+                    Log.e(TAG, "onResponse: code " + response.code() + call.request().toString());
                     PostRecord body1 = response.body();
-                    if (body1!=null){
-                        String ctime = body1.getData().get(body1.getData().size()-1).getCtime();
-                        Log.e(TAG, "onResponse: "+ctime );
+                    if (body1 != null) {
+                        String ctime = body1.getData().get(body1.getData().size() - 1).getCtime();
+                        Log.e(TAG, "onResponse: " + ctime);
                     }
                     if (response.code() == 200) {
                         loadingDialog.dismiss();
                         Toast.makeText(MainActivity.this, "数据上传成功", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         loadingDialog.dismiss();
                         Toast.makeText(MainActivity.this, "数据上传失败", Toast.LENGTH_SHORT).show();
                     }
@@ -526,7 +561,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (mIsExit) {
-                this.finish();
+//                this.finish();
+//                System.exit(0);
+                AppManager.AppExit(this);
             } else {
                 ImageToast.ImageToast(this, R.mipmap.ic_help, "再按一次退出", Toast.LENGTH_SHORT);
                 mIsExit = true;

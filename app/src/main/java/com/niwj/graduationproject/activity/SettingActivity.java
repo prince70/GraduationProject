@@ -8,24 +8,41 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.niwj.graduationproject.BaseActivity;
+import com.niwj.graduationproject.LoginActivity;
 import com.niwj.graduationproject.R;
 import com.niwj.graduationproject.control.ImageToast;
 import com.niwj.graduationproject.control.LoginUtils;
 import com.niwj.graduationproject.control.PathUtil;
+import com.niwj.graduationproject.control.SharePreferenceUtil;
+import com.niwj.graduationproject.control.Utils;
 import com.tencent.bugly.beta.Beta;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
+
+import cn.jpush.android.api.JPushInterface;
+
+import static com.niwj.graduationproject.RegisterActivity.KEY_IDCARD;
+import static com.niwj.graduationproject.RegisterActivity.KEY_PASSWORD;
+import static com.niwj.graduationproject.RegisterActivity.USER_FILENAME;
+import static com.niwj.graduationproject.api.BaseAPIUtils.CHECK_URL;
 
 /**
  * Created by prince70 on 2017/9/10.
  * 设置中心
  */
 
-public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
+public class SettingActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = "SettingActivity";
     private RelativeLayout rl_alertPwd;
     private RelativeLayout rl_check_for_update;
     private RelativeLayout rl_term_of_service;
@@ -39,10 +56,12 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     private String System_version;
     private Handler mHandler = new Handler();
     private boolean isClearCacheEnable = true;  //只能清理一次
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        initLayout(R.layout.activity_setting);
+        Log.e(TAG, "onCreate: " + "SettingActivity");
         initView();
     }
 
@@ -67,7 +86,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         tv_version_current = (TextView) findViewById(R.id.tv_version_current);
         tv_version_current.setText("检查更新" + "(当前版本" + getCurrentVersion() + ")");
         iv_newApp = (ImageView) findViewById(R.id.iv_newApp);
-        tv_clearCache= (TextView) findViewById(R.id.tv_clearCache);
+        tv_clearCache = (TextView) findViewById(R.id.tv_clearCache);
     }
 
     @Override
@@ -114,8 +133,59 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 }).start();
                 break;
             case R.id.rl_logout://退出登录
-                LoginUtils.loginOut(this);
-                finish();
+
+                SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this, USER_FILENAME);
+                String idcard = sp.getString(KEY_IDCARD, "");
+                String password = sp.getString(KEY_PASSWORD, "");
+                Log.e(TAG, "onClick: " + idcard + "\n" + password);
+
+                RequestParams params = new RequestParams(CHECK_URL);
+                params.addParameter("username", idcard);
+                params.addParameter("password", password);
+                params.addParameter("registrationId", JPushInterface.getRegistrationID(this));
+
+                Log.e(TAG, "onClick: 登出"+idcard+"\n"+password+"\n"+JPushInterface.getRegistrationID(this) );
+                x.http().post(params, new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.e(TAG, "onSuccess:退出 " + result);
+                        if (result.equals("logout")) {
+                            LoginUtils.loginOut(SettingActivity.this);
+                            Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            startActivity(intent);
+                            finish();
+                            Log.e(TAG, "onSuccess: " + "退出成功");
+                        } else if (result.equals("false")) {
+                            Log.e(TAG, "onSuccess: " + "退出失败");
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        Log.e(TAG, "onError: " + "退出失败");
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+                });
+
+
+
+                /*LoginUtils.loginOut(SettingActivity.this);
+                Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();*/
+
+
                 break;
             default:
                 break;
@@ -134,6 +204,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         }
         return System_version;
     }
+
     /**
      * 统计缓存大小
      */
@@ -155,4 +226,9 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         }).start();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
 }

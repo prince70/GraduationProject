@@ -14,10 +14,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.niwj.graduationproject.BaseActivity;
 import com.niwj.graduationproject.R;
 import com.niwj.graduationproject.UserActivity;
 import com.niwj.graduationproject.control.ImageToast;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
+import com.niwj.graduationproject.control.Utils;
 
 import static com.niwj.graduationproject.UserActivity.mCustomSwitch;
 
@@ -25,7 +27,7 @@ import static com.niwj.graduationproject.UserActivity.mCustomSwitch;
  * Created by prince70 on 2017/9/8.
  */
 
-public class ClosePrivateActivity extends AppCompatActivity {
+public class ClosePrivateActivity extends BaseActivity {
     private static final String TAG = "ClosePrivateActivity";
     private static EditText[] editTexts = new EditText[4];
     private int pos = 0;
@@ -34,7 +36,7 @@ public class ClosePrivateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_close_private);
+        initLayout(R.layout.activity_close_private);
         initView();
     }
 

@@ -1,13 +1,17 @@
 package com.niwj.graduationproject;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,12 +20,19 @@ import android.widget.Toast;
 
 import com.niwj.graduationproject.api.pojo.DoctorLogin;
 import com.niwj.graduationproject.api.utils.DoctorLoginUtils;
+import com.niwj.graduationproject.control.AppManager;
+import com.niwj.graduationproject.control.ImageToast;
 import com.niwj.graduationproject.control.LoginUtils;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
+import com.niwj.graduationproject.control.Utils;
+
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.jpush.android.api.JPushInterface;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import okhttp3.Request;
@@ -36,13 +47,17 @@ import static com.niwj.graduationproject.RegisterActivity.KEY_PASSWORD;
 import static com.niwj.graduationproject.RegisterActivity.KEY_PHONE;
 import static com.niwj.graduationproject.RegisterActivity.KEY_USERID;
 import static com.niwj.graduationproject.RegisterActivity.USER_FILENAME;
+import static com.niwj.graduationproject.api.BaseAPIUtils.CHECK_URL;
 import static com.niwj.graduationproject.control.LoginUtils.isHasLogin;
 
 /**
  * 用户登陆页面
  * 检测是否已经登录，登录记录，直接跳转到主页面
  */
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends BaseActivity {
+    //  判断是否退出
+    private boolean mIsExit;
+
 
     //   private static final String TAG = Reg
     private static final String TAG = "LoginActivity";
@@ -60,11 +75,14 @@ public class LoginActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
+        initLayout(R.layout.activity_login);
+        Log.e(TAG, "onCreate: " + "LoginActivity");
+//        x.view().inject(this);
+//        init();
         boolean hasLogin = isHasLogin(this);
         if (hasLogin) {
             startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
         /**
          * mob
@@ -119,13 +137,35 @@ public class LoginActivity extends ActionBarActivity {
 
     }
 
+    private void init() {
+        //利用Intent判断是否有自定义消息
+        String message = getIntent().getStringExtra("MessageContent");
+        if (message != null && !message.equals("")) {
+            new AlertDialog.Builder(this).setTitle("系统提示").setMessage(message).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //TODO 在这里可清除本地的用户信息  发送到服务器，登录状态位置为0
+
+
+                }
+            }).setNegativeButton("重新登录", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //TODO 再次执行登录操作  清除本地的用户信息  发送到服务器，登录状态位置为0
+                }
+            }).show();
+            Log.e(TAG, "init: " + "你要被强制下线，我告诉你");
+        }
+
+    }
+
     //登陆按钮点击操作
     private class loginOnClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
-            String idCard = idCardInput.getText().toString().trim();
-            String password = passwordInput.getText().toString().trim();
+            final String idCard = idCardInput.getText().toString().trim();
+            final String password = passwordInput.getText().toString().trim();
             boolean cancel = false;
             View focusView = null;  //焦点
             String errorMsg = null;
@@ -158,7 +198,44 @@ public class LoginActivity extends ActionBarActivity {
             if (!cancel) {
                 SharePreferenceUtil sp = SharePreferenceUtil.getInstance(LoginActivity.this);
                 sp.setString("idcard", idCard);
-                checkLogin(idCard, password);
+
+                RequestParams params = new RequestParams(CHECK_URL);
+                params.addParameter("username", idCard);
+                params.addParameter("password", password);
+                Log.e(TAG, "onClick: " + idCard + "   " + password);
+                /**
+                 * 登录的时候分配一个RegistrationID，别的设备再次登录时也会产生一个RegistrationID，则会发生冲突，则会发送广播通知下线
+                 */
+                params.addParameter("registrationId", JPushInterface.getRegistrationID(getApplicationContext()));
+                x.http().post(params, new org.xutils.common.Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.e(TAG, "onSuccess: 服务器返回的值  " + result);
+                        if (result.equals("login")) {
+                            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_LONG).show();
+                            checkLogin(idCard, password);
+                        } else {
+                            Toast.makeText(LoginActivity.this, "登录失败--账号密码问题", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        Log.e(TAG, "onError: " + ex.toString() + "       " + isOnCallback);
+                        Toast.makeText(LoginActivity.this, "登录失败---网络问题", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+                });
+
             } else {
                 focusView.requestFocus();
                 cancel = false;
@@ -176,7 +253,7 @@ public class LoginActivity extends ActionBarActivity {
             //跳转到注册页面
             Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
             startActivity(intent);
-            finish();
+//            finish();
         }
     }
 
@@ -202,6 +279,7 @@ public class LoginActivity extends ActionBarActivity {
                         sp.setString(KEY_IDCARD, body.getData().get(0).getDidcard());
                         sp.setString(KEY_NUMBER, body.getData().get(0).getDnumber());
                         sp.setString(KEY_PHONE, body.getData().get(0).getDphone());
+                        sp.setString(KEY_PASSWORD, body.getData().get(0).getDpassword());
                         String userId = LoginUtils.getUserId(LoginActivity.this);
                         String number = LoginUtils.getNumber(LoginActivity.this);
                         String username = LoginUtils.getUsername(LoginActivity.this);
@@ -209,6 +287,8 @@ public class LoginActivity extends ActionBarActivity {
                         Log.e(TAG, "onResponse: " + "登录成功");
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);//activity不加入后退栈
+                        AppManager.finishCurrentActivity();
                         hideDialog();
                     } else {
                         Toast.makeText(LoginActivity.this, "账号不存在！", Toast.LENGTH_SHORT).show();
@@ -242,7 +322,7 @@ public class LoginActivity extends ActionBarActivity {
     //隐藏进度条
     private void hideDialog() {
         if (progressDialog.isShowing()) {
-            progressDialog.hide();
+            progressDialog.dismiss();
         }
     }
 
@@ -272,5 +352,36 @@ public class LoginActivity extends ActionBarActivity {
     protected void onDestroy() {
         super.onDestroy();
         SMSSDK.unregisterEventHandler(eventHandler);
+        finish();
+    }
+
+    /**
+     * 点击2次结束应用
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mIsExit) {
+                AppManager.AppExit(this);
+//                System.exit(0);
+            } else {
+                ImageToast.ImageToast(this, R.mipmap.ic_help, "再按一次退出", Toast.LENGTH_SHORT);
+                mIsExit = true;
+//                2秒后mIsExit重新置为false
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mIsExit = false;
+                    }
+                }, 2000);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+
     }
 }

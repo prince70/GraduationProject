@@ -6,12 +6,16 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by prince70 on 2017/8/22.
  */
 
 public class Utils {
+
+
     public static int getStatusBarHeight() {
         Class<?> c;
         Object obj;

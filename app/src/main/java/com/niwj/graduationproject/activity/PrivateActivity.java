@@ -13,8 +13,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.niwj.graduationproject.BaseActivity;
 import com.niwj.graduationproject.R;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
+import com.niwj.graduationproject.control.Utils;
 
 import static com.niwj.graduationproject.UserActivity.mCustomSwitch;
 
@@ -23,7 +25,7 @@ import static com.niwj.graduationproject.UserActivity.mCustomSwitch;
  * 设置锁屏密码
  */
 
-public class PrivateActivity extends AppCompatActivity {
+public class PrivateActivity extends BaseActivity {
     private static final String TAG = "PrivateActivity";
     private static EditText[] editTexts = new EditText[4];
     private int pos = 0;
@@ -31,7 +33,7 @@ public class PrivateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_private);
+        initLayout(R.layout.activity_private);
         initView();
     }
 

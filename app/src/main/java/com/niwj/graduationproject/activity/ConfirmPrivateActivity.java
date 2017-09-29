@@ -13,17 +13,19 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.niwj.graduationproject.BaseActivity;
 import com.niwj.graduationproject.R;
 import com.niwj.graduationproject.UserActivity;
 import com.niwj.graduationproject.control.ImageToast;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
+import com.niwj.graduationproject.control.Utils;
 
 /**
  * Created by prince70 on 2017/9/8.
  * 确认隐私密码
  */
 
-public class ConfirmPrivateActivity extends AppCompatActivity {
+public class ConfirmPrivateActivity extends BaseActivity {
 
     private static EditText[] editTexts = new EditText[4];
     private int pos = 0;
@@ -32,7 +34,7 @@ public class ConfirmPrivateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_confirm_private);
+        initLayout(R.layout.activity_confirm_private);
         initView();
     }
 

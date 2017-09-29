@@ -239,7 +239,7 @@ public class DisplayData {
                 _queue.Empty();
             }
 
-            mSerialPort = mApplication.getSerialPort();//获取到串口
+//            mSerialPort = mApplication.getSerialPort();//获取到串口
             mOutputStream = mSerialPort.getOutputStream();
             mInputStream = mSerialPort.getInputStream();
 

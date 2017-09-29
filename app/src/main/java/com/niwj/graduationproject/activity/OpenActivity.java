@@ -23,19 +23,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.niwj.graduationproject.BaseActivity;
 import com.niwj.graduationproject.LoginActivity;
 import com.niwj.graduationproject.MainActivity;
 import com.niwj.graduationproject.R;
 import com.niwj.graduationproject.RegisterActivity;
 import com.niwj.graduationproject.UserActivity;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
+import com.niwj.graduationproject.control.Utils;
 
 /**
  * Created by prince70 on 2017/9/8.
  * 开锁界面
  */
 
-public class OpenActivity extends AppCompatActivity implements View.OnClickListener {
+public class OpenActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "OpenActivity";
     private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0;
     private EditText[] editTexts = new EditText[4];//显示密码框
@@ -49,7 +51,7 @@ public class OpenActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_open);
+        initLayout(R.layout.activity_open);
         initView();
 
     }
@@ -368,7 +370,7 @@ public class OpenActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e(TAG, "afterTextChanged: " + "执行");
 //                        DONE 解决为什么跳转不了到mainactivity
                         startActivity(new Intent(OpenActivity.this, MainActivity.class));
-                        finish();
+                        OpenActivity.this.finish();
                     } else {
                         try {
                             Thread.sleep(200);

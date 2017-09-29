@@ -27,6 +27,7 @@ import com.niwj.graduationproject.control.ImageUtil;
 import com.niwj.graduationproject.control.LoginUtils;
 import com.niwj.graduationproject.control.PathUtil;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
+import com.niwj.graduationproject.control.Utils;
 import com.niwj.graduationproject.view.CircleImageView;
 import com.niwj.graduationproject.view.CustomSwitch;
 import com.niwj.graduationproject.view.LoadingDialog;
@@ -48,7 +49,7 @@ import retrofit2.Response;
  * 我的
  */
 
-public class UserActivity extends AppCompatActivity implements View.OnClickListener {
+public class UserActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "UserActivity";
     private RadioButton btnHome;
     private RadioButton btnManage;
@@ -68,7 +69,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+        initLayout(R.layout.activity_user);
+        Log.e(TAG, "onCreate: "+"UserActivity" );
         initData();
         updateUserIcon();
         updateSwicthchBtn();
@@ -214,7 +216,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     private void updateUserIcon() {
 
-//        TODO  改为从网络中加载
+//
         Call<DoctorProfile> call = GetProfileUtils.getProfile(LoginUtils.getUserId(this));
         call.enqueue(new Callback<DoctorProfile>() {
             @Override

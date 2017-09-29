@@ -18,6 +18,7 @@ import com.niwj.graduationproject.adapter.CustomELVAdapter;
 import com.niwj.graduationproject.api.pojo.GetRecords;
 import com.niwj.graduationproject.api.utils.GetRecordsUtils;
 import com.niwj.graduationproject.control.LoginUtils;
+import com.niwj.graduationproject.control.Utils;
 import com.niwj.graduationproject.entity.Physicalrecord;
 import com.niwj.graduationproject.view.LoadingDialog;
 
@@ -35,7 +36,7 @@ import retrofit2.Response;
  * 管理
  */
 
-public class ManageActivity extends AppCompatActivity implements View.OnClickListener {
+public class ManageActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "ManageActivity";
     private RadioButton btnHome;
     private RadioButton btnManage;
@@ -65,7 +66,8 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage);
+        initLayout(R.layout.activity_manage);
+        Log.e(TAG, "onCreate: " + "ManageActivity");
         initTitles();//这个必须在initData()之前
         initData();
 
@@ -199,14 +201,14 @@ public class ManageActivity extends AppCompatActivity implements View.OnClickLis
                                 }
                             }
                             loadingDialog.dismiss();
-                            Toast.makeText(ManageActivity.this, "数据同步成功",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ManageActivity.this, "数据同步成功", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<GetRecords> call, Throwable t) {
                         loadingDialog.dismiss();
-                        Toast.makeText(ManageActivity.this, "数据同步失败",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ManageActivity.this, "数据同步失败", Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "onFailure: " + call.request().toString());
                     }
                 });

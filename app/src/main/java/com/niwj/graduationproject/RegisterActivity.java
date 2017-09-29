@@ -18,6 +18,7 @@ import com.niwj.graduationproject.api.pojo.DoctorRegister;
 import com.niwj.graduationproject.api.utils.DoctorRegisterUtils;
 import com.niwj.graduationproject.control.LoginUtils;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
+import com.niwj.graduationproject.control.Utils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,16 +34,15 @@ import retrofit2.Response;
 /**
  * 用户注册页面
  */
-public class RegisterActivity extends ActionBarActivity {
-    public static final String USER_FILENAME="userFile";
-    public static final String KEY_USERID="duserid";
-    public static final String KEY_NAME="dname";
-    public static final String KEY_IDCARD="didcard";
-    public static final String KEY_NUMBER="dnumber";
-    public static final String KEY_PHONE="dphone";
-    public static final String KEY_PASSWORD="dpassword";
-    public static final String KEY_HEADIMG="dheading";
-
+public class RegisterActivity extends BaseActivity {
+    public static final String USER_FILENAME = "userFile";
+    public static final String KEY_USERID = "duserid";
+    public static final String KEY_NAME = "dname";
+    public static final String KEY_IDCARD = "didcard";
+    public static final String KEY_NUMBER = "dnumber";
+    public static final String KEY_PHONE = "dphone";
+    public static final String KEY_PASSWORD = "dpassword";
+    public static final String KEY_HEADIMG = "dheading";
 
 
     private static final String TAG = RegisterActivity.class.getSimpleName();
@@ -59,7 +59,8 @@ public class RegisterActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        initLayout(R.layout.activity_register);
+        Log.e(TAG, "onCreate: " + "RegisterActivity");
 
         idCardInput = (EditText) findViewById(R.id.idCardInput);//身份证输入框
         nameInput = (EditText) findViewById(R.id.nameInput);//姓名输入框
@@ -191,7 +192,7 @@ public class RegisterActivity extends ActionBarActivity {
                     String dnumber = body.getData().get(0).getDnumber();
                     String dphone = body.getData().get(0).getDphone();
                     String dpassword = body.getData().get(0).getDpassword();
-                    Log.e(TAG, "onResponse: 注册成功后"+duserid+dname+didcard+dnumber+dphone+dpassword );
+                    Log.e(TAG, "onResponse: 注册成功后" + duserid + dname + didcard + dnumber + dphone + dpassword);
 //                    SharePreferenceUtil sp = SharePreferenceUtil.getInstance(RegisterActivity.this,USER_FILENAME);
 //                    sp.setString(KEY_USERID,duserid);
 //                    sp.setString(KEY_NAME,dname);
@@ -212,12 +213,12 @@ public class RegisterActivity extends ActionBarActivity {
                                     startActivity(intent);
                                 }
                             };
-                           timer.schedule(task, 1000);
+                            timer.schedule(task, 1000);
                         }
                     });
 
                     hideDialog();
-                }else {
+                } else {
                     Toast.makeText(RegisterActivity.this, R.string.regiester_fail, Toast.LENGTH_SHORT).show();
                     hideDialog();
                 }

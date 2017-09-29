@@ -4,7 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
-import android.support.multidex.MultiDex;
+import android.support.multidex.*;
+import android.support.multidex.BuildConfig;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -18,12 +19,14 @@ import com.tencent.bugly.beta.ui.UILifecycleListener;
 import com.tencent.bugly.beta.upgrade.UpgradeStateListener;
 
 import org.litepal.LitePal;
+import org.xutils.x;
 
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 
 import android_serialport_api.SerialPort;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by prince70 on 2017/8/3.
@@ -42,6 +45,12 @@ public class MyApplication extends Application {
 //        初始化bugly  注册时申请的APPID
         initBeta();
         Bugly.init(getApplicationContext(), APP_ID, false);
+
+//        初始化
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+        x.Ext.init(this);
+        x.Ext.setDebug(BuildConfig.DEBUG);
     }
 
     private void initBeta() {
@@ -130,29 +139,29 @@ public class MyApplication extends Application {
         MultiDex.install(this);
     }
 
-    public SerialPort getSerialPort() throws SecurityException, IOException, InvalidParameterException {
-        if (mSerialPort == null) {
-            /* Read serial port parameters */
-            SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
-            String path = sp.getString("DEVICE", "");
-
-            int baudrate = Integer.decode(sp.getString("BAUDRATE", "-1"));
-
-            //Log.v("path", path);
-            Log.v("baudrate", Integer.toString(baudrate));
-
-			/* Check parameters */
-            if ((path.length() == 0) || (baudrate == -1)) {
-                //		throw new InvalidParameterException();
-            }
-            Log.v("state", "pass");
-            String str_path = "/dev/ttyMT2";
-            int n_baudrate = 115200;
-            /* Open the serial port */
-            //mSerialPort = new SerialPort(new File(path), baudrate, 0);
-            mSerialPort = new SerialPort(new File(str_path), n_baudrate, 0);
-            Log.v("mytest", "mytest");
-        }
-        return mSerialPort;
-    }
+//    public SerialPort getSerialPort() throws SecurityException, IOException, InvalidParameterException {
+//        if (mSerialPort == null) {
+//            // Read serial port parameters
+//            SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
+//            String path = sp.getString("DEVICE", "");
+//
+//            int baudrate = Integer.decode(sp.getString("BAUDRATE", "-1"));
+//
+//            //Log.v("path", path);
+//            Log.v("baudrate", Integer.toString(baudrate));
+//
+//			//* Check parameters *//*
+//            if ((path.length() == 0) || (baudrate == -1)) {
+//                //		throw new InvalidParameterException();
+//            }
+//            Log.v("state", "pass");
+//            String str_path = "/dev/ttyMT2";
+//            int n_baudrate = 115200;
+//            //* Open the serial port *//*
+//            //mSerialPort = new SerialPort(new File(path), baudrate, 0);
+//            mSerialPort = new SerialPort(new File(str_path), n_baudrate, 0);
+//            Log.v("mytest", "mytest");
+//        }
+//        return mSerialPort;
+//    }
 }

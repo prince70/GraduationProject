@@ -11,10 +11,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.niwj.graduationproject.BaseActivity;
 import com.niwj.graduationproject.R;
 import com.niwj.graduationproject.adapter.PhysicalRecordAdapter;
 import com.niwj.graduationproject.api.pojo.DeleteRecord;
 import com.niwj.graduationproject.api.utils.DelRecordUtils;
+import com.niwj.graduationproject.control.Utils;
 import com.niwj.graduationproject.entity.Physicalrecord;
 import com.niwj.graduationproject.entity.UserInfo;
 import com.niwj.graduationproject.view.LoadingDialog;
@@ -33,7 +35,7 @@ import retrofit2.Response;
  * 检测记录
  */
 
-public class PhysicalrecordActivity extends AppCompatActivity {
+public class PhysicalrecordActivity extends BaseActivity {
     private static final String TAG = "PhysicalrecordActivity";
     private ListView lv_physical_record;
     private List<Physicalrecord> physicalrecords = new ArrayList<>();
@@ -43,7 +45,7 @@ public class PhysicalrecordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_physicalrecord);
+        initLayout(R.layout.activity_physicalrecord);
         initData();
 
     }

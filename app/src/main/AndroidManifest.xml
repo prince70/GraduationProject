@@ -34,6 +34,13 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REMOVED"/>
+    <uses-permission android:name="android.permission.BROADCAST_SMS"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+    <uses-permission android:name="android.permission.BROADCAST_WAP_PUSH"/>
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -42,7 +49,7 @@
         android:roundIcon="@mipmap/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,14 +61,17 @@
         <!--android:launchMode="singleTask"-->
         <!--android:screenOrientation="landscape" />-->
 
+        <activity android:name=".LoginActivity"/>
         <activity android:name=".MainActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:label="@string/app_name"/>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ManageActivity" />
-        <activity android:name=".UserActivity" />
+        <activity android:name=".ManageActivity"
+            android:label="@string/app_name"/>
+        <activity android:name=".UserActivity"
+            android:label="@string/app_name"/>
         <activity android:name=".activity.PhyExaDetailActivity" />
         <activity android:name=".imageselector.ImageSelectorActivity" />
-        <activity android:name=".activity.BaseActivity" />
         <activity android:name=".activity.PhysicalrecordActivity"/>
 
         <!-- 裁剪图片的库 -->
@@ -114,6 +124,29 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
+
+        <receiver android:name=".server.JpushReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <!--  Required 用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
+                <!-- Required 用户接收SDK消息的intent  -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!-- Required 用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!-- Required 用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
+                <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <category android:name="com.niwj.graduationproject" />
+            </intent-filter>
+        </receiver>
+
+
+        <activity android:name=".BaseActivity"/>
 
     </application>
 

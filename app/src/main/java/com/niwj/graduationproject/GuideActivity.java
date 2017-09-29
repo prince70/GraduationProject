@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.niwj.graduationproject.control.SharePreferenceUtil;
+import com.niwj.graduationproject.control.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,8 +21,9 @@ import java.util.List;
  * 引导页
  */
 
-public class GuideActivity extends AppCompatActivity {
+public class GuideActivity extends BaseActivity {
 
+    private static final String TAG = "GuideActivity";
     private ViewPager mViewPager;
     private PagerAdapter mPagerAdapter;
     private List<View> mListViews;
@@ -29,10 +32,15 @@ public class GuideActivity extends AppCompatActivity {
     private ImageView imageView3;
     private ImageView imageView4;
 
+    private boolean IsFirst;//第一次进入应用
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_guide);
+        initLayout(R.layout.activity_guide);
+        Log.e(TAG, "onCreate: " + "GuideActivity");
+        JudgeFirst();
+
         mListViews = new ArrayList<>();
 
         LayoutInflater inflater = getLayoutInflater();
@@ -72,6 +80,7 @@ public class GuideActivity extends AppCompatActivity {
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             private boolean misScrolled;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -104,6 +113,18 @@ public class GuideActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 判断是否第一次进入应用
+     */
+    private void JudgeFirst() {
+        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this);
+        IsFirst = sp.getBoolean("FirstCome", true);
+        if (!IsFirst) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
+    }
+
     private class PagerAdapter extends android.support.v4.view.PagerAdapter {
         private List<View> mViews;
 
@@ -131,5 +152,16 @@ public class GuideActivity extends AppCompatActivity {
             ((ViewPager) container).addView(mViews.get(position), 0);
             return mViews.get(position);
         }
+    }
+
+    private void saveTag() {
+        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this);
+        sp.setBoolean("FirstCome", false);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        saveTag();
     }
 }

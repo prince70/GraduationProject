@@ -11,8 +11,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mob.tools.SSDKHandlerThread;
+import com.niwj.graduationproject.BaseActivity;
 import com.niwj.graduationproject.R;
 import com.niwj.graduationproject.adapter.NotifyAdapter;
+import com.niwj.graduationproject.control.Utils;
 import com.niwj.graduationproject.entity.Physicalrecord;
 import com.niwj.graduationproject.entity.ResidentMsg;
 
@@ -29,7 +31,7 @@ import cn.smssdk.SMSSDK;
  * 通知用户activity
  */
 
-public class NotificationActivity extends AppCompatActivity implements View.OnClickListener, NotifyAdapter.OnCheckedChangedListener {
+public class NotificationActivity extends BaseActivity implements View.OnClickListener, NotifyAdapter.OnCheckedChangedListener {
     private static final String TAG = "NotificationActivity";
     private ListView mListView;
     private Button btn_confirm;
@@ -45,7 +47,7 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notify);
+        initLayout(R.layout.activity_notify);
         initData();
     }
 

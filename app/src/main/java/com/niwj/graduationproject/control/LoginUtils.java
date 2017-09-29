@@ -159,6 +159,7 @@ public class LoginUtils {
         sp.remove(KEY_PHONE);
         sp.remove(KEY_HEADIMG);
         sp.remove(KEY_NUMBER);
+        sp.remove(KEY_PASSWORD);
         sendBroadCase(context, false);
     }
 

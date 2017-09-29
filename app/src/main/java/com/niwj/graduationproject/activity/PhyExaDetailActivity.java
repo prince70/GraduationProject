@@ -6,21 +6,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
 import android.widget.TextView;
 
+import com.niwj.graduationproject.BaseActivity;
 import com.niwj.graduationproject.R;
+import com.niwj.graduationproject.control.Utils;
 
 /**
  * Created by prince70 on 2017/8/22.
  * 体检套餐详情
  */
 
-public class PhyExaDetailActivity extends AppCompatActivity {
+public class PhyExaDetailActivity extends BaseActivity {
     private TextView mTextView;
     private WebView wv_details;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_physical_test);
+        initLayout(R.layout.activity_physical_test);
         mTextView = (TextView) findViewById(R.id.test);
         wv_details = (WebView) findViewById(R.id.wv_details);
         initData();

@@ -36,7 +36,7 @@ public class SharePreferenceUtil {
 
     //移除操作
     public void remove(String key){
-        sp.edit().remove(key).commit();
+        sp.edit().remove(key).apply();
     }
 
     //清空操作
