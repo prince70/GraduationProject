@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.niwj.graduationproject.control.SharePreferenceUtil;
-import com.niwj.graduationproject.control.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,19 +45,19 @@ public class GuideActivity extends BaseActivity {
         LayoutInflater inflater = getLayoutInflater();
         View view1 = inflater.inflate(R.layout.activity_guide_item_view1, null);
         imageView1 = (ImageView) view1.findViewById(R.id.iv_guide_item1);
-        Picasso.with(GuideActivity.this).load(R.mipmap.gfirst).into(imageView1);
+        Picasso.with(GuideActivity.this).load(R.mipmap.yfirst).into(imageView1);
 
         View view2 = inflater.inflate(R.layout.activity_guide_item_view2, null);
         imageView2 = (ImageView) view2.findViewById(R.id.iv_guide_item2);
-        Picasso.with(GuideActivity.this).load(R.mipmap.gsecond).into(imageView2);
+        Picasso.with(GuideActivity.this).load(R.mipmap.ysecond).into(imageView2);
 
         View view3 = inflater.inflate(R.layout.activity_guide_item_view3, null);
         imageView3 = (ImageView) view3.findViewById(R.id.iv_guide_item3);
-        Picasso.with(GuideActivity.this).load(R.mipmap.gthird).into(imageView3);
+        Picasso.with(GuideActivity.this).load(R.mipmap.ythird).into(imageView3);
 
         View view4 = inflater.inflate(R.layout.activity_guide_item_view4, null);
         imageView4 = (ImageView) view4.findViewById(R.id.iv_guide_item4);
-        Picasso.with(GuideActivity.this).load(R.mipmap.gfourth).into(imageView4);
+        Picasso.with(GuideActivity.this).load(R.mipmap.yfourth).into(imageView4);
 
         view4.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -14,7 +15,7 @@ import com.niwj.graduationproject.control.AppManager;
  * Created by prince70 on 2017/9/28.
  */
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends AppCompatActivity {
 
     protected Context context = BaseActivity.this;
 

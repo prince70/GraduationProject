@@ -139,29 +139,29 @@ public class MyApplication extends Application {
         MultiDex.install(this);
     }
 
-//    public SerialPort getSerialPort() throws SecurityException, IOException, InvalidParameterException {
-//        if (mSerialPort == null) {
-//            // Read serial port parameters
-//            SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
-//            String path = sp.getString("DEVICE", "");
-//
-//            int baudrate = Integer.decode(sp.getString("BAUDRATE", "-1"));
-//
-//            //Log.v("path", path);
-//            Log.v("baudrate", Integer.toString(baudrate));
-//
-//			//* Check parameters *//*
-//            if ((path.length() == 0) || (baudrate == -1)) {
-//                //		throw new InvalidParameterException();
-//            }
-//            Log.v("state", "pass");
-//            String str_path = "/dev/ttyMT2";
-//            int n_baudrate = 115200;
-//            //* Open the serial port *//*
-//            //mSerialPort = new SerialPort(new File(path), baudrate, 0);
-//            mSerialPort = new SerialPort(new File(str_path), n_baudrate, 0);
-//            Log.v("mytest", "mytest");
-//        }
-//        return mSerialPort;
-//    }
+    public SerialPort getSerialPort() throws SecurityException, IOException, InvalidParameterException {
+        if (mSerialPort == null) {
+            // Read serial port parameters
+            SharedPreferences sp = getSharedPreferences("android_serialport_api.sample_preferences", MODE_PRIVATE);
+            String path = sp.getString("DEVICE", "");
+
+            int baudrate = Integer.decode(sp.getString("BAUDRATE", "-1"));
+
+            //Log.v("path", path);
+            Log.v("baudrate", Integer.toString(baudrate));
+
+			//* Check parameters *//*
+            if ((path.length() == 0) || (baudrate == -1)) {
+                //		throw new InvalidParameterException();
+            }
+            Log.v("state", "pass");
+            String str_path = "/dev/ttyMT2";
+            int n_baudrate = 115200;
+            //* Open the serial port *//*
+            //mSerialPort = new SerialPort(new File(path), baudrate, 0);
+            mSerialPort = new SerialPort(new File(str_path), n_baudrate, 0);
+            Log.v("mytest", "mytest");
+        }
+        return mSerialPort;
+    }
 }

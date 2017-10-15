@@ -4,6 +4,9 @@
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
 
+<!--人脸识别-->
+    <string name="app_id">59e1677b</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -51,6 +54,7 @@
 
     <string name="setting_title">设置中心</string>
     <string name="lock_title">锁屏密码</string>
+    <string name="lock_face_title">人脸识别</string>
 
     <string name="resident_name">名字:</string>
     <string name="resident_idcard">身份证号:</string>

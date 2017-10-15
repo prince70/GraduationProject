@@ -61,7 +61,7 @@ public class ManageActivity extends BaseActivity implements View.OnClickListener
     private String[][] details;
     private String[][] data;
     private String[][] listinfo;
-    private static final int[] ImgBckgrnd = {R.mipmap.bangalore, R.mipmap.mysore, R.mipmap.coorg};
+    private static final int[] ImgBckgrnd = {R.mipmap.chang1, R.mipmap.chang2, R.mipmap.chang3};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

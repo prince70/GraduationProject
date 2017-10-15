@@ -29,15 +29,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:textSize="20sp"
+                    android:text="姓名："
                     android:textColor="@color/black"
-                    android:text="姓名："/>
+                    android:textSize="20sp" />
+
                 <TextView
                     android:id="@+id/tv_username"
                     android:layout_width="wrap_content"
@@ -47,18 +49,21 @@
                     android:textColor="@color/black"
                     android:textSize="20sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:textSize="20sp"
+                    android:text="工号："
                     android:textColor="@color/black"
-                    android:text="工号："/>
+                    android:textSize="20sp" />
+
                 <TextView
                     android:id="@+id/tv_usernumber"
                     android:layout_width="wrap_content"
@@ -115,8 +120,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="horizontal"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -134,25 +140,82 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
+
                 <com.niwj.graduationproject.view.CustomSwitch
                     android:id="@+id/switchButton"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/switch_back"
                     switch:btnCheckedColor="#81ccff"
                     switch:btnUnCheckedColor="#cccccc"
                     switch:innerPadding="1px"
                     switch:lineCheckedColor="#3497da"
-                    switch:lineUnCheckedColor="#dddddd"
                     switch:lineHeight="5dp"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="right"
-                    android:background="@drawable/switch_back" />
+                    switch:lineUnCheckedColor="#dddddd" />
 
             </LinearLayout>
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="5dp"
+            android:background="@color/setting_background_color" />
+
+        <LinearLayout
+            android:id="@+id/ll_face"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_user_settings" />
+
+                <TextView
+                    style="@style/me_menu_text"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/lock_face_title" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <com.niwj.graduationproject.view.CustomSwitch
+                    android:id="@+id/switchButtonFace"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/switch_back"
+                    switch:btnCheckedColor="#81ccff"
+                    switch:btnUnCheckedColor="#cccccc"
+                    switch:innerPadding="1px"
+                    switch:lineCheckedColor="#3497da"
+                    switch:lineHeight="5dp"
+                    switch:lineUnCheckedColor="#dddddd" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
             android:background="@color/setting_background_color" />
     </LinearLayout>
 
@@ -165,8 +228,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
 
             <View
                 android:layout_width="match_parent"

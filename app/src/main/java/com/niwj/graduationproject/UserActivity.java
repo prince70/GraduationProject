@@ -6,15 +6,16 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.niwj.graduationproject.activity.ClosePrivateActivity;
+import com.niwj.graduationproject.activity.FaceRecognitionActivity;
 import com.niwj.graduationproject.activity.PrivateActivity;
 import com.niwj.graduationproject.activity.SettingActivity;
 import com.niwj.graduationproject.api.pojo.AlertAvatar;
@@ -27,7 +28,6 @@ import com.niwj.graduationproject.control.ImageUtil;
 import com.niwj.graduationproject.control.LoginUtils;
 import com.niwj.graduationproject.control.PathUtil;
 import com.niwj.graduationproject.control.SharePreferenceUtil;
-import com.niwj.graduationproject.control.Utils;
 import com.niwj.graduationproject.view.CircleImageView;
 import com.niwj.graduationproject.view.CustomSwitch;
 import com.niwj.graduationproject.view.LoadingDialog;
@@ -43,6 +43,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.niwj.graduationproject.RegisterActivity.KEY_HEADIMG;
 
 /**
  * Created by prince70 on 2017/8/10.
@@ -61,8 +63,10 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     private TextView tv_username;
     private TextView tv_usernumber;
     private LinearLayout ll_lock;
+    private LinearLayout ll_face;
     private LinearLayout ll_settings;
     public static CustomSwitch mCustomSwitch;
+    public static CustomSwitch mCustomSwitchFace;
 
     private LoadingDialog loadingDialog;
 
@@ -70,9 +74,15 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initLayout(R.layout.activity_user);
-        Log.e(TAG, "onCreate: "+"UserActivity" );
+        Log.e(TAG, "onCreate: " + "UserActivity");
         initData();
-        updateUserIcon();
+        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this);
+        String heading = sp.getString(KEY_HEADIMG, "");
+        if (!heading.equals("")) {
+            Picasso.with(this).load(heading).into(userIcon);
+        } else {
+            updateUserIcon();
+        }
         updateSwicthchBtn();
         imageSelectUtil = new ImageSelectUtil(this, PathUtil.getTempPicFilename(), 100);
         imageSelectUtil.setSelectFinishListener(new ImageSelectUtil.SelectedFinishListener() {
@@ -106,6 +116,17 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         } else {
             mCustomSwitch.setChecked(false);
         }
+
+
+        SharePreferenceUtil sp2 = SharePreferenceUtil.getInstance(this);
+        boolean face = sp2.getBoolean("face", false);
+        Log.e(TAG, "updateSwicthchBtn:人脸 " + face);
+        if (face) {
+            mCustomSwitchFace.setChecked(true);
+        } else {
+            mCustomSwitchFace.setChecked(false);
+        }
+
     }
 
     private void initData() {
@@ -121,16 +142,19 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         tv_usernumber.setText(LoginUtils.getNumber(this));
 
         ll_lock = (LinearLayout) findViewById(R.id.ll_lock);
+        ll_face = (LinearLayout) findViewById(R.id.ll_face);
         ll_settings = (LinearLayout) findViewById(R.id.ll_settings);
         mCustomSwitch = (CustomSwitch) findViewById(R.id.switchButton);
+        mCustomSwitchFace = (CustomSwitch) findViewById(R.id.switchButtonFace);
 
         btnHome.setOnClickListener(this);
         btnManage.setOnClickListener(this);
         btnUser.setOnClickListener(this);
         userIcon.setOnClickListener(this);
         ll_lock.setOnClickListener(this);
+        ll_face.setOnClickListener(this);
         ll_settings.setOnClickListener(this);
-//        switch按钮的监听事件
+//        switch按钮的监听事件  锁屏密码
         mCustomSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -138,6 +162,22 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                     startActivity(new Intent(UserActivity.this, PrivateActivity.class));
                 } else {
                     startActivity(new Intent(UserActivity.this, ClosePrivateActivity.class));
+                }
+            }
+        });
+
+//        人脸识别
+        mCustomSwitchFace.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+//                    TODO 开启
+                    startActivity(new Intent(UserActivity.this, FaceRecognitionActivity.class));
+                } else {
+//                    TODO 关闭tag，auth_id仍然保留
+                    SharePreferenceUtil sp = SharePreferenceUtil.getInstance(UserActivity.this);
+                    sp.setBoolean("face", false);
+                    Toast.makeText(UserActivity.this, "关闭人脸识别成功", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -156,6 +196,18 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                     startActivity(new Intent(this, PrivateActivity.class));
                 } else {
                     startActivity(new Intent(this, ClosePrivateActivity.class));
+                }
+                break;
+
+            case R.id.ll_face://人脸识别
+                if (!mCustomSwitchFace.isChecked()) {
+//                    TODO 开启
+                    startActivity(new Intent(UserActivity.this, FaceRecognitionActivity.class));
+                } else {
+//                    TODO 关闭tag，出弹窗即可
+                    SharePreferenceUtil sp = SharePreferenceUtil.getInstance(UserActivity.this);
+                    sp.setBoolean("face", false);
+                    Toast.makeText(UserActivity.this, "关闭人脸识别成功", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -224,6 +276,8 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                 if (response.code() == 200) {
                     String heading = response.body().getData().get(0).getHeading();
                     Log.e(TAG, "onResponse: 获取到网络图片地址" + heading);
+                    SharePreferenceUtil sp = SharePreferenceUtil.getInstance(UserActivity.this);
+                    sp.setString(KEY_HEADIMG, heading);
                     Picasso.with(UserActivity.this).load(heading).into(userIcon);
                 }
             }

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.niwj.graduationproject.activity.OpenActivity;
+import com.niwj.graduationproject.activity.OpenFaceActivity;
 import com.niwj.graduationproject.api.pojo.PostRecord;
 import com.niwj.graduationproject.api.utils.PostRecordUtils;
 import com.niwj.graduationproject.control.AppManager;
@@ -179,9 +180,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this);
         boolean privateTag = sp.getBoolean("Checked", false);
+
+        boolean face = sp.getBoolean("face", false);
+
         Log.e(TAG, "Judge: 是否设置了隐私密码" + privateTag);
+
+        Log.e(TAG, "Judge: 是否设置了人脸识别" +face);
         if (privateTag) {
             startActivity(new Intent(this, OpenActivity.class));
+        }
+
+        if (face){
+            startActivity(new Intent(this, OpenFaceActivity.class));
         }
 
 
