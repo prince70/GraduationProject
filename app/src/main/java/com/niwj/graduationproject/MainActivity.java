@@ -1,5 +1,6 @@
 package com.niwj.graduationproject;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -330,7 +331,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Log.e(TAG, "dispData: " + physicalrecord.toString());
             }
 
-//            TODO 上传服务器
+//            DONE 上传服务器
 
             PostRecord.DataBean dataBean = new PostRecord.DataBean();
             dataBean.setCtime(s);
@@ -389,6 +390,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

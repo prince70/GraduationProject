@@ -34,12 +34,12 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REMOVED"/>
-    <uses-permission android:name="android.permission.BROADCAST_SMS"/>
-    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
-    <uses-permission android:name="android.permission.BROADCAST_WAP_PUSH"/>
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REMOVED" />
+    <uses-permission android:name="android.permission.BROADCAST_SMS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.BROADCAST_WAP_PUSH" />
 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <!--人脸识别-->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -50,6 +50,7 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -61,7 +62,7 @@
         android:roundIcon="@mipmap/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GuideActivity">
+        <activity android:name=".ManageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -73,18 +74,25 @@
         <!--android:launchMode="singleTask"-->
         <!--android:screenOrientation="landscape" />-->
 
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".MainActivity"
-            android:launchMode="singleTask"
-            android:label="@string/app_name"/>
+        <activity android:name=".LoginActivity" />
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask" />
+
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ManageActivity"
-            android:label="@string/app_name"/>
-        <activity android:name=".UserActivity"
-            android:label="@string/app_name"/>
+
+        <!--<activity android:name=".ManageActivity"-->
+        <!--android:label="@string/app_name"/>-->
+
+
+        <activity
+            android:name=".UserActivity"
+            android:label="@string/app_name" />
         <activity android:name=".activity.PhyExaDetailActivity" />
         <activity android:name=".imageselector.ImageSelectorActivity" />
-        <activity android:name=".activity.PhysicalrecordActivity"/>
+        <activity android:name=".activity.PhysicalrecordActivity" />
 
         <!-- 裁剪图片的库 -->
         <activity
@@ -113,12 +121,12 @@
         <activity android:name=".activity.OpenActivity" />
         <activity android:name=".activity.ClosePrivateActivity" />
         <!--设置中心-->
-        <activity android:name=".activity.SettingActivity"/>
-        <activity android:name=".activity.AboutActivity"/>
-        <activity android:name=".activity.TermServiceActivity"/>
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.AboutActivity" />
+        <activity android:name=".activity.TermServiceActivity" />
 
         <!--修改密码-->
-        <activity android:name=".activity.ChangePwdActivity"/>
+        <activity android:name=".activity.ChangePwdActivity" />
 
 
         <!--Bugly应用升级-->
@@ -134,10 +142,11 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
-        <receiver android:name=".server.JpushReceiver"
+        <receiver
+            android:name=".server.JpushReceiver"
             android:enabled="true">
             <intent-filter>
                 <!--  Required 用户注册SDK的intent -->
@@ -158,10 +167,13 @@
         </receiver>
 
 
-        <activity android:name=".BaseActivity"/>
+        <activity android:name=".BaseActivity" />
 
-        <activity android:name=".activity.FaceRecognitionActivity"/>
-        <activity android:name=".activity.OpenFaceActivity"/>
+        <activity android:name=".activity.FaceRecognitionActivity" />
+        <activity android:name=".activity.OpenFaceActivity" />
+
+        <!--确认签约体检-->
+        <activity android:name=".activity.ConfirmBookPhysicalExaminationActivity" />
 
     </application>
 

@@ -3,18 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+
     <TextView
         android:id="@+id/test"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="10dp"
-        android:background="#FFFFFF"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <WebView
         android:id="@+id/wv_details"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btn_book"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_gravity="right|center_vertical"
+        android:background="@color/bg_main"
+        android:text="预约"
+        android:textColor="@color/white" />
+
 
 </LinearLayout>

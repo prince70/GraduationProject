@@ -173,6 +173,7 @@ public class CustomELVAdapter extends BaseExpandableListAdapter implements Expan
                     Intent intent = new Intent(context, PhyExaDetailActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("details", holder.details.getText().toString());
+                    bundle.putString("title",holder.ListHead.getText().toString());
                     intent.putExtras(bundle);
                     context.startActivity(intent);
                 }

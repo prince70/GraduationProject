@@ -76,13 +76,11 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         initLayout(R.layout.activity_user);
         Log.e(TAG, "onCreate: " + "UserActivity");
         initData();
-        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this);
-        String heading = sp.getString(KEY_HEADIMG, "");
-        if (!heading.equals("")) {
-            Picasso.with(this).load(heading).into(userIcon);
-        } else {
-            updateUserIcon();
-        }
+
+//        本地有图片的话，直接更新
+        updateLocalIcon();
+
+
         updateSwicthchBtn();
         imageSelectUtil = new ImageSelectUtil(this, PathUtil.getTempPicFilename(), 100);
         imageSelectUtil.setSelectFinishListener(new ImageSelectUtil.SelectedFinishListener() {
@@ -94,14 +92,18 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
 
                 postImage(imgPath);
 
-//                SharePreferenceUtil sp = SharePreferenceUtil.getInstance(UserActivity.this);
-//                sp.setString("imgPath", realPath);
-//                String path = getFilesDir().getParentFile().getPath();
-//                Log.e(TAG, "onSelectedFinish: " + path);
-//                Picasso.with(UserActivity.this).load(realPath).into(userIcon);
-
             }
         });
+    }
+
+    private void updateLocalIcon() {
+        SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this);
+        String heading = sp.getString(KEY_HEADIMG, "");
+        if (!heading.equals("")) {
+            Picasso.with(this).load(heading).into(userIcon);
+        } else {
+            updateUserIcon();
+        }
     }
 
     //    每次进来更新switchBtn的状态
@@ -276,9 +278,9 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                 if (response.code() == 200) {
                     String heading = response.body().getData().get(0).getHeading();
                     Log.e(TAG, "onResponse: 获取到网络图片地址" + heading);
+                    Picasso.with(UserActivity.this).load(heading).into(userIcon);
                     SharePreferenceUtil sp = SharePreferenceUtil.getInstance(UserActivity.this);
                     sp.setString(KEY_HEADIMG, heading);
-                    Picasso.with(UserActivity.this).load(heading).into(userIcon);
                 }
             }
 
