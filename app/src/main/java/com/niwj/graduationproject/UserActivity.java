@@ -89,7 +89,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                 String imgPath = paths.get(0);
                 Log.e(TAG, "onSelectedFinish: " + imgPath);
                 String realPath = "file://" + imgPath;
-
+                Picasso.with(UserActivity.this).load(realPath).into(userIcon);
                 postImage(imgPath);
 
             }
@@ -99,6 +99,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     private void updateLocalIcon() {
         SharePreferenceUtil sp = SharePreferenceUtil.getInstance(this);
         String heading = sp.getString(KEY_HEADIMG, "");
+        Log.e(TAG, "updateLocalIcon:heading "+heading );
         if (!heading.equals("")) {
             Picasso.with(this).load(heading).into(userIcon);
         } else {
@@ -268,6 +269,9 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * 从网络上获取头像的链接
+     */
     private void updateUserIcon() {
 
 //
@@ -321,8 +325,10 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                 if (response.code() == 200) {
                     String heading = response.body().getData().get(0).getHeading();
                     Log.e(TAG, "onResponse:得到的网络地址 " + heading);
-//                    TODO 设置图片到本地
-                    Picasso.with(UserActivity.this).load(heading).into(userIcon);
+                    SharePreferenceUtil sp = SharePreferenceUtil.getInstance(UserActivity.this);
+                    sp.setString(KEY_HEADIMG, heading);
+//
+//                    Picasso.with(UserActivity.this).load(heading).into(userIcon);
                 }
                 loadingDialog.dismiss();
             }

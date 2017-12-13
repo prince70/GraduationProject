@@ -58,8 +58,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_margin="10dp"
                     android:src="@mipmap/resident_name" />
 
@@ -71,7 +71,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="@string/resident_name"
-                    android:textSize="14sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_residentName"
@@ -80,8 +80,8 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textSize="14sp"
-                    android:text="倪妮"/>
+                    android:textSize="18sp"
+                    android:hint="请输入名字"/>
             </LinearLayout>
 
             <View
@@ -95,8 +95,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_margin="10dp"
                     android:src="@mipmap/resident_idcard" />
 
@@ -108,7 +108,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="@string/resident_idcard"
-                    android:textSize="14sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_residentIdcard"
@@ -117,8 +117,8 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textSize="14sp"
-                    android:text="440923199502132580"/>
+                    android:textSize="18sp"
+                    android:hint="请输入身份证号码"/>
             </LinearLayout>
 
             <View
@@ -132,8 +132,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_margin="10dp"
                     android:src="@mipmap/resident_phone" />
 
@@ -145,7 +145,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="@string/resident_phone"
-                    android:textSize="14sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_residentPhone"
@@ -154,8 +154,8 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textSize="14sp"
-                    android:text="13414901234"/>
+                    android:textSize="18sp"
+                    android:hint="请输入手机号码"/>
             </LinearLayout>
 
             <View
@@ -169,8 +169,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_margin="10dp"
                     android:src="@mipmap/resident_address" />
 
@@ -182,7 +182,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="@string/resident_address"
-                    android:textSize="14sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_residentAddress"
@@ -191,8 +191,8 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:textSize="14sp"
-                    android:text="广东省湛江市赤坎区"/>
+                    android:textSize="18sp"
+                    android:hint="请输入家庭住址"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"

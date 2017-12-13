@@ -10,8 +10,10 @@ import android.view.SurfaceHolder;
 
 import com.niwj.graduationproject.MyApplication;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -239,7 +241,15 @@ public class DisplayData {
                 _queue.Empty();
             }
 
-            mSerialPort = mApplication.getSerialPort();//获取到串口
+            try {
+                mSerialPort = mApplication.getSerialPort();//获取到串口
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InvalidParameterException e) {
+                e.printStackTrace();
+            }
             mOutputStream = mSerialPort.getOutputStream();
             mInputStream = mSerialPort.getInputStream();
 
