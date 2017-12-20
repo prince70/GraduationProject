@@ -96,7 +96,7 @@ public class NotificationActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_confirm://发送通知
                 Log.e(TAG, "onClick: 通知" + notifyName + "  " + notifyPhone + "  " + notifySystolicPressure + "  " + notifyDiastolicPressure + "   " + notifyMeanPressure);
-                SMSSDK.getVerificationCode("+86", "13414901394", new OnSendMessageHandler() {
+                SMSSDK.getVerificationCode("+86", notifyPhone, new OnSendMessageHandler() {
                     @Override
                     public boolean onSendMessage(String s, String s1) {
                         Log.e(TAG, "onSendMessage: " + s + s1);

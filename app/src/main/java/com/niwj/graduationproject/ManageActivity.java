@@ -189,6 +189,7 @@ public class ManageActivity extends BaseActivity implements View.OnClickListener
                             int localsize = physicalrecords.size();
                             int netsize = data.size();
                             if (localsize != netsize) {
+                                DataSupport.deleteAll(Physicalrecord.class);//删除
                                 for (int i = 0; i < netsize; i++) {
                                     physicalrecord = new Physicalrecord(data.get(i).getRname(), data.get(i).getRidcard(),
                                             data.get(i).getRphone(), data.get(i).getRaddress(),
