@@ -324,10 +324,10 @@ public class DisplayData {
             }
 
         } catch (Exception e) {
-            // Toast.makeText(this, "����ָ��ʧ��!", Toast.LENGTH_SHORT).show();
+
         }
     }
-    // ����
+    //
     public void SetupCmd(int cmd, int data) {
         int Sum = cmd;
         if (mOutputStream != null) {
@@ -335,7 +335,7 @@ public class DisplayData {
             try {
                 mOutputStream.write((byte) cmd);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
+                //  Auto-generated catch block
                 e.printStackTrace();
             }
             if ((data & 0x80) != 0) {
@@ -343,13 +343,13 @@ public class DisplayData {
                 try {
                     mOutputStream.write((byte) (0x81));
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
+                    //  Auto-generated catch block
                     e.printStackTrace();
                 }
                 try {
                     mOutputStream.write((byte) (data));
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
+                    //  Auto-generated catch block
                     e.printStackTrace();
                 }
             } else {
@@ -358,7 +358,7 @@ public class DisplayData {
                 try {
                     mOutputStream.write((byte) (0x80));
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
+                    //  Auto-generated catch block
                     e.printStackTrace();
                 }
                 try {
