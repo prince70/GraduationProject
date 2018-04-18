@@ -146,7 +146,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         initXueYa();
         TextView tv_time = (TextView) findViewById(R.id.tv_time);
         String s = currentTime();
-        tv_time.setText(s);
+        String subTime = s.substring(0, 11);
+        tv_time.setText(subTime);
 //TODO 检测是否已经登录，才能进入主页面
     }
 

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -264,7 +265,7 @@ public class LoginActivity extends BaseActivity {
         Call<DoctorLogin> call = DoctorLoginUtils.doctorLogin(idcard, password);
         call.enqueue(new Callback<DoctorLogin>() {
             @Override
-            public void onResponse(Call<DoctorLogin> call, Response<DoctorLogin> response) {
+            public void onResponse(@NonNull Call<DoctorLogin> call, @NonNull Response<DoctorLogin> response) {
                 Request request = call.request();
                 Log.e(TAG, "onResponse: " + request.toString());
                 DoctorLogin body = response.body();
