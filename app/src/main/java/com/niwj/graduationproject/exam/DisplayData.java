@@ -239,7 +239,7 @@ public class DisplayData {
                 _queue.Empty();
             }
 
-            mSerialPort = mApplication.getSerialPort();//获取到串口
+//            mSerialPort = mApplication.getSerialPort();//获取到串口
             mOutputStream = mSerialPort.getOutputStream();
             mInputStream = mSerialPort.getInputStream();
 
@@ -314,10 +314,10 @@ public class DisplayData {
             }
 
         } catch (Exception e) {
-            // Toast.makeText(this, "����ָ��ʧ��!", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this, "??????????!", Toast.LENGTH_SHORT).show();
         }
     }
-    // ����
+    // ????
     public void SetupCmd(int cmd, int data) {
         int Sum = cmd;
         if (mOutputStream != null) {
@@ -516,7 +516,7 @@ public class DisplayData {
                                 }
 
                             } else {
-                                i_value[glob_heartrate] = glob_INVALUE; // ��Чֵ
+                                i_value[glob_heartrate] = glob_INVALUE; // ??Ч?
                             }
                             break;
                         case 0x0a:
@@ -589,7 +589,7 @@ public class DisplayData {
                                     i_value[glob_systolic] = BP_value1;
                                     i_value[glob_diastolic] = BP_value2;
                                     i_value[glob_avg] = BP_value3;
-                                    i_value[glob_xiudai] = glob_INVALUE; // �����Чֵ
+                                    i_value[glob_xiudai] = glob_INVALUE; // ?????Ч?
                                 } else {
                                     i_value[glob_systolic] = glob_INVALUE;
                                     i_value[glob_diastolic] = glob_INVALUE;
@@ -828,7 +828,7 @@ public class DisplayData {
     public void closeAndExit() {
         try {
             auto_reset();
-            i_thread_work = 0; // �̲߳���ִ��
+            i_thread_work = 0; // ?????????
             Thread.sleep(100);
             if (mOutputStream != null) {
                 mOutputStream.close();

@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -22,8 +24,10 @@ import com.niwj.graduationproject.api.pojo.AlertAvatar;
 import com.niwj.graduationproject.api.pojo.DoctorProfile;
 import com.niwj.graduationproject.api.utils.AlertAvatartUtils;
 import com.niwj.graduationproject.api.utils.GetProfileUtils;
+import com.niwj.graduationproject.control.AppManager;
 import com.niwj.graduationproject.control.FileRequestBody;
 import com.niwj.graduationproject.control.ImageSelectUtil;
+import com.niwj.graduationproject.control.ImageToast;
 import com.niwj.graduationproject.control.ImageUtil;
 import com.niwj.graduationproject.control.LoginUtils;
 import com.niwj.graduationproject.control.PathUtil;
@@ -35,6 +39,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -69,6 +74,9 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     public static CustomSwitch mCustomSwitchFace;
 
     private LoadingDialog loadingDialog;
+
+    //  判断是否退出
+    private boolean mIsExit;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -222,13 +230,13 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
 //                overridePendingTransition(R.anim.scale_translate,R.anim.my_alpha_action);
-                overridePendingTransition(R.anim.fade, R.anim.hold);
+//                overridePendingTransition(R.anim.fade, R.anim.hold);
                 break;
             case R.id.manage_user:
                 Intent intent1 = new Intent(this, ManageActivity.class);
                 startActivity(intent1);
 //                overridePendingTransition(R.anim.scale_translate_rotate,R.anim.my_alpha_action);
-                overridePendingTransition(R.anim.fade, R.anim.hold);
+//                overridePendingTransition(R.anim.fade, R.anim.hold);
                 break;
             case R.id.user_user:
                 break;
@@ -274,18 +282,24 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         Call<DoctorProfile> call = GetProfileUtils.getProfile(LoginUtils.getUserId(this));
         call.enqueue(new Callback<DoctorProfile>() {
             @Override
-            public void onResponse(Call<DoctorProfile> call, Response<DoctorProfile> response) {
+            public void onResponse(@NonNull Call<DoctorProfile> call, @NonNull Response<DoctorProfile> response) {
                 if (response.code() == 200) {
-                    String heading = response.body().getData().get(0).getHeading();
-                    Log.e(TAG, "onResponse: 获取到网络图片地址" + heading);
-                    Picasso.with(UserActivity.this).load(heading).into(userIcon);
-                    SharePreferenceUtil sp = SharePreferenceUtil.getInstance(UserActivity.this);
-                    sp.setString(KEY_HEADIMG, heading);
+                    DoctorProfile body = response.body();
+                    if (body != null) {
+                        List<DoctorProfile.DataBean> data = body.getData();
+                        if (data != null) {
+                            String heading = data.get(0).getHeading();
+                            Log.e(TAG, "onResponse: 获取到网络图片地址" + heading);
+                            Picasso.with(UserActivity.this).load(heading).into(userIcon);
+                            SharePreferenceUtil sp = SharePreferenceUtil.getInstance(UserActivity.this);
+                            sp.setString(KEY_HEADIMG, heading);
+                        }
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<DoctorProfile> call, Throwable t) {
+            public void onFailure(@NonNull Call<DoctorProfile> call, @NonNull Throwable t) {
                 Request request = call.request();
                 Log.e(TAG, "onFailure: " + request.toString());
                 Picasso.with(UserActivity.this).load(R.mipmap.ic_launcher).into(userIcon);
@@ -337,5 +351,34 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
+    /**
+     * 点击2次结束应用
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mIsExit) {
+                AppManager.AppExit(this);
+//                System.exit(0);
+            } else {
+                ImageToast.ImageToast(this, R.mipmap.ic_help, "再按一次退出", Toast.LENGTH_SHORT);
+                mIsExit = true;
+//                2秒后mIsExit重新置为false
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mIsExit = false;
+                    }
+                }, 2000);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
 
 }

@@ -101,7 +101,7 @@ public class ConfirmBookPhysicalExaminationActivity extends BaseActivity impleme
                 choosePopWindow.setTimeChooseListener(new TimeChoosePopWindow.TimeChooseListener() {
                     @Override
                     public void timeChoose(int hour, int minute) {
-                        et_btime.setText(hour + ":" + minute);
+                        et_btime.setText((hour>9?hour:("0"+hour)) + ":" + (minute>9?minute:("0"+minute)));
                     }
                 });
 

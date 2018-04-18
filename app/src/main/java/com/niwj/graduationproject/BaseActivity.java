@@ -5,17 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.niwj.graduationproject.control.AppManager;
+import com.niwj.graduationproject.control.ImageToast;
 
 /**
  * Created by prince70 on 2017/9/28.
  */
 
 public class BaseActivity extends AppCompatActivity {
+    //  判断是否退出
+    private boolean mIsExit;
 
     protected Context context = BaseActivity.this;
 
@@ -31,12 +36,6 @@ public class BaseActivity extends AppCompatActivity {
          */
         AppManager.addActivity(this);
 
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        return super.onKeyDown(keyCode, event);
     }
 
     @Override

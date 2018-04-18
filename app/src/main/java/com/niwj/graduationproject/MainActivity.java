@@ -493,12 +493,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.manage_main:
                 Intent intent = new Intent(this, ManageActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.fade, R.anim.hold);//淡入淡出
+//                overridePendingTransition(R.anim.fade, R.anim.hold);//淡入淡出
                 break;
             case R.id.user_main:
                 Intent intent1 = new Intent(this, UserActivity.class);
                 startActivity(intent1);
-                overridePendingTransition(R.anim.fade, R.anim.hold);
+//                overridePendingTransition(R.anim.fade, R.anim.hold);
                 break;
             default:
                 break;
@@ -562,36 +562,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //        }
 //    }
 
-    /**
-     * 点击2次结束应用
-     *
-     * @param keyCode
-     * @param event
-     * @return
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mIsExit) {
-//                this.finish();
-//                System.exit(0);
-                AppManager.AppExit(this);
-            } else {
-                ImageToast.ImageToast(this, R.mipmap.ic_help, "再按一次退出", Toast.LENGTH_SHORT);
-                mIsExit = true;
-//                2秒后mIsExit重新置为false
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mIsExit = false;
-                    }
-                }, 2000);
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
 
-    }
 
     /**
      * 获取当前系统时间
@@ -616,4 +587,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //            }
 //        });
 //    }
+
+    /**
+     * 点击2次结束应用
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mIsExit) {
+                AppManager.AppExit(this);
+//                System.exit(0);
+            } else {
+                ImageToast.ImageToast(this, R.mipmap.ic_help, "再按一次退出", Toast.LENGTH_SHORT);
+                mIsExit = true;
+//                2秒后mIsExit重新置为false
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mIsExit = false;
+                    }
+                }, 2000);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
 }

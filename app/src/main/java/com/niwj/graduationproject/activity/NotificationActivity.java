@@ -31,7 +31,7 @@ import cn.smssdk.SMSSDK;
  * 通知用户activity
  */
 
-public class NotificationActivity extends BaseActivity implements View.OnClickListener, NotifyAdapter.OnCheckedChangedListener {
+public class NotificationActivity extends BaseActivity implements View.OnClickListener, NotifyAdapter.OnCheckedChangedListener, AdapterView.OnItemClickListener {
     private static final String TAG = "NotificationActivity";
     private ListView mListView;
     private Button btn_confirm;
@@ -76,27 +76,35 @@ public class NotificationActivity extends BaseActivity implements View.OnClickLi
         /**
          * 如果listitem里面包括button或者checkbox等控件，默认情况下listitem会失去焦点，
          * 导致无法响应item的事件，最常用的解决办法
-         * 是在listitem的布局文件中设置descendantFocusability属性。
+         * 是在listitem的根布局文件中设置descendantFocusability属性。
          *
          * 无效的点击事件
          */
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ResidentMsg residentMsg = msgs.get(position);
-                Log.e(TAG, "onItemClick: " + residentMsg.toString());
-                Toast.makeText(NotificationActivity.this, position + "", Toast.LENGTH_SHORT).show();
-
-            }
-        });
+//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                ResidentMsg residentMsg = msgs.get(position);
+//                Log.e(TAG, "onItemClick: " + residentMsg.toString());
+//                Toast.makeText(NotificationActivity.this, position + "", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_confirm://发送通知
-                Log.e(TAG, "onClick: 通知" + notifyName + "  " + notifyPhone + "  " + notifySystolicPressure + "  " + notifyDiastolicPressure + "   " + notifyMeanPressure);
-                SMSSDK.getVerificationCode("+86", "13414901394", new OnSendMessageHandler() {
+//                Log.e(TAG, "onClick: 通知" + notifyName + "  " + notifyPhone + "  " + notifySystolicPressure + "  " + notifyDiastolicPressure + "   " + notifyMeanPressure);
+
+                /**
+                 * 拿到选中的位置
+                 */
+                int selectPosition = adapter.getSelectPosition();
+                ResidentMsg residentMsg = msgs.get(selectPosition);
+                String phonenumber = residentMsg.getPhonenumber();
+//                Toast.makeText(this, residentMsg.getName(), Toast.LENGTH_SHORT).show();
+                SMSSDK.getVerificationCode("+86", phonenumber, new OnSendMessageHandler() {
                     @Override
                     public boolean onSendMessage(String s, String s1) {
                         Log.e(TAG, "onSendMessage: " + s + s1);
@@ -123,5 +131,11 @@ public class NotificationActivity extends BaseActivity implements View.OnClickLi
         notifySystolicPressure = notify_systolicPressure;
         notifyDiastolicPressure = notify_diastolicPressure;
         notifyMeanPressure = notify_meanPressure;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        NotifyAdapter.ViewHolder holder = (NotifyAdapter.ViewHolder) view.getTag();
+        holder.checkBox.toggle();
     }
 }

@@ -211,6 +211,7 @@ public class RegisterActivity extends BaseActivity {
                                 @Override
                                 public void run() {
                                     startActivity(intent);
+                                    finish();
                                 }
                             };
                             timer.schedule(task, 1000);

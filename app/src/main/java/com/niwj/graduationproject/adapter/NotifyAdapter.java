@@ -1,5 +1,6 @@
 package com.niwj.graduationproject.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +23,11 @@ import java.util.List;
 
 public class NotifyAdapter extends BaseAdapter {
 
-    private Context mContext;
+    private Activity mContext;
     private List<ResidentMsg> msgDatas;
+    private int tempPosition = -1;  //记录已经点击的CheckBox的位置
 
-    public NotifyAdapter(Context mContext, List<ResidentMsg> msgDatas) {
+    public NotifyAdapter(Activity mContext, List<ResidentMsg> msgDatas) {
         this.mContext = mContext;
         this.msgDatas = msgDatas;
     }
@@ -33,7 +35,7 @@ public class NotifyAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return msgDatas.size();
+        return msgDatas.size()>0?msgDatas.size():0;
     }
 
     @Override
@@ -43,7 +45,7 @@ public class NotifyAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -75,44 +77,73 @@ public class NotifyAdapter extends BaseAdapter {
         holder.notify_diastolicPressure.setText(msgDatas.get(position).getDiastolicPressure());
         holder.notify_meanPressure.setText(msgDatas.get(position).getMeanPressure());
 
-        holder.checkBox.setChecked(false);
-
-        final ViewHolder finalHolder = holder;
+//        holder.checkBox.setChecked(false);
+//
+//        final ViewHolder finalHolder = holder;
+//        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+////                Toast.makeText(mContext, isChecked + ""+finalHolder.textView.getText(), Toast.LENGTH_SHORT).show();
+//                if (isChecked) {
+//                    if (mContext instanceof OnCheckedChangedListener) {
+//                        ((OnCheckedChangedListener) mContext).getItemMsg(
+//                                finalHolder.notify_name.getText().toString(),
+//                                finalHolder.notify_phone.getText().toString(),
+//                                finalHolder.notify_systolicPressure.getText().toString(),
+//                                finalHolder.notify_diastolicPressure.getText().toString(),
+//                                finalHolder.notify_meanPressure.getText().toString());
+////                        Toast.makeText(mContext, finalHolder.textView.getText()+ "", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            }
+//        });
+        holder.checkBox.setId(position);    //设置当前position为CheckBox的id
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                Toast.makeText(mContext, isChecked + ""+finalHolder.textView.getText(), Toast.LENGTH_SHORT).show();
                 if (isChecked) {
-                    if (mContext instanceof OnCheckedChangedListener) {
-                        ((OnCheckedChangedListener) mContext).getItemMsg(
-                                finalHolder.notify_name.getText().toString(),
-                                finalHolder.notify_phone.getText().toString(),
-                                finalHolder.notify_systolicPressure.getText().toString(),
-                                finalHolder.notify_diastolicPressure.getText().toString(),
-                                finalHolder.notify_meanPressure.getText().toString());
-//                        Toast.makeText(mContext, finalHolder.textView.getText()+ "", Toast.LENGTH_SHORT).show();
+                    if (tempPosition != -1) {
+                        //根据id找到上次点击的CheckBox,将它设置为false.
+                        CheckBox tempCheckBox = (CheckBox) mContext.findViewById(tempPosition);
+                        if (tempCheckBox != null) {
+                            tempCheckBox.setChecked(false);
+                        }
                     }
+                    //保存当前选中CheckBox的id值
+                    tempPosition = buttonView.getId();
+
+                } else {    //当CheckBox被选中,又被取消时,将tempPosition重新初始化.
+                    tempPosition = -1;
                 }
             }
         });
+        if (position == tempPosition)   //比较位置是否一样,一样就设置为选中,否则就设置为未选中.
+            holder.checkBox.setChecked(true);
+        else holder.checkBox.setChecked(false);
 
         return convertView;
     }
 
-    class ViewHolder {
-        TextView notify_name;
-        TextView notify_idcard;
-        TextView notify_phone;
-        TextView notify_address;
-        TextView notify_systolicPressure;//收缩压
-        TextView notify_diastolicPressure;//舒张压
-        TextView notify_meanPressure;//平均压
-        CheckBox checkBox;
+    public static class ViewHolder {
+        public  TextView notify_name;
+        public  TextView notify_idcard;
+        public TextView notify_phone;
+        public  TextView notify_address;
+        public  TextView notify_systolicPressure;//收缩压
+        public  TextView notify_diastolicPressure;//舒张压
+        public  TextView notify_meanPressure;//平均压
+        public  CheckBox checkBox;
     }
 
     public interface OnCheckedChangedListener {
         void getItemMsg(String notify_name, String notify_phone, String notify_systolicPressure, String notify_diastolicPressure, String notify_meanPressure);
     }
+
+    //返回当前CheckBox选中的位置,便于获取值.
+    public int getSelectPosition() {
+        return tempPosition;
+    }
+
 
 
 }

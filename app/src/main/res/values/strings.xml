@@ -17,7 +17,7 @@
     <string name="hint_userId">用户ID</string>
     <string name="hint_idCard">身份证</string>
     <string name="hint_name">姓名</string>
-    <string name="hint_number">工号(DXXXXXXX)</string>
+    <string name="hint_number">工号(DXXXXXXXX)</string>
     <string name="hint_phone">手机号</string>
     <string name="hint_password">密码</string>
 

@@ -55,8 +55,6 @@ import static com.niwj.graduationproject.control.LoginUtils.isHasLogin;
  * 检测是否已经登录，登录记录，直接跳转到主页面
  */
 public class LoginActivity extends BaseActivity {
-    //  判断是否退出
-    private boolean mIsExit;
 
 
     //   private static final String TAG = Reg
@@ -129,8 +127,7 @@ public class LoginActivity extends BaseActivity {
 
         linkToRegisterButton = (Button) findViewById(R.id.linkToRegisterScreenButton);//跳转到注册页面按钮
 
-        progressDialog = new ProgressDialog(this);//进度条
-        progressDialog.setCancelable(false);
+
         loginButton.setOnClickListener(new loginOnClickListener());
         linkToRegisterButton.setOnClickListener(new linkToRegisterOnClickListener());
 
@@ -259,7 +256,8 @@ public class LoginActivity extends BaseActivity {
 
     //用户登陆操作
     private void checkLogin(final String idcard, final String password) {
-        String tag_string_req = "req_login";
+        progressDialog = new ProgressDialog(this);//进度条
+        progressDialog.setCancelable(false);
         progressDialog.setMessage("登录中...");
         showDiaglog();
 
@@ -355,33 +353,14 @@ public class LoginActivity extends BaseActivity {
         finish();
     }
 
-    /**
-     * 点击2次结束应用
-     *
-     * @param keyCode
-     * @param event
-     * @return
-     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mIsExit) {
-                AppManager.AppExit(this);
-//                System.exit(0);
-            } else {
-                ImageToast.ImageToast(this, R.mipmap.ic_help, "再按一次退出", Toast.LENGTH_SHORT);
-                mIsExit = true;
-//                2秒后mIsExit重新置为false
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mIsExit = false;
-                    }
-                }, 2000);
-            }
+            finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);
 
     }
+
 }

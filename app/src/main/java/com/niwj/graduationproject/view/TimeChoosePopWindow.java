@@ -78,7 +78,8 @@ public class TimeChoosePopWindow  extends BottomPopupWindow implements ScrollSel
      * 设置日期展示
      */
     private void setDateText(){
-        setMsg(hour + ": " + minute );
+        setMsg((hour>10?hour:"0"+hour) + "时" + ": " + (minute>10?minute:"0"+minute) + "分");
+//        setMsg(hour + ": " + minute );
     }
 
     /**

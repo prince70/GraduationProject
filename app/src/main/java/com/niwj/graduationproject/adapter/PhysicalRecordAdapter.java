@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by prince70 on 2017/9/11.
+ * 体检数据适配器，，；
  */
 
 public class PhysicalRecordAdapter extends BaseAdapter {
@@ -75,7 +76,7 @@ public class PhysicalRecordAdapter extends BaseAdapter {
         return convertView;
     }
 
-    class ViewHolder {
+    static class ViewHolder {
         TextView record_name;
         TextView record_idcard;
         TextView record_phone;

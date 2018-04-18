@@ -2,9 +2,11 @@ package com.niwj.graduationproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import android.widget.ExpandableListView;
@@ -17,6 +19,8 @@ import com.niwj.graduationproject.activity.PhysicalrecordActivity;
 import com.niwj.graduationproject.adapter.CustomELVAdapter;
 import com.niwj.graduationproject.api.pojo.GetRecords;
 import com.niwj.graduationproject.api.utils.GetRecordsUtils;
+import com.niwj.graduationproject.control.AppManager;
+import com.niwj.graduationproject.control.ImageToast;
 import com.niwj.graduationproject.control.LoginUtils;
 import com.niwj.graduationproject.control.Utils;
 import com.niwj.graduationproject.entity.Physicalrecord;
@@ -50,6 +54,8 @@ public class ManageActivity extends BaseActivity implements View.OnClickListener
     private LinearLayout ll_notification;
     private LinearLayout ll_record;
     private LinearLayout ll_sync;
+    //  判断是否退出
+    private boolean mIsExit;
 
     /**
      * 这些数据可以从数据库或Web中获取，使用Web API和加载到适配器。
@@ -227,7 +233,7 @@ public class ManageActivity extends BaseActivity implements View.OnClickListener
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
 //                overridePendingTransition(R.anim.push_left_in,R.anim.push_left_out);//右往左推出效果
-                overridePendingTransition(R.anim.fade, R.anim.hold);
+//                overridePendingTransition(R.anim.fade, R.anim.hold);
                 break;
             case R.id.manage_manage:
                 break;
@@ -235,10 +241,40 @@ public class ManageActivity extends BaseActivity implements View.OnClickListener
                 Intent intent1 = new Intent(this, UserActivity.class);
                 startActivity(intent1);
 //                overridePendingTransition(R.anim.slide_left,R.anim.slide_right);//左右交错效果
-                overridePendingTransition(R.anim.fade, R.anim.hold);
+//                overridePendingTransition(R.anim.fade, R.anim.hold);
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 点击2次结束应用
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mIsExit) {
+                AppManager.AppExit(this);
+//                System.exit(0);
+            } else {
+                ImageToast.ImageToast(this, R.mipmap.ic_help, "再按一次退出", Toast.LENGTH_SHORT);
+                mIsExit = true;
+//                2秒后mIsExit重新置为false
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mIsExit = false;
+                    }
+                }, 2000);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+
     }
 }
